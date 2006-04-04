@@ -14,6 +14,8 @@
   <xsl:import href="xref.xsl"/>
   <xsl:import href="relative-href.xsl"/>
 
+  <xsl:param name="admon.style"/>
+  <xsl:param name="admon.graphics">1</xsl:param>
   <xsl:param name="html.stylesheet" select="'boostbook.css'"/>
   <xsl:param name="navig.graphics" select="1"/>
   <xsl:param name="navig.graphics.extension" select="'.png'"/>
@@ -27,6 +29,13 @@
   <xsl:param name="doc.standalone">false</xsl:param>
   <xsl:param name="chunker.output.indent">yes</xsl:param>
   <xsl:param name="toc.max.depth">2</xsl:param>
+  
+<xsl:param name="admon.style">
+    <!-- Remove the style. Let the CSS do the styling -->
+</xsl:param>
+
+<!-- Always have graphics -->
+<xsl:param name="admon.graphics" select="1"/>
 
   <xsl:param name="generate.toc">
 appendix  toc,title
