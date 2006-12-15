@@ -186,7 +186,7 @@ std::cout &lt;&lt; f(5, 3) &gt;&gt; std::endl;
 
           <listitem><para>The DocBook DTD, available as a ZIP archive
           at the <ulink
-          url="http://www.oasis-open.org/docbook/xml/4.2/index.shtml">OASIS
+          url="http://www.oasis-open.org/docbook/xml/4.2/index.1.shtml">OASIS
           DocBook site</ulink>. The package is called "DocBook XML
           4.2". Extract the DocBook DTD to a directory on your hard
           disk (which we'll refer to as the
@@ -212,9 +212,13 @@ using boostbook
         documentation for libraries that do not require Doxygen. To
         test this, change into the directory <filename
         class="directory">$BOOST_ROOT/libs/function/doc</filename> and
-        run the command <code>bjam --v2</code>: it should produce HTML
+        run the command <code>bjam</code>: it should produce HTML
         documentation for the Boost.Function library in the
-        <code>html</code> subdirectory.</para>
+        <code>html</code> subdirectory. This documentation 
+	will look a little strange, because the BoostBook stylesheet is 
+	missing. You can copy the <code>boostbook.css</code> stylesheet from
+	<filename class="directory">$BOOST_ROOT/doc/html</filename> to
+	fix this problem.</para>
       </section>
 
       <section id="boostbook.setup.doxygen">
