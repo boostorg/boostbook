@@ -137,7 +137,7 @@ std::cout &lt;&lt; f(5, 3) &gt;&gt; std::endl;
       <title>Manual setup for all systems</title>
     
       <para>This section describes how to manually configure Boost
-      Boost version 2 (BBv@) for BoostBook. If you can use the
+      Boost version 2 (BBv2) for BoostBook. If you can use the
       automatic setup script, you should. All configuration will
       happen in the BBv2 user configuration file,
       <filename>user-config.jam</filename>. If you do not have a copy
