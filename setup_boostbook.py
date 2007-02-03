@@ -13,7 +13,7 @@
 DOCBOOK_XSL_VERSION = "1.67.2"
 DOCBOOK_DTD_VERSION = "4.2"
 FOP_VERSION = "0.20.5"
-FOP_MIRROR = "http://mirrors.ibiblio.org/pub/mirrors/apache/xml/fop/"
+FOP_MIRROR = "http://mirrors.ibiblio.org/pub/mirrors/apache/xmlgraphics/fop/"
 SOURCEFORGE_MIRROR = "http://puzzle.dl.sourceforge.net"
 
 # No user configuration below this point-------------------------------------
