@@ -1,0 +1,212 @@
+[/
+    Boost.Boostbook
+    Copyright (c) 2003-2005 Douglas Gregor
+
+    Distributed under the Boost Software License, Version 1.0.
+    (See accompanying file LICENSE_1_0.txt or copy at
+    http://www.boost.org/LICENSE_1_0.txt)
+]
+
+[/ QuickBook Document version 1.4 ]
+
+[section Documenting libraries]
+
+BoostBook is an extension to [@http://www.docbook.org DocBook], an XML format
+for representing documentation. BoostBook inherits much of its functionality
+and many elements from DocBook that are not redocumented here.
+When writing BoostBook documentation, please refer also to
+[@http://docbook.org/tdg/en/index.html DocBook: The Definitive Guide].
+
+[#boostbook.defining_a_library]
+
+[section Defining a BoostBook library]
+
+BoostBook library documentation is contained entirely within a <library> XML
+element. To create a skeletal library, we need to create a new XML document
+(call it `any.xml`) that contains basic information about the library.
+The following [link boostbook.documenting_skeletal BoostBook
+XML example] describes basic information about the
+[@http://www.boost.org/libs/any/index.html Boost.Any] library:
+
+[#boostbook.documenting_skeletal]
+
+[heading A Skeletal BoostBook Library]
+
+``
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE library PUBLIC "-//Boost//DTD BoostBook XML V1.0//EN"
+  "http://www.boost.org/tools/boostbook/dtd/boostbook.dtd">
+<library name="Any" dirname="any" xmlns:xi="http://www.w3.org/2001/XInclude"
+  id="any" last-revision="$Date: 2006/11/13 16:24:14 $">
+  <libraryinfo>
+    <author>
+      <firstname>Kevlin</firstname>
+      <surname>Henney</surname>
+    </author>
+    <librarypurpose>
+      Safe, generic container for single values of different value types
+    </librarypurpose> 
+    <librarycategory name="category:data-structures"/>
+  </libraryinfo>
+</library>
+``
+
+The first three lines identify this document as a BoostBook
+[@http://www.w3.org/XML/ XML] document. The DOCTYPE line states that the
+document conforms to the BoostBook DTD, and that the top-level element
+is a BoostBook <library>.
+
+The <library> element actually describes the aspects of BoostBook
+library documentation. The attributes for the <library> element are:
+
+[variablelist Attributes for the <library> element
+
+[[ `name` ][
+The full name of the library, e.g., "Any"
+]]
+[[ `dirname` ][
+The name of the directory, relative to `boost/libs`, in which the library
+resides. This name may be a relative path, such as `math/octonion`,
+using "/" for the directory separator.
+]]
+[[ `id` ][
+A short, unique name for the library. For libraries with simple directory
+names (e.g., ones that do not contain a "/"), this should be the same as
+the `dirname`. This `id` will be used to identify libraries and, for HTML
+output, will be used as the base name for the HTML file in which the
+library's documentation resides, so it should use only lowercase
+alphanumeric characters and underscores.
+]]
+[[ `last-revision` ][
+Always set to `$Date: 2006/11/13 16:24:14 $`, which is expanded by CVS
+to include the date and time that the file was last modified.
+]]
+]
+
+Inside the <library> element we have the <libraryinfo> element, which
+gives information about the library itself. It contains the author's name
+(there may be more than one <author> element), followed by the purpose of
+the library and the list of categorizations. The <librarypurpose> element
+should always contain a very short (single sentence) description of the
+library's purpose, and should ['not] terminate with a period.
+
+The list of categories is specified by a set of <librarycategory> elements.
+Each <librarycategory> element has a `name` element that identifies one of
+the categories. The actual list of categories is in the file
+[^doc/src/boost.xml].
+
+At this point, we can apply the BoostBook XSL stylesheets to `any.xml`
+(to DocBook) followed by a DocBook XSL stylesheet to generate HTML output,
+as described in [link boostbook.getting_started the section called “Getting Started”].
+
+[endsect]
+
+[section From HTML to BoostBook]
+
+Most library authors are comfortable with writing HTML documentation.
+Writing [@http://www.docbook.org DocBook] documentation (and, by extension,
+BoostBook documentation) is quite similar to writing HTML, except that
+BoostBook uses different element names from HTML (see
+[link boostbook.html_to_boostbook “Converting HTML elements to
+BoostBook”]) and BoostBook XML is a much more rigid format than HTML.
+
+One of the easiest ways to convert HTML documentation into BoostBook
+documentation is to use [@http://tidy.sourceforge.net/ HTML Tidy] to
+transform your HTML into valid XHTML, which will make sure that all
+elements are properly closed, then apply the transformations in
+[link boostbook.html_to_boostbook “Converting HTML elements to
+BoostBook”] to the body of the XHTML document. The following command
+uses HTML Tidy to transform HTML into valid XHTML:
+
+    tidy -asxhtml input.html > output.xhtml
+
+When converting documentation from HTML to BoostBook, note that some
+redundant information that has to be manually maintained in HTML is
+automatically generated in BoostBook: for instance, the library
+categorizations, purpose, and author list described in
+[link boostbook.defining_a_library the section called “Defining a
+BoostBook library”] are used both in the documentation for the library
+and to build alphabetical and categorized lists of known libraries;
+similarly, tables of contents are built automatically from the titles
+of sections in the BoostBook document.
+
+[#boostbook.html_to_boostbook]
+
+[table Converting HTML elements to BoostBook
+[[HTML][BoostBook]]
+[[ <h1>, <h2>, etc.          ][
+<section>, <title>; See [link boostbook.sectioning the section
+called “Sectioning in BoostBook”]
+]]
+[[ <i>, <em>                 ][
+<emphasis>
+]]
+[[ <b>                       ][
+<emphasis role="bold">
+]]
+[[ <ol>                      ][
+<orderedlist>
+]]
+[[ <ul>                      ][
+<itemizedlist>
+]]
+[[ <li>                      ][
+<listitem>
+]]
+[[ <pre>                     ][
+<programlisting>
+]]
+[[ <code>                    ][
+<computeroutput>,<code>
+]]
+[[ <p>                       ][
+<para>, <simpara>
+]]
+[[ <a>                       ][
+<xref>, <link>, <ulink>;, See [link boostbook.linking the section
+called “Linking in BoostBook”]
+]]
+[[ <table>, <tr>, <th>, <td> ][
+<table>, <informaltable>, <tgroup>, <thead>, <tfoot>, <tbody>, <row>, <entry>,
+<entrytbl>; BoostBook tables are equivalent to DocBook tables, for which there
+is a good [@http://opensource.bureau-cornavin.com/crash-course/tables.html tutorial here]
+]]
+]
+
+[endsect]
+
+[#boostbook.sectioning]
+
+[section Sectioning in BoostBook]
+
+"Sectioning" refers to organization of a document into separate sections,
+each with a title, some text, and possibly subsections. Each section is
+described in BoostBook via a <section> element. An introduction section
+may look like this:
+
+``
+<section id="any.intro">
+  <title>Introduction</title>
+
+  <para>Introduction to a library...</para>
+
+  <section>
+    <title>A Subsection</title>
+    <para>Subsection information...</para>
+  </section>
+</section>
+``
+
+The <section> element contains all information that should logically be
+grouped within that section. The title of the section is placed within
+the <title> element, and any paragraphs, programs, lists, tables, or
+subsections can occur within the section. The `id` attribute of the
+<section> element gives a unique ID to each section, so that it may
+later be identified for linking. It is suggested that all IDs start
+with the short name of a library followed by a period, so that IDs do
+not conflict between libraries.
+
+[endsect]
+
+[endsect]
+

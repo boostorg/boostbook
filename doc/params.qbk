@@ -1,0 +1,347 @@
+[/
+    Boost.Boostbook
+    Copyright (c) 2003-2005 Douglas Gregor
+
+    Distributed under the Boost Software License, Version 1.0.
+    (See accompanying file LICENSE_1_0.txt or copy at
+    http://www.boost.org/LICENSE_1_0.txt)
+]
+
+[/ QuickBook Document version 1.4 ]
+
+[section Boostbook HTML params]
+
+These params are not in docbook and control boostbook HTML output behavior.
+You can use [@http://docbook.sourceforge.net/release/xsl/current/doc/dockbook params too].
+This [@http://www.sagehill.net/docbookxsl/ on-line book] is pretty useful too.
+
+[section Conventions]
+
+Default values are generally based on other params, the value of a param
+is noted as [^{$param}].
+
+[note
+Paths can be absolute or relative to ['build-dir]\/html\/
+]
+
+Boostbook use the following suffixes in all params:
+
+[table
+[[Option  ][Meaning                       ]]
+[[`.root` ][directory                     ]]
+[[`.path` ][general file                  ]]
+[[`.img`  ][image file                    ]]
+[[`.xml`  ][XML file                      ]]
+[[`.css`  ][stylesheet                    ]]
+[[`.show` ][boolean ('true' or 'false')   ]]
+[[`.type` ][enumerated options            ]]
+]
+
+[endsect]
+
+[section Params Quick Reference]
+
+[table
+[[Param][Default]]
+[[[link boostbook.boostbook_html_params.dissected_params.project_root [*project.root]]][
+    [^'..\/..\/..\/..\/']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.stylesheet [*css.stylesheet.root]]][
+    [^'{$project.root}/doc/style/html']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.stylesheet [*boostbook.main.css]]][
+    [^'{$css.stylesheet.root}/main.css']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.javascript [*javascript.root]]][
+    [^'{$project.root}/doc/javascript']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.page_style [*page.style.type]]][
+    [^'standard']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header [*header.show]]][
+    [^'true']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header.chapters_select_box [*chapters.select.box.show]]][
+    [^'true']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header.chapters_select_box [*chapters.select.box.xml]]][
+    [^'{$project.root}/doc/chapters.xml']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header.chapters_select_box [*chapters.select.box.root]]][
+    [^'{$project.root}/libs']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header.sections_select_box [*sections.select.box.show]]][
+    [^'false']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header.sections_select_box [*sections.select.box.xml]]][
+    [^'sections.xml']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header.sections_select_box [*sections.select.box.root]]][
+    [^'']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header.google_search_box [*google.search.box.show]]][
+    [^'true']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.header.google_search_box [*google.search.box.xml]]][
+    [^'http://tinyurl.com/33np8c']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.navigation_bar [*top.navigation.bar.show]]][
+    [^'true']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.navigation_bar [*bottom.navigation.bar.show]]][
+    [^'true']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.footer [*footer.show]]][
+    [^'true']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.chapter_logo [*chapter.logo.img]]][
+    [^'']]]
+[[[link boostbook.boostbook_html_params.dissected_params.syntax_switcher [*syntax.switcher.show]]][
+    [^'true']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.syntax_switcher [*syntax.switcher.xml]]][
+    [^'{$css.stylesheet.root}/syntax.xml']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.syntax_switcher [*syntax.switcher.root]]][
+    [^'{$css.stylesheet.root}']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.quickbook_source_stylesheet [*quickbook.source.style.show]]][
+    [^'true']
+]]
+[[[link boostbook.boostbook_html_params.dissected_params.quickbook_source_stylesheet [*quickbook.source.css]]][
+    [^'{$css.stylesheet.root}/conversion/docbook_to_quickbook.css']
+]]
+]
+
+[endsect]
+
+[section Dissected Params]
+
+[section Project Root]
+
+Path to the project root. This is the only parameter you have to change
+if your project directory use the following structure:
+
+* [^{$project.root}/doc/style/html/main.css] (Main stylesheet path)
+* [^{$project.root}/doc/style/html/conversion/docbook_to_quickbook.css]
+* [^{$project.root}/doc/style/html/syntax.xml] (Alternates syntax highlighting)
+* [^{$project.root}/doc/javascript/main.js] (Boostscript API)
+* [^{$project.root}/doc/chapters.xml] (NestedLinks chapters XML definition)
+
+[*project.root]
+
+* [*Default: ] [^'..\/..\/..\/..\/']
+* [*Example: ] [^<xsl:param>project.root="'..\/..\/'"]
+
+[endsect]
+
+[section Stylesheet]
+
+Path to the stylesheet root. Boostbook embrace a modular CSS approach.
+The entry point of the stylesheet will be main.css, but other
+alternate stylesheets can be included
+
+* [^{$css.stylesheet.dir}/main.css]
+* [^{$css.stylesheet.dir}/conversion/docbook_to_quickbook.css]
+
+Boostbook produce style agnostic XHTML. The style depends only on
+the main.css stylesheet. The banner, footer, admonitions, navigation
+and callouts graphics are controlled by the stylesheet and can be
+easily be change by editing it.
+
+[*css.stylesheet.root]
+
+* [*Default: ] [^'{$project.root}/doc/style/html']
+* [*Example: ] [^<xsl:param>css.stylesheet.root="'style'"]
+
+If you want to link to a stylesheet directly you can use:
+
+[*boostbook.main.css]
+
+* [*Default: ] [^'{$css.stylesheet.root}/main.css']
+* [*Example: ] [^<xsl:param>boostbook.main.css="'boostbook.css'"]
+
+[endsect]
+
+[section Javascript]
+
+Directory with the javascript libraries used by boostbook.
+It must contain:
+
+* [^{$javascript.root}/main.js] (Boostscript API)
+
+[*javascript.root]
+
+* [*Default: ] [^'{$project.root}/doc/javascript']
+* [*Example: ] [^<xsl:param>css.stylesheet.root="'d2q.css'"]
+
+[endsect]
+
+[section Page style]
+
+This parameter controls the general style of the HTML pages. It is
+included for future changes. The only supported style now is 'standard'
+
+[*page.style.type]
+
+* [*Default: ] [^'standard']
+* [*Example: ] [^<xsl:param>page.style.type="'standard'"]
+
+[endsect]
+
+[section Header]
+
+Insert a banner with the project logo and navigation tools
+
+[*header.show]
+
+* [*Default: ] [^'true']
+* [*Example: ] [^<xsl:param>header.show="'false'"]
+
+[section Chapters Select Box]
+
+Insert a select box in the banner that allows to jump between chapters.
+The select box uses the NestedLinks javascript API to load the
+available chapters from a XML definition file.
+
+[*chapters.select.box.show]
+
+* [*Default: ] [^'true']
+* [*Example: ] [^<xsl:param>chapters.select.box.show="'false'"]
+
+[*chapters.select.box.xml]
+
+* [*Default: ] [^'{$project.root}/doc/chapters.xml']
+* [*Example: ] [^<xsl:param>chapters.select.box.xml="'my_chapters.xml'"]
+
+[*chapters.select.box.root]
+
+* [*Default: ] [^'{$project.root}/libs']
+* [*Example: ] [^<xsl:param>chapters.select.box.xml="'http://www.boost.org/libs'"]
+
+[endsect]
+
+[section Sections Select Box]
+
+Insert a select box in the banner that allows to jump between sections
+of the current chapter.
+
+[*sections.select.box.show]
+
+* [*Default: ] [^'false']
+* [*Example: ] [^<xsl:param>sections.select.box.show="'true'"]
+
+[*sections.select.box.xml]
+
+* [*Default: ] [^'sections.xml']
+* [*Example: ] [^<xsl:param>sections.select.box.xml="'../sections.xml'"]
+
+[*sections.select.box.root]
+
+* [*Default: ] [^'']
+* [*Example: ] [^<xsl:param>sections.select.box.xml="'../'"]
+
+[endsect]
+
+[section Google Search Box]
+
+Insert a Google search box in the banner. Boostbook use a linked CSE
+custom Google search page controlled by the XML definition.
+
+[*google.search.box.show]
+
+* [*Default: ] [^'true']
+* [*Example: ] [^<xsl:param>google.search.box.show="'false'"]
+
+[*google.search.box.xml]
+
+* [*Default: ] [^'http://tinyurl.com/33np8c']
+* [*Example: ] [^<xsl:param>sections.select.box.xml="'google_options.xml'"]
+
+[endsect]
+
+[endsect]
+
+[section Navigation Bar]
+
+Insert spirit navigation bars at the top and the bottom of the page
+
+[*top.navigation.bar.show]
+
+* [*Default: ] [^'true']
+* [*Example: ] [^<xsl:param>top.navigation.bar.show="'false'"]
+
+[*bottom.navigation.bar.show]
+
+* [*Default: ] [^'true']
+* [*Example: ] [^<xsl:param>bottom.navigation.bar.show="'false'"]
+
+[endsect]
+
+[section Footer]
+
+Insert a footer with copyright and validation information
+
+[*footer.show]
+
+* [*Default: ] [^'true']
+* [*Example: ] [^<xsl:param>footer.show="'false'"]
+
+[endsect]
+
+[section Chapter Logo]
+
+If defined, include the image pointed by chapter.logo.src in the first
+page of the chapter.
+
+[*chapter.logo.img]
+
+* [*Default: ] [^'']
+* [*Example: ] [^<xsl:param>footer.show="'images/chapter_logo.png'"]
+
+[endsect]
+
+[section Syntax Switcher]
+
+Includes an alternate stylesheets for different syntax highlighting
+and adds buttons in the corners of code blocks.
+
+[*syntax.switcher.show]
+
+* [*Default: ] [^'true']
+* [*Example: ] [^<xsl:param>syntax.switcher.show="'false'"]
+
+[*syntax.switcher.xml]
+
+* [*Default: ] [^'{$css.stylesheet.root}/syntax.xml']
+* [*Example: ] [^<xsl:param>syntax.switcher.xml="'syntax.xml'"]
+
+[*syntax.switcher.root]
+
+* [*Default: ] [^'{$css.stylesheet.root}']
+* [*Example: ] [^<xsl:param>sections.select.box.xml="'../'"]
+
+[endsect]
+
+[section Quickbook Source Stylesheet]
+
+Includes an alternate stylesheet that allows to see the page as
+quickbook sources. Very useful in translations or when trying to learn
+quickbook.
+
+[*quickbook.source.style.show]
+
+* [*Default: ] [^'true']
+* [*Example: ] [^<xsl:param>quickbook.source.style.show="'false'"]
+
+[*quickbook.source.css]
+
+* [*Default: ] [^'{$css.stylesheet.root}/conversion/docbook_to_quickbook.css']
+* [*Example: ] [^<xsl:param>quickbook.source.css="'d2q.css'"]
+
+[endsect]
+
+[endsect]
+
+[endsect]
+

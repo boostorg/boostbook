@@ -1,0 +1,30 @@
+#   Copyright (c) 2002 Douglas Gregor <doug.gregor -at- gmail.com>
+#   Copyright (c) 2007 Matias Capeletto
+# 
+#   Distributed under the Boost Software License, Version 1.0.
+#   (See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt)
+
+using quickbook ;
+
+xml boostbook : boostbook.qbk ;
+
+boostbook standalone
+    :
+        boostbook
+    :
+        # HTML options first:
+        #======================================================================
+
+        # Include a logo in the first page
+        <xsl:param>chapter.logo.img="'images/boost.boostbook.logo.png'"
+
+        # Include "Quicbook source" alternate stlysheet
+        <xsl:param>quickbook.source.style.show="'true'"
+
+        <xsl:param>chunk.section.depth=1
+        <xsl:param>toc.section.depth=2
+        <xsl:param>toc.max.depth=2
+        <xsl:param>generate.section.toc.level=2
+    ;
+

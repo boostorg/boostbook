@@ -1,0 +1,57 @@
+[/
+    Boost.Boostbook
+    Copyright (c) 2003-2005 Douglas Gregor
+
+    Distributed under the Boost Software License, Version 1.0.
+    (See accompanying file LICENSE_1_0.txt or copy at
+    http://www.boost.org/LICENSE_1_0.txt)
+]
+
+[/ QuickBook Document version 1.4 ]
+
+[section Bringing Together a BoostBook Document]
+
+[#boostbook.linking]
+
+[heading Linking in BoostBook]
+
+How one links to another element in BoostBook depends greatly on the nature of
+the element linked and how the link should appear. There are three general
+linking elements: <xref>, <link>, and <ulink>. Additionally, there are linking
+elements for referencing specific types of entities, such as classes
+(<classname>), functions (<functionname>), or libraries (<libraryname>).
+
+The <xref> element references elements that have an `id` attribute and a title.
+The actual link text is composed from title and type of the element referenced.
+To link to a particular ID, create an <xref> element with the `linkend`
+attribute set to the ID of the intended target. For instance, this section's
+ID is `boostbook.linking`, so we create a reference it to with
+[^<xref linkend="boostbook.linking"/>], which will look like this in the text:
+[link boostbook.linking the section called “Linking in BoostBook”].
+
+The <link> element references an ID in the same way as <xref>, except that
+<link> does not generate any text for the link, so text must be supplied within
+the element. For instance, we can again link to this chapter but this time
+specify our own text with [^<link linkend="boostbook.linking">like this</link>].
+This markup will result in a link to this chapter that looks
+[link boostbook.linking like this].
+
+The <ulink> element references a URL that is outside of the DocBook document.
+The `url` attribute contains the URL to link to, and the element data provides
+the link text.For instance, we can link to the the Boost web site with
+[^<ulink url="http://www.boost.org">Boost</ulink>], which appears in the document
+like this: [@http://www.boost.org Boost].
+
+The <classname>, <functionname>, <methodname>, and <libraryname> link to
+classes, functions, methods, and libraries, respectively. The text of each
+element gives both the name of the element to link to and the link text.
+For instance, we can link to the Function library with
+[^<libraryname>Function</libraryname>], which results in the following: Function.
+In cases where the displayed text is different from the actual name, the `alt`
+attribute can be specified. For instance, the following XML element references
+the `boost::function` class template but displays the text `function`:
+[^<classname alt="boost::function">function</classname>].
+
+[endsect]
+
+
