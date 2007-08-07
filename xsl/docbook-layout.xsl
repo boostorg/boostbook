@@ -469,7 +469,7 @@ to be safe.
   </xsl:variable>
 
   <div>
-    <xsl:apply-templates select="." mode="class.attribute"/>
+    <!--<xsl:apply-templates select="." mode="class.attribute"/>-->
     <xsl:call-template name="anchor"/>
 
     <xsl:if test="title">
