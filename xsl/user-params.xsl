@@ -14,10 +14,6 @@
 <!-- Deprecated, use project.root -->
 <xsl:param name="boost.root" select="'../../../..'"/>
 
-<!-- Deprecated, use project.header.root -->
-<xsl:param name="boost.header.root" select="'$boost.root'"/>
-
-
 <!--========================================================================
      Html user parameters
      These params control boostbook behaviour
@@ -52,6 +48,9 @@ Conventions:
                                                                          -->
 <xsl:param name   = "project.root"
            select = "$boost.root" />
+
+<!-- Deprecated, use project.header.root -->
+<xsl:param name="boost.header.root" select="$project.root"/>
 
 <xsl:param name   = "project.header.root"
            select = "$boost.header.root" />
