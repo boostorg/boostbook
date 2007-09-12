@@ -546,17 +546,17 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
       <xsl:when test="$single-line-candidate and 
                       (string-length($single-line) + $indentation + 3
                         &lt; $pre.text.max.columns)">
+        <xsl:text> : </xsl:text>
         <xsl:call-template name="print.base.classes.single"/>
         <xsl:text> {</xsl:text>
       </xsl:when>
       <xsl:when test="$single-line-candidate and
-                      (string-length($single-line) + $base-indentation + 5
+                      (string-length($single-line) + $base-indentation + 2
                         &lt; $pre.text.max.columns)">
-        <xsl:text>&#10;</xsl:text>
+        <xsl:text> :&#10;</xsl:text>
         <xsl:call-template name="indent">
-          <xsl:with-param name="indentation" select="$base-indentation"/>
+          <xsl:with-param name="indentation" select="$base-indentation + 2"/>
         </xsl:call-template>
-        <xsl:text>  : </xsl:text>
         <xsl:call-template name="print.base.classes.single"/>
         <xsl:text>&#10;</xsl:text>
         <xsl:call-template name="indent">
@@ -582,7 +582,6 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
   <xsl:template match="inherit">
     <xsl:choose>
       <xsl:when test="position()=1">
-        <xsl:text> : </xsl:text>
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>, </xsl:text>
