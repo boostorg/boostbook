@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
    Copyright (c) 2002 Douglas Gregor <doug.gregor -at- gmail.com>
-  
+
    Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
    http://www.boost.org/LICENSE_1_0.txt) xmlns="http://www.w3.org/1999/xhtml"
@@ -13,10 +13,10 @@
   <xsl:import
     href="http://docbook.sourceforge.net/release/xsl/current/xhtml/chunker.xsl"/>
 
-  <xsl:import href="reference.xsl"/>
+  <xsl:include href="reference.xsl"/>
 
-  <xsl:import href="user-params.xsl"/>
-  <xsl:import href="docbook-params.xsl"/>
+  <xsl:include href="user-params.xsl"/>
+  <xsl:include href="docbook-params.xsl"/>
 
   <xsl:output method="xml"
     doctype-public="-//OASIS//DTD DocBook XML V4.2//EN"
@@ -61,7 +61,7 @@
           <xsl:if test="not(title)">
             <title>
               <xsl:text>Reference</xsl:text>
-            </title>    
+            </title>
           </xsl:if>
 
           <xsl:if test="concept">
@@ -140,7 +140,7 @@
                      |descendant::typedef">
           <xsl:call-template name="synopsis">
             <xsl:with-param name="text">
-              <xsl:apply-templates mode="synopsis" 
+              <xsl:apply-templates mode="synopsis"
                 select="namespace|class|struct|union
                        |function|free-function-group
                        |overloaded-function|enum
@@ -269,7 +269,7 @@
         </xsl:if>
         <xsl:if test="not($highlight)">
           <xsl:value-of select="$text"/>
-        </xsl:if>        
+        </xsl:if>
       </xsl:when>
       <xsl:otherwise>
         <xsl:message>
@@ -346,7 +346,7 @@ Error: XSL template 'link-or-anchor' called with invalid link-type '<xsl:value-o
       <xsl:for-each select="./@*">
         <xsl:choose>
           <xsl:when test="local-name(.)='last-revision'">
-            <xsl:attribute 
+            <xsl:attribute
               name="rev:last-revision"
               namespace="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision">
               <xsl:value-of select="."/>
@@ -393,7 +393,7 @@ Error: XSL template 'link-or-anchor' called with invalid link-type '<xsl:value-o
         </xsl:attribute>
 
         <xsl:if test="@last-revision">
-          <xsl:attribute 
+          <xsl:attribute
             name="rev:last-revision"
             namespace="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision">
             <xsl:value-of select="@last-revision"/>
@@ -451,7 +451,7 @@ Error: XSL template 'link-or-anchor' called with invalid link-type '<xsl:value-o
   <xsl:template match="*" mode="namespace-reference">
     <xsl:apply-templates select="." mode="reference"/>
   </xsl:template>
-  
+
   <!-- Make the various blocks immediately below a "part" be
        "chapter"-s. Must also take into account turning
        chapters within chpaters into sections. -->
