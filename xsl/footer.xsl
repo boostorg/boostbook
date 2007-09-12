@@ -44,7 +44,12 @@
             </div>
             <div id="license">
                <p>Distributed under the
-                  <a href="/LICENSE_1_0.txt"
+                  <xsl:variable name="fixedup.project.root">
+                     <xsl:call-template name="href.target.relative">
+                        <xsl:with-param name="target" select="$project.root"/>
+                     </xsl:call-template>
+                  </xsl:variable>
+                  <a href="{$fixedup.project.root}/LICENSE_1_0.txt"
                      class="internal">Boost Software License, Version 1.0</a>.
                </p>
             </div>
@@ -88,7 +93,7 @@
          <xsl:when test="$month=11">November</xsl:when>
          <xsl:when test="$month=12">December</xsl:when>
       </xsl:choose>
-   </xsl:template> 
+   </xsl:template>
 
 
    <xsl:template name="format.cvs.revision">
