@@ -44,7 +44,7 @@ Boostbook use the following suffixes in all params:
 [table
 [[Param][Default]]
 [[[link boostbook.boostbook_html_params.dissected_params.project_root [*project.root]]][
-    [^'..\/..\/..\/..\/']
+    [^'..\/..\/']
 ]]
 [[[link boostbook.boostbook_html_params.dissected_params.stylesheet [*css.stylesheet.root]]][
     [^'{$project.root}/doc/style/html']
@@ -130,8 +130,8 @@ if your project directory use the following structure:
 
 [*project.root]
 
-* [*Default: ] [^'..\/..\/..\/..\/']
-* [*Example: ] [^<xsl:param>project.root="'..\/..\/'"]
+* [*Default: ] [^'..\/..\/']
+* [*Example: ] [^<xsl:param>project.root="'..\/..\/..\/..\/'"]
 
 [endsect]
 
