@@ -17,7 +17,7 @@ boostbook standalone
         #======================================================================
 
         # Include a logo in the first page
-        <xsl:param>chapter.logo.img="'images/boost.boostbook.logo.png'"
+        <xsl:param>chapter.logo.img="images/boost.boostbook.logo.png"
 
         # Include "Quicbook source" alternate stlysheet
         <xsl:param>quickbook.source.style.show="'true'"
@@ -26,5 +26,7 @@ boostbook standalone
         <xsl:param>toc.section.depth=2
         <xsl:param>toc.max.depth=2
         <xsl:param>generate.section.toc.level=2
+
+        <xsl:param>project.root="../../../.."
     ;
 
