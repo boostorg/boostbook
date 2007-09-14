@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
    Copyright (c) 2007 Matias Capeletto
+   Copyright (c) 2007 Frank Mori Hess <fmhess@users.sourceforge.net>
 
    Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
