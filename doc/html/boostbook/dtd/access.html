@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>BoostBook element throws</title><link rel="stylesheet" href="../../../../../../doc/style/html/main.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.73.2" /><link rel="start" href="../../index.html" title="Boostbook" /><link rel="up" href="../../reference.html" title="Reference" /><link rel="prev" href="union-specialization.html" title="BoostBook element union-specialization" /><link rel="next" href="template-arg.html" title="BoostBook element template-arg" /><script type="text/javascript" src="../../../../../../doc/javascript/main.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>BoostBook element access</title><link rel="stylesheet" href="../../../../../../doc/style/html/main.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.73.2" /><link rel="start" href="../../index.html" title="Boostbook" /><link rel="up" href="../../reference.html" title="Reference" /><link rel="prev" href="overloaded-function.html" title="BoostBook element overloaded-function" /><link rel="next" href="class.html" title="BoostBook element class" /><script type="text/javascript" src="../../../../../../doc/javascript/main.js"></script>
       <script type="text/javascript" > <!--
          boostscript.init( new Array(
             boostscript.nested_links,
@@ -57,7 +57,7 @@
     </div>
     <div class="spirit-nav">
       <div class="spirit-nav-icon">
-        <a accesskey="p" href="union-specialization.html">
+        <a accesskey="p" href="overloaded-function.html">
           <div class="prev-icon"></div>
         </a>
       </div>
@@ -72,7 +72,7 @@
         </a>
       </div>
       <div class="spirit-nav-icon">
-        <a accesskey="n" href="template-arg.html">
+        <a accesskey="n" href="class.html">
           <div class="next-icon"></div>
         </a>
       </div>
@@ -81,21 +81,26 @@
       <div id="body-inner">
         <div id="content">
           <div class="refentry">
-            <a id="boostbook.dtd.throws"></a>
+            <a id="boostbook.dtd.access"></a>
             <div class="titlepage"></div>
             <div class="refnamediv">
               <h2>
                 <span class="refentrytitle">
-          BoostBook element <code class="sgmltag-element">throws</code></span>
+          BoostBook element <code class="sgmltag-element">access</code></span>
               </h2>
-              <p>throws — Description of the exceptions thrown by a function</p>
+              <p>access — Declares an access specification for class members</p>
             </div>
             <h2 class="refsynopsisdiv-title">Synopsis</h2>
-            <div class="refsynopsisdiv">throws ::= 
-  (ANY)
-</div>
+            <div class="refsynopsisdiv">access ::= 
+    (<a class="link" href="static-constant.html" title="BoostBook element static-constant">static-constant</a>| <a class="link" href="typedef.html" title="BoostBook element typedef">typedef</a>| <a class="link" href="enum.html" title="BoostBook element enum">enum</a>| <a class="link" href="copy-assignment.html" title="BoostBook element copy-assignment">copy-assignment</a>| <a class="link" href="constructor.html" title="BoostBook element constructor">constructor</a>| <a class="link" href="destructor.html" title="BoostBook element destructor">destructor</a>| <a class="link" href="method-group.html" title="BoostBook element method-group">method-group</a>| <a class="link" href="free-function-group.html" title="BoostBook element free-function-group">free-function-group</a>| <a class="link" href="function.html" title="BoostBook element function">function</a>| <a class="link" href="method.html" title="BoostBook element method">method</a>| <a class="link" href="overloaded-function.html" title="BoostBook element overloaded-function">overloaded-function</a>| <a class="link" href="overloaded-method.html" title="BoostBook element overloaded-method">overloaded-method</a>| <a class="link" href="data-member.html" title="BoostBook element data-member">data-member</a>| <a class="link" href="class.html" title="BoostBook element class">class</a>| <a class="link" href="class-specialization.html" title="BoostBook element class-specialization">class-specialization</a>| <a class="link" href="struct.html" title="BoostBook element struct">struct</a>| <a class="link" href="struct-specialization.html" title="BoostBook element struct-specialization">struct-specialization</a>| <a class="link" href="union.html" title="BoostBook element union">union</a>| <a class="link" href="union-specialization.html" title="BoostBook element union-specialization">union-specialization</a>)+
+  </div>
             <div class="refsection">
-              <a id="id2600618"></a>
+              <a id="id2603209"></a>
+              <h2>Description</h2>
+              <p>The access specifications of class members (public, private, or protected) may be determined by making them children of an &lt;access&gt; element.</p>
+            </div>
+            <div class="refsection">
+              <a id="id2603222"></a>
               <h2>Attributes</h2>
               <div class="informaltable">
                 <table class="table">
@@ -121,16 +126,16 @@
                       <td>Set to $Date: 2003/04/13 14:46:07 $ to keep "last revised" information in sync with CVS changes</td>
                     </tr>
                     <tr>
+                      <td>name</td>
+                      <td>#REQUIRED</td>
+                      <td>CDATA</td>
+                      <td>The name of the access specification, e.g. "public", "private", or "protected".</td>
+                    </tr>
+                    <tr>
                       <td>id</td>
                       <td>#IMPLIED</td>
                       <td>CDATA</td>
                       <td>A global identifier for this element</td>
-                    </tr>
-                    <tr>
-                      <td>xml:base</td>
-                      <td>#IMPLIED</td>
-                      <td>CDATA</td>
-                      <td>Implementation detail used by XIncludes</td>
                     </tr>
                   </tbody>
                 </table>
@@ -143,7 +148,7 @@
     </div>
     <div class="spirit-nav">
       <div class="spirit-nav-icon">
-        <a accesskey="p" href="union-specialization.html">
+        <a accesskey="p" href="overloaded-function.html">
           <div class="prev-icon"></div>
         </a>
       </div>
@@ -158,7 +163,7 @@
         </a>
       </div>
       <div class="spirit-nav-icon">
-        <a accesskey="n" href="template-arg.html">
+        <a accesskey="n" href="class.html">
           <div class="next-icon"></div>
         </a>
       </div>

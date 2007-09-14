@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Documenting libraries</title><link rel="stylesheet" href="../../../../../doc/style/html/main.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.72.0" /><link rel="start" href="../index.html" title="Boostbook" /><link rel="up" href="../index.html" title="Boostbook" /><link rel="prev" href="getting_started.html" title="Getting Started" /><link rel="next" href="bringing_together_a_boostbook_document.html" title="Bringing Together a BoostBook Document" /><script type="text/javascript" src="../../../../../doc/javascript/main.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Documenting libraries</title><link rel="stylesheet" href="../../../../../doc/style/html/main.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.73.2" /><link rel="start" href="../index.html" title="Boostbook" /><link rel="up" href="../index.html" title="Boostbook" /><link rel="prev" href="getting_started.html" title="Getting Started" /><link rel="next" href="bringing_together_a_boostbook_document.html" title="Bringing Together a BoostBook Document" /><script type="text/javascript" src="../../../../../doc/javascript/main.js"></script>
       <script type="text/javascript" > <!--
          boostscript.init( new Array(
             boostscript.nested_links,
@@ -19,7 +19,7 @@
              '../../../../../doc/style/html'
           );
       //--></script>
-<link rel="alternate stylesheet" type="text/css" title="Quickbook source" href="../../../../../doc/style/html/conversion/boostbook_to_quickbook.css" />
+
       <script type="text/javascript" > <!--
           boostscript.call( boostscript.style_switcher, 'load_user_stylesheet' );
       //--></script>
@@ -86,7 +86,7 @@
                 <div>
                   <h2 class="title">
                     <a id="boostbook.documenting_libraries"></a>
-                    <a href="documenting_libraries.html" title="Documenting libraries">Documenting libraries</a>
+                    <a class="link" href="documenting_libraries.html" title="Documenting libraries">Documenting libraries</a>
                   </h2>
                 </div>
               </div>
@@ -139,7 +139,7 @@
                   <div>
                     <h3 class="title">
                       <a id="boostbook.documenting_libraries.defining_a_boostbook_library"></a>
-                      <a href="documenting_libraries.html#boostbook.documenting_libraries.defining_a_boostbook_library" title="Defining a BoostBook library">Defining
+                      <a class="link" href="documenting_libraries.html#boostbook.documenting_libraries.defining_a_boostbook_library" title="Defining a BoostBook library">Defining
       a BoostBook library</a>
                     </h3>
                   </div>
@@ -149,7 +149,7 @@
         BoostBook library documentation is contained entirely within a &lt;library&gt;
         XML element. To create a skeletal library, we need to create a new XML document
         (call it <code class="computeroutput"><span class="identifier">any</span><span class="special">.</span><span class="identifier">xml</span></code>) that contains basic information about
-        the library. The following <a href="documenting_libraries.html#boostbook.documenting_skeletal">BoostBook
+        the library. The following <a class="link" href="documenting_libraries.html#boostbook.documenting_skeletal">BoostBook
         XML example</a> describes basic information about the <a href="http://www.boost.org/libs/any/index.html">Boost.Any</a>
         library:
       </p>
@@ -157,8 +157,8 @@
               <p>
       </p>
               <a id="boostbook.documenting_libraries.defining_a_boostbook_library.a_skeletal_boostbook_library"></a>
-              <h5><a id="id2572472"></a>
-        <a href="documenting_libraries.html#boostbook.documenting_libraries.defining_a_boostbook_library.a_skeletal_boostbook_library">A
+              <h5><a id="id2589978"></a>
+        <a class="link" href="documenting_libraries.html#boostbook.documenting_libraries.defining_a_boostbook_library.a_skeletal_boostbook_library">A
         Skeletal BoostBook Library</a>
       </h5>
               <p>
@@ -170,10 +170,10 @@
                   <div class="box-top-right"></div>
                   <div class="box-top"></div>
                   <div class="box-inner-wrapper">
-                    <div class="style-switcher-box" id="id2572491">
+                    <div class="style-switcher-box" id="id2589997">
       <script type="text/javascript" > <!--
           boostscript.call( boostscript.style_switcher, 'insert_style_selector',
-             'id2572491',
+             'id2589997',
              '../../../../../doc/style/html/syntax.xml',
              '../../../../../doc/style/html'
           );
@@ -224,42 +224,50 @@
         <code class="computeroutput"><span class="identifier">name</span></code> </span>
                   </dt>
                   <dd>
-          The full name of the library, e.g., "Any"
-        </dd>
+                    <p>
+            The full name of the library, e.g., "Any"
+          </p>
+                  </dd>
                   <dt>
                     <span class="term"> <code class="computeroutput"><span class="identifier">dirname</span></code>
         </span>
                   </dt>
                   <dd>
-          The name of the directory, relative to <code class="computeroutput"><span class="identifier">boost</span><span class="special">/</span><span class="identifier">libs</span></code>,
-          in which the library resides. This name may be a relative path, such as
-          <code class="computeroutput"><span class="identifier">math</span><span class="special">/</span><span class="identifier">octonion</span></code>, using "/" for the
-          directory separator.
-        </dd>
+                    <p>
+            The name of the directory, relative to <code class="computeroutput"><span class="identifier">boost</span><span class="special">/</span><span class="identifier">libs</span></code>,
+            in which the library resides. This name may be a relative path, such
+            as <code class="computeroutput"><span class="identifier">math</span><span class="special">/</span><span class="identifier">octonion</span></code>, using "/" for the
+            directory separator.
+          </p>
+                  </dd>
                   <dt>
                     <span class="term"> <code class="computeroutput"><span class="identifier">id</span></code>
         </span>
                   </dt>
                   <dd>
-          A short, unique name for the library. For libraries with simple directory
-          names (e.g., ones that do not contain a "/"), this should be
-          the same as the <code class="computeroutput"><span class="identifier">dirname</span></code>.
-          This <code class="computeroutput"><span class="identifier">id</span></code> will be used to
-          identify libraries and, for HTML output, will be used as the base name
-          for the HTML file in which the library's documentation resides, so it should
-          use only lowercase alphanumeric characters and underscores.
-        </dd>
+                    <p>
+            A short, unique name for the library. For libraries with simple directory
+            names (e.g., ones that do not contain a "/"), this should be
+            the same as the <code class="computeroutput"><span class="identifier">dirname</span></code>.
+            This <code class="computeroutput"><span class="identifier">id</span></code> will be used
+            to identify libraries and, for HTML output, will be used as the base
+            name for the HTML file in which the library's documentation resides,
+            so it should use only lowercase alphanumeric characters and underscores.
+          </p>
+                  </dd>
                   <dt>
                     <span class="term"> <code class="computeroutput"><span class="identifier">last</span><span class="special">-</span><span class="identifier">revision</span></code>
         </span>
                   </dt>
                   <dd>
-          Always set to <code class="computeroutput">#<span class="identifier">Date</span><span class="special">:</span>
-          <span class="number">2006</span><span class="special">/</span><span class="number">11</span><span class="special">/</span><span class="number">13</span>
-          <span class="number">16</span><span class="special">:</span><span class="number">24</span><span class="special">:</span><span class="number">14</span>
-          #</code>, which is expanded by CVS to include the date and time that the
-          file was last modified.
-        </dd>
+                    <p>
+            Always set to <code class="computeroutput">#<span class="identifier">Date</span><span class="special">:</span>
+            <span class="number">2006</span><span class="special">/</span><span class="number">11</span><span class="special">/</span><span class="number">13</span>
+            <span class="number">16</span><span class="special">:</span><span class="number">24</span><span class="special">:</span><span class="number">14</span>
+            #</code>, which is expanded by CVS to include the date and time that
+            the file was last modified.
+          </p>
+                  </dd>
                 </dl>
               </div>
               <p>
@@ -280,7 +288,7 @@
               <p>
         At this point, we can apply the BoostBook XSL stylesheets to <code class="computeroutput"><span class="identifier">any</span><span class="special">.</span><span class="identifier">xml</span></code>
         (to DocBook) followed by a DocBook XSL stylesheet to generate HTML output,
-        as described in <a href="getting_started.html" title="Getting Started">the section called
+        as described in <a class="link" href="getting_started.html" title="Getting Started">the section called
         “Getting Started”</a>.
       </p>
             </div>
@@ -290,7 +298,7 @@
                   <div>
                     <h3 class="title">
                       <a id="boostbook.documenting_libraries.from_html_to_boostbook"></a>
-                      <a href="documenting_libraries.html#boostbook.documenting_libraries.from_html_to_boostbook" title="From HTML to BoostBook">From
+                      <a class="link" href="documenting_libraries.html#boostbook.documenting_libraries.from_html_to_boostbook" title="From HTML to BoostBook">From
       HTML to BoostBook</a>
                     </h3>
                   </div>
@@ -300,7 +308,7 @@
         Most library authors are comfortable with writing HTML documentation. Writing
         <a href="http://www.docbook.org">DocBook</a> documentation (and, by
         extension, BoostBook documentation) is quite similar to writing HTML, except
-        that BoostBook uses different element names from HTML (see <a href="documenting_libraries.html#boostbook.html_to_boostbook">“Converting
+        that BoostBook uses different element names from HTML (see <a class="link" href="documenting_libraries.html#boostbook.html_to_boostbook">“Converting
         HTML elements to BoostBook”</a>) and BoostBook XML is a much more rigid
         format than HTML.
       </p>
@@ -308,7 +316,7 @@
         One of the easiest ways to convert HTML documentation into BoostBook documentation
         is to use <a href="http://tidy.sourceforge.net/">HTML Tidy</a> to
         transform your HTML into valid XHTML, which will make sure that all elements
-        are properly closed, then apply the transformations in <a href="documenting_libraries.html#boostbook.html_to_boostbook">“Converting
+        are properly closed, then apply the transformations in <a class="link" href="documenting_libraries.html#boostbook.html_to_boostbook">“Converting
         HTML elements to BoostBook”</a> to the body of the XHTML document. The
         following command uses HTML Tidy to transform HTML into valid XHTML:
       </p>
@@ -318,10 +326,10 @@
                   <div class="box-top-right"></div>
                   <div class="box-top"></div>
                   <div class="box-inner-wrapper">
-                    <div class="style-switcher-box" id="id2573352">
+                    <div class="style-switcher-box" id="id2590872">
       <script type="text/javascript" > <!--
           boostscript.call( boostscript.style_switcher, 'insert_style_selector',
-             'id2573352',
+             'id2590872',
              '../../../../../doc/style/html/syntax.xml',
              '../../../../../doc/style/html'
           );
@@ -340,7 +348,7 @@
         When converting documentation from HTML to BoostBook, note that some redundant
         information that has to be manually maintained in HTML is automatically generated
         in BoostBook: for instance, the library categorizations, purpose, and author
-        list described in <a href="documenting_libraries.html#boostbook.defining_a_library">the section
+        list described in <a class="link" href="documenting_libraries.html#boostbook.defining_a_library">the section
         called “Defining a BoostBook library”</a> are used both in the documentation
         for the library and to build alphabetical and categorized lists of known
         libraries; similarly, tables of contents are built automatically from the
@@ -350,7 +358,7 @@
               <p>
       </p>
               <div class="table">
-                <a id="id2573441"></a>
+                <a id="id2590961"></a>
                 <p class="title">
                   <b>Table 2. Converting HTML elements to BoostBook</b>
                 </p>
@@ -383,7 +391,7 @@
             </td>
                         <td>
             <p>
-              &lt;section&gt;, &lt;title&gt;; See <a href="documenting_libraries.html#boostbook.sectioning">the
+              &lt;section&gt;, &lt;title&gt;; See <a class="link" href="documenting_libraries.html#boostbook.sectioning">the
               section called “Sectioning in BoostBook”</a>
             </p>
             </td>
@@ -492,7 +500,7 @@
             </td>
                         <td>
             <p>
-              &lt;xref&gt;, &lt;link&gt;, &lt;ulink&gt;;, See <a href="bringing_together_a_boostbook_document.html#boostbook.linking">the
+              &lt;xref&gt;, &lt;link&gt;, &lt;ulink&gt;;, See <a class="link" href="bringing_together_a_boostbook_document.html#boostbook.linking">the
               section called “Linking in BoostBook”</a>
             </p>
             </td>
@@ -528,7 +536,7 @@
                   <div>
                     <h3 class="title">
                       <a id="boostbook.documenting_libraries.sectioning_in_boostbook"></a>
-                      <a href="documenting_libraries.html#boostbook.documenting_libraries.sectioning_in_boostbook" title="Sectioning in BoostBook">Sectioning
+                      <a class="link" href="documenting_libraries.html#boostbook.documenting_libraries.sectioning_in_boostbook" title="Sectioning in BoostBook">Sectioning
       in BoostBook</a>
                     </h3>
                   </div>
@@ -549,10 +557,10 @@
                   <div class="box-top-right"></div>
                   <div class="box-top"></div>
                   <div class="box-inner-wrapper">
-                    <div class="style-switcher-box" id="id2573747">
+                    <div class="style-switcher-box" id="id2591266">
       <script type="text/javascript" > <!--
           boostscript.call( boostscript.style_switcher, 'insert_style_selector',
-             'id2573747',
+             'id2591266',
              '../../../../../doc/style/html/syntax.xml',
              '../../../../../doc/style/html'
           );
@@ -623,7 +631,7 @@
         </div>
         <div id="license">
           <p>Distributed under the
-                  <a href="/LICENSE_1_0.txt" class="internal">Boost Software License, Version 1.0</a>.
+                  <a href="../../../../../LICENSE_1_0.txt" class="internal">Boost Software License, Version 1.0</a>.
                </p>
         </div>
       </div>
