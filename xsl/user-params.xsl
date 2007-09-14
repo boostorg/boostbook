@@ -12,7 +12,7 @@
                 version="1.0">
 
 <!-- Deprecated, use project.root -->
-<xsl:param name="boost.root" select="'../../../..'"/>
+<xsl:param name="boost.root" select="'../..'"/>
 
 <!--========================================================================
      Html user parameters
