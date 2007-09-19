@@ -723,13 +723,23 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
       </xsl:call-template>
       <emphasis>
         <xsl:text>// </xsl:text>
-        <xsl:call-template name="internal-link">
-          <xsl:with-param name="to">
-            <xsl:call-template name="generate.id"/>
+        <!-- True if there are any non-compacted typedefs -->
+        <xsl:variable name="have-typedef-references"
+          select="typedef and ((typedef/para|typedef/description) or ($boost.compact.typedef='0'))"/>
+        <xsl:choose>
+          <xsl:when test="$have-typedef-references">
+            <xsl:call-template name="internal-link">
+              <xsl:with-param name="to">
+                <xsl:call-template name="generate.id"/>
+                <xsl:text>types</xsl:text>
+              </xsl:with-param>
+              <xsl:with-param name="text" select="'types'"/>
+            </xsl:call-template>
+          </xsl:when>
+          <xsl:otherwise>
             <xsl:text>types</xsl:text>
-          </xsl:with-param>
-          <xsl:with-param name="text" select="'types'"/>
-        </xsl:call-template>
+          </xsl:otherwise>
+        </xsl:choose>
       </emphasis>
 
       <xsl:variable name="max-type-length">
