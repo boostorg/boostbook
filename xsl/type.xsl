@@ -33,6 +33,16 @@
     </xsl:call-template>
   </xsl:template>
 
+  <xsl:template match="class-specialization|struct-specialization|union-specialization" mode="generate.id">
+    <xsl:variable name="specialization-name">
+      <xsl:call-template name="fully-qualified-name">
+        <xsl:with-param name="node" select="."/>
+        <xsl:with-param name="separator" select="'.'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:value-of select="translate($specialization-name, '&lt;&gt;', '__')"/>
+  </xsl:template>
+
   <xsl:template match="typedef" mode="generate.id">
     <xsl:call-template name="fully-qualified-name">
       <xsl:with-param name="node" select="."/>
