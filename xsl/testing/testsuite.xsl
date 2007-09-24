@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
    Copyright (c) 2002 Douglas Gregor <doug.gregor -at- gmail.com>
-  
+
    Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
    http://www.boost.org/LICENSE_1_0.txt)
   -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="1.0">
+  <xsl:import
+    href="http://docbook.sourceforge.net/release/xsl/current/xhtml/chunk.xsl"/>
+  <xsl:import href="../relative-href.xsl"/>
+
   <xsl:template match="testsuite">
     <section>
       <xsl:choose>
@@ -51,9 +55,9 @@
               </tbody>
             </tgroup>
           </informaltable>
-        </section>          
+        </section>
       </xsl:if>
-      
+
       <xsl:if test="compile-fail-test|link-fail-test|run-fail-test">
         <section>
           <xsl:if test="@id">
@@ -75,13 +79,13 @@
                 </row>
               </thead>
               <tbody>
-                <xsl:apply-templates 
+                <xsl:apply-templates
                   select="compile-fail-test|link-fail-test|run-fail-test"/>
               </tbody>
             </tgroup>
           </informaltable>
         </section>
-      </xsl:if> 
+      </xsl:if>
     </section>
   </xsl:template>
 
@@ -92,10 +96,12 @@
         <simpara>
           <ulink>
             <xsl:attribute name="url">
-              <xsl:value-of 
-                select="concat('../../libs/',
-                               ancestor::library/attribute::dirname, '/test/',
-                               @filename)"/>
+              <xsl:call-template name="href.target.relative">
+                <xsl:with-param name="target"
+                  select="concat($project.root, '/libs/',
+                    ancestor::library/attribute::dirname, '/test/',
+                    @filename)"/>
+              </xsl:call-template>
             </xsl:attribute>
             <xsl:value-of select="@filename"/>
           </ulink>
