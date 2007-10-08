@@ -391,7 +391,6 @@ Copyright (c) 2000-2001 University of Notre Dame. All rights reserved.
         <itemizedlist>
           <xsl:for-each select="$see-also-list">
             <xsl:sort select="string(@name|@concept)" data-type="text"/>
-            <xsl:variable name="have-listitems" select="1"/>
             <listitem>
               <para>
                 <xsl:call-template name="concept.link">
