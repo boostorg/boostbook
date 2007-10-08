@@ -382,26 +382,25 @@ Copyright (c) 2000-2001 University of Notre Dame. All rights reserved.
       </refsect1>
     </xsl:if>
 
-    <xsl:variable name="see-also-list" select="concept-ref | see-also | refines | refines-when-mutable | models-as-first-arg | models | models-when-mutable"/>
+    <xsl:variable name="see-also-list-0" select="concept-ref | see-also | refines | refines-when-mutable | models-as-first-arg | models | models-when-mutable"/>
+    <xsl:variable name="see-also-list-1" select="$see-also-list-0[string(@name | @concept) != string(../@name)]"/>
+    <xsl:variable name="see-also-list" select="$see-also-list-1[not(string(@name|@concept) = (preceding::*/@name | preceding::*/@concept | ancestor::*/@name | ancestor::*/@concept))]"/>
     <xsl:if test="$see-also-list">
       <refsect1>
-      <title>See also</title>
-      <itemizedlist>
-        <xsl:for-each select="$see-also-list">
-          <xsl:sort select="string(@name|@concept)" data-type="text"/>
-          <xsl:if test="string(@name|@concept) != string(../@name)">
-            <xsl:if test="not(string(@name|@concept) = (preceding::*/@name | preceding::*/@concept | ancestor::*/@name | ancestor::*/@concept))">
-              <listitem>
-                <para>
-                  <xsl:call-template name="concept.link">
-                    <xsl:with-param name="name" select="@name|@concept"/>
-                  </xsl:call-template>
-                </para>
-              </listitem>
-            </xsl:if>
-          </xsl:if>
-        </xsl:for-each>
-      </itemizedlist>
+        <title>See also</title>
+        <itemizedlist>
+          <xsl:for-each select="$see-also-list">
+            <xsl:sort select="string(@name|@concept)" data-type="text"/>
+            <xsl:variable name="have-listitems" select="1"/>
+            <listitem>
+              <para>
+                <xsl:call-template name="concept.link">
+                  <xsl:with-param name="name" select="@name|@concept"/>
+                </xsl:call-template>
+              </para>
+            </listitem>
+          </xsl:for-each>
+        </itemizedlist>
       </refsect1>
     </xsl:if>
 
