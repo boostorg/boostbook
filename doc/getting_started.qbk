@@ -87,7 +87,7 @@ Extract the DocBook XSL stylesheets to a directory on your hard disk
 (which we'll refer to as the `DOCBOOK_XSL_DIR`).
 
 * The DocBook DTD, available as a ZIP archive at the
-[@http://www.oasis-open.org/docbook/xml/4.2/index.shtml OASIS DocBook site].
+[@http://www.oasis-open.org/docbook/xml/4.2/index.1.shtml OASIS DocBook site].
 The package is called "DocBook XML 4.2". Extract the DocBook DTD to a directory
 on your hard disk (which we'll refer to as the `DOCBOOK_DTD_DIR`).
 You will want to extract this archive in a subdirectory!
