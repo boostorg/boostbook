@@ -121,7 +121,7 @@
 
   <xsl:template match="libraryinfo">
     <chapterinfo>
-      <xsl:apply-templates select="author|copyright|legalnotice"/>
+      <xsl:apply-templates select="author|authorgroup/author|copyright|legalnotice"/>
     </chapterinfo>
   </xsl:template>
 
