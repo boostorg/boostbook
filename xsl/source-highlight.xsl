@@ -165,14 +165,23 @@
 
   <!-- docbook does not allow <type> elements to have <emphasis> children,
     so put the type inside the emphasis. -->
+  <xsl:template match="type/text()" mode="highlight">
+  </xsl:template>
   <xsl:template match="type" mode="highlight">
     <xsl:choose>
       <xsl:when test="$boost.syntax.highlight='1'">
-        <emphasis role="bold"><xsl:copy-of select="."/></emphasis>
+        <emphasis role="bold">
+          <xsl:copy>
+            <xsl:apply-templates mode="annotation"/>
+          </xsl:copy>
+        </emphasis>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:copy-of select="."/>
+        <xsl:copy>
+          <xsl:apply-templates mode="annotation"/>
+        </xsl:copy>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
 </xsl:stylesheet>
