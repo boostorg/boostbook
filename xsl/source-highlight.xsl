@@ -163,25 +163,11 @@
     <xsl:apply-templates select="." mode="annotation"/>
   </xsl:template>
 
-  <!-- docbook does not allow <type> elements to have <emphasis> children,
-    so put the type inside the emphasis. -->
-  <xsl:template match="type/text()" mode="highlight">
-  </xsl:template>
+  <!-- docbook does not allow <type> elements to have <emphasis> or <link>
+    children.  The easiest solution seems to be just to discard the <type> element
+    from the output. -->
   <xsl:template match="type" mode="highlight">
-    <xsl:choose>
-      <xsl:when test="$boost.syntax.highlight='1'">
-        <emphasis role="bold">
-          <xsl:copy>
-            <xsl:apply-templates mode="annotation"/>
-          </xsl:copy>
-        </emphasis>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:copy>
-          <xsl:apply-templates mode="annotation"/>
-        </xsl:copy>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:apply-templates mode="highlight"/>
   </xsl:template>
 
 </xsl:stylesheet>

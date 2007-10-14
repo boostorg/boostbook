@@ -523,14 +523,7 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
       <xsl:text> </xsl:text>
 
       <!-- Output the type -->
-      <xsl:choose>
-        <xsl:when test="type">
-          <xsl:apply-templates select="type/*|type/text()" mode="annotation"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:apply-templates mode="annotation"/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:apply-templates mode="annotation"/>
 
       <!-- Output a comma if not at the end -->
       <xsl:if test="position() &lt; $n">

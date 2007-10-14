@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
    Copyright (c) 2002 Douglas Gregor <doug.gregor -at- gmail.com>
-  
+
    Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
    http://www.boost.org/LICENSE_1_0.txt)
@@ -22,10 +22,10 @@
   <xsl:template match="function|overloaded-function" mode="generate.id">
     <xsl:variable name="name" select="normalize-space(@name)"/>
     <xsl:variable name="translated-name"
-                  select="translate($name, 
-                                    '~!%^&amp;*()[].,&lt;&gt;|/ +-=', 
+                  select="translate($name,
+                                    '~!%^&amp;*()[].,&lt;&gt;|/ +-=',
                                     'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')"/>
-                      
+
     <xsl:choose>
       <xsl:when test="count(key('named-entities', $name))=1
                       and ($translated-name=$name)">
@@ -164,7 +164,7 @@
       <xsl:with-param name="name" select="$name"/>
       <xsl:with-param name="display-name" select="string(.)"/>
       <xsl:with-param name="unqualified-name" select="$unqualified-name"/>
-      <xsl:with-param name="nodes" 
+      <xsl:with-param name="nodes"
         select="key('functions', $unqualified-name)"/>
     </xsl:call-template>
   </xsl:template>
@@ -208,7 +208,7 @@
       <xsl:with-param name="name" select="$name"/>
       <xsl:with-param name="display-name" select="string(.)"/>
       <xsl:with-param name="unqualified-name" select="$unqualified-name"/>
-      <xsl:with-param name="nodes" 
+      <xsl:with-param name="nodes"
         select="key('enums', $unqualified-name)"/>
     </xsl:call-template>
   </xsl:template>
@@ -226,7 +226,7 @@
     </xsl:variable>
 
     <xsl:variable name="node" select="key('libraries', $name)"/>
-    
+
     <xsl:choose>
       <xsl:when test="count($node)=0">
         <xsl:message>
@@ -255,7 +255,7 @@
 
   <xsl:template match="macroname" mode="annotation">
     <xsl:param name="name" select="text()"/>
-    
+
     <xsl:variable name="node" select="key('macros', $name)"/>
     <xsl:choose>
       <xsl:when test="count($node) = 0">
@@ -291,7 +291,7 @@
 
   <xsl:template match="headername" mode="annotation">
     <xsl:param name="name" select="text()"/>
-    
+
     <xsl:variable name="node" select="key('headers', $name)"/>
     <xsl:choose>
       <xsl:when test="count($node) = 0">
@@ -383,4 +383,11 @@
   <xsl:template match="text()" mode="purpose">
     <xsl:apply-templates select="." mode="annotation"/>
   </xsl:template>
+
+<!--  docbook doesn't allow <type> to have <link> children,
+  so drop it from the output-->
+  <xsl:template match="type" mode="annotation">
+    <xsl:apply-templates mode="annotation"/>
+  </xsl:template>
+
 </xsl:stylesheet>
