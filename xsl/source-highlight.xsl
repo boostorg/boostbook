@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
    Copyright (c) 2002 Douglas Gregor <doug.gregor -at- gmail.com>
-  
+
    Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
    http://www.boost.org/LICENSE_1_0.txt)
@@ -31,7 +31,7 @@
     <xsl:param name="keywords"
       select="'asm auto bool break case catch char class const const_cast continue default delete do double dynamic_cast else enum explicit export extern false float for friend goto if inline int long mutable namespace new operator private protected public register reinterpret_cast return short signed sizeof static static_cast struct switch template this throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while'"/>
     <xsl:param name="best-match" select="''"/>
-    
+
     <!-- Determine the current keyword -->
     <xsl:variable name="keyword">
       <xsl:choose>
@@ -65,13 +65,13 @@
 
       <!-- Have we exhausted all keywords, but have one to highlight? If so,
            make sure we didn't just find part of an identifier. -->
-      <xsl:when 
+      <xsl:when
         test="$keyword='' and
-              not (starts-with(translate(substring-after($text, $best-match), 
+              not (starts-with(translate(substring-after($text, $best-match),
                                          $id-chars, $X), 'X')) and
               not (substring(translate(substring-before($text, $best-match),
                                        $id-chars, $X),
-                             string-length(substring-before($text, 
+                             string-length(substring-before($text,
                                                             $best-match)),
                              1) = 'X')">
         <!-- Copy text before this keyword -->
@@ -84,31 +84,31 @@
 
         <!-- Recurse on the rest of the text -->
         <xsl:call-template name="highlight-text">
-          <xsl:with-param name="text" 
+          <xsl:with-param name="text"
             select="substring-after($text, $best-match)"/>
         </xsl:call-template>
       </xsl:when>
 
-      <!-- We thought we had a keyword to highlight, but it was part of an 
+      <!-- We thought we had a keyword to highlight, but it was part of an
            identifier. So output all of the text up to (but not including!)
            the last letter of the identifier, and try again to
            highlight. -->
       <xsl:when test="$keyword=''">
         <xsl:value-of select="substring-before($text, $best-match)"/>
-        <xsl:value-of 
+        <xsl:value-of
           select="substring($best-match, 1, string-length($best-match)-1)"/>
         <xsl:call-template name="highlight-text">
           <xsl:with-param name="text"
-            select="concat(substring($best-match, string-length($best-match), 
+            select="concat(substring($best-match, string-length($best-match),
                            1), substring-after($text, $best-match))"/>
         </xsl:call-template>
       </xsl:when>
-      
+
       <!-- Does the text contain this keyword with a better match than we
            previously had? -->
-      <xsl:when 
+      <xsl:when
         test="contains($text, $keyword) and
-              (($best-match = '') or 
+              (($best-match = '') or
                (string-length(substring-before($text, $keyword)) &lt;
                 string-length(substring-before($text, $best-match))))">
         <!-- Recurse with the current keyword as the new best match -->
@@ -137,8 +137,7 @@
           <xsl:when test="local-name(.)='last-revision'">
             <xsl:attribute
               name="rev:last-revision"
-              namespace="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision"
->
+              namespace="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision">
               <xsl:value-of select="."/>
             </xsl:attribute>
           </xsl:when>
@@ -162,5 +161,18 @@
   <xsl:template match="classname|methodname|functionname|libraryname|enumname|
                        conceptname|macroname" mode="highlight">
     <xsl:apply-templates select="." mode="annotation"/>
+  </xsl:template>
+
+  <!-- docbook does not allow <type> elements to have <emphasis> children,
+    so put the type inside the emphasis. -->
+  <xsl:template match="type" mode="highlight">
+    <xsl:choose>
+      <xsl:when test="$boost.syntax.highlight='1'">
+        <emphasis role="bold"><xsl:copy-of select="."/></emphasis>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 </xsl:stylesheet>
