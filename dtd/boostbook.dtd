@@ -51,12 +51,14 @@
 <!ENTITY % boost.template.mix
         "template-type-parameter|template-nontype-parameter|template-varargs">
 
-<!ENTITY % boost.class.mix
+<!ENTITY % boost.class.members
         "static-constant|typedef|enum|
          copy-assignment|constructor|destructor|method-group|
-         free-function-group|function|method|overloaded-function|
-         overloaded-method|data-member|class|class-specialization|struct|
+         method|overloaded-method|data-member|class|class-specialization|struct|
          struct-specialization|union|union-specialization">
+
+<!ENTITY % boost.class.mix
+        "%boost.class.members;|free-function-group|function|overloaded-function">
 
 <!ENTITY % boost.class.content
              "template?, inherit*, purpose?, description?,
@@ -153,7 +155,7 @@
     name  CDATA  #REQUIRED
     %boost.common.attrib;>
 
-<!ELEMENT access (%boost.class.mix;)+>
+<!ELEMENT access (%boost.class.members;)+>
 <!ATTLIST access
     name CDATA #REQUIRED
     %boost.common.attrib;>
