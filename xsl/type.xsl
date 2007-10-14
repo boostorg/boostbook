@@ -438,9 +438,7 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
             <xsl:with-param name="link-type" select="'anchor'"/>
           </xsl:call-template>
         </para>
-        <para>
-          <xsl:apply-templates select="description"/>
-        </para>
+        <xsl:apply-templates select="description"/>
       </listitem>
     </xsl:if>
   </xsl:template>
