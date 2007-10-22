@@ -904,7 +904,7 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
     <xsl:if test="contains(local-name(.), 'class')">
       <xsl:if test="count(static-constant|typedef|enum|
         copy-assignment|constructor|destructor|method-group|
-        function|method|overloaded-method|data-member|
+        method|overloaded-method|data-member|
         class|class-specialization|
         struct|struct-specialization|
         union|union-specialization) &gt; 0">
