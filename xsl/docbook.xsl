@@ -468,7 +468,7 @@ Error: XSL template 'link-or-anchor' called with invalid link-type '<xsl:value-o
   <xsl:template match="part/part/partinfo|part/article/articleinfo">
     <chapterinfo><xsl:apply-templates/></chapterinfo>
   </xsl:template>
-  <xsl:template match="part/part/chapter">
+  <xsl:template match="part/part/chapter|part/part/appendix">
     <section>
       <xsl:for-each select="./@*">
         <xsl:attribute name="{name(.)}">
@@ -478,7 +478,7 @@ Error: XSL template 'link-or-anchor' called with invalid link-type '<xsl:value-o
       <xsl:apply-templates/>
     </section>
   </xsl:template>
-  <xsl:template match="part/part/chapter/chapterinfo">
+  <xsl:template match="part/part/chapter/chapterinfo|part/part/appendix/appendixinfo">
     <sectioninfo><xsl:apply-templates/></sectioninfo>
   </xsl:template>
 </xsl:stylesheet>
