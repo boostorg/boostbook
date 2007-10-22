@@ -94,19 +94,24 @@
                                 id            CDATA  #IMPLIED</text>
 </entity>
 
-<entity name="boost.class.mix"
+<entity name="boost.class.members"
         type="param"
 >
 <text-expanded>static-constant|typedef|enum|
          copy-assignment|constructor|destructor|method-group|
-         free-function-group|function|method|overloaded-function|
-         overloaded-method|data-member|class|class-specialization|struct|
+         method|overloaded-method|data-member|class|class-specialization|struct|
          struct-specialization|union|union-specialization</text-expanded>
 <text>static-constant|typedef|enum|
          copy-assignment|constructor|destructor|method-group|
-         free-function-group|function|method|overloaded-function|
-         overloaded-method|data-member|class|class-specialization|struct|
+         |method|overloaded-method|data-member|class|class-specialization|struct|
          struct-specialization|union|union-specialization</text>
+</entity>
+
+<entity name="boost.class.mix"
+        type="param"
+>
+<text-expanded>free-function-group|function|overloaded-function|%boost.class.members;</text-expanded>
+<text>free-function-group|function|overloaded-function|%boost.class.members;</text>
 </entity>
 
 <entity name="boost.testsuite.tests"
@@ -2281,10 +2286,7 @@
       <element-name name="constructor"/>
       <element-name name="destructor"/>
       <element-name name="method-group"/>
-      <element-name name="free-function-group"/>
-      <element-name name="function"/>
       <element-name name="method"/>
-      <element-name name="overloaded-function"/>
       <element-name name="overloaded-method"/>
       <element-name name="data-member"/>
       <element-name name="class"/>
@@ -2297,7 +2299,7 @@
   </content-model-expanded>
   <content-model>
     <sequence-group occurrence="+">
-      <parament-name name="boost.class.mix"/>
+      <parament-name name="boost.class.members"/>
     </sequence-group>
   </content-model>
   <purpose>Declares an access specification for class members</purpose>
