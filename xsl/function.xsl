@@ -997,6 +997,11 @@
         <para>
           <xsl:call-template name="preformatted">
             <xsl:with-param name="text">
+              <xsl:call-template name="anchor">
+                <xsl:with-param name="to">
+                  <xsl:call-template name="generate.id"/>
+                </xsl:with-param>
+              </xsl:call-template>
               <xsl:for-each select="signature">
                 <xsl:call-template name="function">
                   <xsl:with-param name="indentation" select="0"/>
@@ -1005,11 +1010,6 @@
                   <xsl:with-param name="standalone" select="true()"/>
                 </xsl:call-template>
               </xsl:for-each>
-              <xsl:call-template name="anchor">
-                <xsl:with-param name="to">
-                  <xsl:call-template name="generate.id"/>
-                </xsl:with-param>
-              </xsl:call-template>
             </xsl:with-param>
           </xsl:call-template>
         </para>
