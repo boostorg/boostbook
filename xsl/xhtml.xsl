@@ -12,9 +12,9 @@
 
   <!-- Import the HTML chunking stylesheet -->
   <xsl:import
-    href="http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl"/>
+    href="http://docbook.sourceforge.net/release/xsl/current/xhtml/chunk.xsl"/>
   <xsl:import
-    href="http://docbook.sourceforge.net/release/xsl/current/html/math.xsl"/>
+    href="http://docbook.sourceforge.net/release/xsl/current/xhtml/math.xsl"/>
 
   <xsl:import href="chunk-common.xsl"/>
   <xsl:import href="docbook-layout.xsl"/>
@@ -41,9 +41,9 @@
   <xsl:param name="toc.max.depth">2</xsl:param>
   <xsl:param name="callout.graphics.number.limit">15</xsl:param>
   <xsl:param name = "admon.graphics.path"
-            select = "concat($boost.root, '/doc/html/images/')"/>
+            select = "concat($boost.root, '/doc/xhtml/images/')"/>
   <xsl:param name = "navig.graphics.path"
-            select = "concat($boost.root, '/doc/html/images/')"/>
+            select = "concat($boost.root, '/doc/xhtml/images/')"/>
 
 
    <xsl:param name="admon.style">
@@ -72,7 +72,6 @@ sect5     toc
 section   toc
 set       toc,title
   </xsl:param>
-
 
   <xsl:template name="format.cvs.revision">
     <xsl:param name="text"/>
@@ -306,3 +305,4 @@ set       toc,title
 </xsl:template>
 
 </xsl:stylesheet>
+
