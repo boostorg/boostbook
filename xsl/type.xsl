@@ -880,7 +880,19 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
       <xsl:with-param name="keyword" select="$class-key"/>
     </xsl:call-template>
     <xsl:text> </xsl:text>
-    <xsl:value-of select="@name"/>
+
+    <!--  Make the class name a link to the class reference page (useful for nested classes) -->
+    <xsl:call-template name="internal-link">
+      <xsl:with-param name="to">
+        <xsl:call-template name="generate.id">
+          <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="text">
+        <xsl:value-of select="@name"/>
+      </xsl:with-param>
+    </xsl:call-template>
+
     <xsl:apply-templates select="specialization"/>
 
     <xsl:choose>
