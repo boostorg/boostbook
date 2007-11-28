@@ -858,7 +858,6 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
             <xsl:apply-templates select="purpose" mode="comment"/>
           </xsl:with-param>
         </xsl:call-template>
-        <xsl:text>&#10;</xsl:text>
       </xsl:if>
     </xsl:if>
 
