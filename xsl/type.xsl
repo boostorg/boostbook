@@ -529,7 +529,15 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
       <xsl:text> </xsl:text>
 
       <!-- Output the type -->
-      <xsl:apply-templates mode="annotation"/>
+      <xsl:apply-templates select="type" mode="annotation"/>
+      <!-- Make it still work if they left out the type element, to not break old (invalid) docs -->
+      <xsl:if test="not(type)">
+        <xsl:message>
+          <xsl:text>Warning: missing 'type' element inside 'inherit'</xsl:text>
+        </xsl:message>
+        <xsl:call-template name="print.warning.context"/>
+        <xsl:apply-templates mode="annotation"/>
+      </xsl:if>
 
       <!-- Output a comma if not at the end -->
       <xsl:if test="position() &lt; $n">
@@ -549,8 +557,8 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
         <xsl:call-template name="highlight-comment">
           <xsl:with-param name="text">
             <xsl:text>// </xsl:text>
-            <xsl:apply-templates select="purpose/*|purpose/text()"
-              mode="annotation"/>
+            <xsl:apply-templates select="purpose"
+              mode="comment"/>
           </xsl:with-param>
         </xsl:call-template>
       </xsl:if>
@@ -1210,7 +1218,7 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
           <xsl:call-template name="highlight-comment">
             <xsl:with-param name="text">
               <xsl:text>// </xsl:text>
-              <xsl:apply-templates select="purpose/*|purpose/text()" mode="annotation"/>
+              <xsl:apply-templates select="purpose" mode="comment"/>
             </xsl:with-param>
           </xsl:call-template>
 
@@ -1435,10 +1443,7 @@ Unknown type element "<xsl:value-of select="local-name(.)"/>" in type.display.na
           </xsl:call-template>
         </term>
         <listitem>
-          <xsl:apply-templates
-            select="purpose/*|purpose/text()|
-                    description/*|description/text()"
-            mode="annotation"/>
+          <xsl:apply-templates select="purpose|description" mode="comment"/>
         </listitem>
       </varlistentry>
     </xsl:if>
