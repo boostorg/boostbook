@@ -34,13 +34,10 @@
   </xsl:template>
 
   <xsl:template match="class-specialization|struct-specialization|union-specialization" mode="generate.id">
-    <xsl:variable name="specialization-name">
-      <xsl:call-template name="fully-qualified-name">
-        <xsl:with-param name="node" select="."/>
-        <xsl:with-param name="separator" select="'.'"/>
-      </xsl:call-template>
-    </xsl:variable>
-    <xsl:value-of select="translate($specialization-name, '&lt;&gt;', '__')"/>
+    <xsl:call-template name="fully-qualified-name">
+      <xsl:with-param name="node" select="."/>
+      <xsl:with-param name="separator" select="'.'"/>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="typedef" mode="generate.id">
@@ -64,6 +61,15 @@
     </xsl:call-template>
     <xsl:text>.</xsl:text>
     <xsl:value-of select="@name"/>
+  </xsl:template>
+
+  <xsl:template match="function | overloaded-function" mode="generate.id">
+    <xsl:call-template name="fully-qualified-name">
+      <xsl:with-param name="node" select="."/>
+      <xsl:with-param name="separator" select="'.'"/>
+    </xsl:call-template>
+    <xsl:text>_</xsl:text>
+    <xsl:value-of select="generate-id(.)"/>
   </xsl:template>
 
   <!-- Display the full name of the current node, e.g., "Class

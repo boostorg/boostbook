@@ -15,9 +15,11 @@
   <xsl:template name="generate.id">
     <xsl:param name="node" select="."/>
     <xsl:apply-templates select="$node" mode="generate.id"/>
-    <xsl:if test="ancestor::class-specialization|ancestor::struct-specialization|ancestor::union-specialization">
-      <xsl:text>-spec</xsl:text>
-      <xsl:value-of select="generate-id(.)"/>
+    <xsl:if test="$node/ancestor-or-self::class-specialization|
+      $node/ancestor-or-self::struct-specialization|
+      $node/ancestor-or-self::union-specialization">
+      <xsl:text>_</xsl:text>
+      <xsl:value-of select="generate-id($node)"/>
     </xsl:if>
   </xsl:template>
 
