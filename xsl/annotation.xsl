@@ -351,6 +351,10 @@
     </emphasis>
   </xsl:template>
 
+  <xsl:template match="description" mode="annotation">
+    <xsl:apply-templates mode="annotation"/>
+  </xsl:template>
+
   <xsl:template match="comment()" mode="annotation">
     <xsl:copy/>
   </xsl:template>
