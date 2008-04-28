@@ -314,6 +314,7 @@
         <xsl:text>typename</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:if test="$parameter/@variadic"><xsl:text>...</xsl:text></xsl:if>
     <xsl:text> </xsl:text>
 
     <xsl:call-template name="template.parameter.name">
