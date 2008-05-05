@@ -27,37 +27,32 @@
   <xsl:param name="boost.compact.typedef">1</xsl:param>
 
   <xsl:template match="class|struct|union" mode="generate.id">
-    <xsl:call-template name="fully-qualified-name">
+    <xsl:call-template name="fully-qualified-id">
       <xsl:with-param name="node" select="."/>
-      <xsl:with-param name="separator" select="'.'"/>
     </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="class-specialization|struct-specialization|union-specialization" mode="generate.id">
-    <xsl:call-template name="fully-qualified-name">
+    <xsl:call-template name="fully-qualified-id">
       <xsl:with-param name="node" select="."/>
-      <xsl:with-param name="separator" select="'.'"/>
     </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="typedef" mode="generate.id">
-    <xsl:call-template name="fully-qualified-name">
+    <xsl:call-template name="fully-qualified-id">
       <xsl:with-param name="node" select="."/>
-      <xsl:with-param name="separator" select="'.'"/>
     </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="enum" mode="generate.id">
-    <xsl:call-template name="fully-qualified-name">
+    <xsl:call-template name="fully-qualified-id">
       <xsl:with-param name="node" select="."/>
-      <xsl:with-param name="separator" select="'.'"/>
     </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="enumvalue" mode="generate.id">
-    <xsl:call-template name="fully-qualified-name">
+    <xsl:call-template name="fully-qualified-id">
       <xsl:with-param name="node" select="parent::enum"/>
-      <xsl:with-param name="separator" select="'.'"/>
     </xsl:call-template>
     <xsl:text>.</xsl:text>
     <xsl:value-of select="@name"/>

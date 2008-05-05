@@ -128,6 +128,17 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Build the fully-qualified id of the given node -->
+  <xsl:template name="fully-qualified-id">
+    <xsl:param name="node"/>
+    <xsl:variable name="name">
+      <xsl:apply-templates select="$node" mode="fully-qualified-name">
+        <xsl:with-param name="separator" select="'@'"/>
+      </xsl:apply-templates>
+    </xsl:variable>
+    <xsl:value-of select="translate($name, '.@', '_.')"/>
+  </xsl:template>
+
   <!-- Build the fully-qualified name of the given node -->
   <xsl:template name="fully-qualified-name">
     <xsl:param name="node"/>
