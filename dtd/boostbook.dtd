@@ -183,7 +183,9 @@
 <!ATTLIST specialization %boost.common.attrib;>
 
 <!ELEMENT template-arg ANY>
-<!ATTLIST template-arg %boost.common.attrib;>
+<!ATTLIST template-arg
+    pack    CDATA  #IMPLIED 
+    %boost.common.attrib;>
 
 <!ELEMENT default ANY>
 <!ATTLIST default %boost.common.attrib;>

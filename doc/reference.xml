@@ -1302,6 +1302,7 @@
 
 <row><entry>last-revision</entry><entry>#IMPLIED</entry><entry>CDATA</entry><entry>Set to $Date$ to keep "last revised" information in sync with CVS changes</entry></row>
 <row><entry>id</entry><entry>#IMPLIED</entry><entry>CDATA</entry><entry>A global identifier for this element</entry></row>
+<row><entry>pack</entry><entry>#IMPLIED</entry><entry>CDATA</entry><entry>Set to '1' if this is a pack exapansion.</entry></row>
 <row><entry>xml:base</entry><entry>#IMPLIED</entry><entry>CDATA</entry><entry>Implementation detail used by XIncludes</entry></row>
 </tbody>
         </tgroup>

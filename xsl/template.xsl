@@ -440,6 +440,9 @@
       <xsl:text>, </xsl:text>
     </xsl:if>
     <xsl:apply-templates mode="highlight"/>
+    <xsl:if test="@pack=1">
+      <xsl:text>...</xsl:text>
+    </xsl:if>
   </xsl:template>
 </xsl:stylesheet>
 
