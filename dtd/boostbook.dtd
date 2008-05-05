@@ -191,6 +191,7 @@
 <!ELEMENT inherit (type, purpose?)>
 <!ATTLIST inherit
     access  CDATA  #IMPLIED
+    pack    CDATA  #IMPLIED 
     %boost.common.attrib;>
 
 <!ELEMENT purpose ANY>
@@ -399,7 +400,8 @@
 
 <!ELEMENT parameter (paramtype, default?, description?)>
 <!ATTLIST parameter
-     name CDATA #IMPLIED>
+     name CDATA #IMPLIED
+     pack CDATA #IMPLIED>
 
 <!ELEMENT programlisting ANY>
 <!ATTLIST programlisting

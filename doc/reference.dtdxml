@@ -831,6 +831,7 @@
 <attlist name="inherit">
 <attdecl>
     access  CDATA  #REQUIRED
+    pack    CDATA  #IMPLIED 
     %boost.common.attrib;</attdecl>
 <attribute name="last-revision"
            type="#IMPLIED"
@@ -846,6 +847,12 @@
            type="#IMPLIED"
            value="CDATA"
            default=""/>
+<attribute name="pack"
+           type="#IMPLIED"
+           value="CDATA"
+           default="">
+  <purpose>Set to '1' if this is a pack exapansion.</purpose>
+</attribute>
 <attribute name="xml:base"
            type="#IMPLIED"
            value="CDATA"
