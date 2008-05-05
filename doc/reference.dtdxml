@@ -17,7 +17,7 @@
 <attpurpose name="filename">The name of the file associated with this element</attpurpose>
 <attpurpose name="specifiers">The specifiers for this function, e.g., <code>inline</code>, <code>static</code>, etc.</attpurpose>
 <attpurpose name="cv">cv-qualifiers for this method, e.g., <code>const volatile</code></attpurpose>
-<attpurpose name="variadic">Set to '1' if the template parameter is a variadic parameter.</attpurpose>
+<attpurpose name="pack">Set to '1' if the parameter is a parameter pack.</attpurpose>
 
 <entity name="boost.class.content"
         type="param"
@@ -534,13 +534,13 @@
 <attlist name="template-type-parameter">
 <attdecl>
     name                     CDATA  #REQUIRED
-    variadic                 CDATA  #IMPLIED 
+    pack                     CDATA  #IMPLIED 
     %boost.common.attrib;</attdecl>
 <attribute name="last-revision"
            type="#IMPLIED"
            value="CDATA"
            default=""/>
-<attribute name="variadic"
+<attribute name="pack"
            type="#IMPLIED"
            value="CDATA"
            default=""/>
@@ -2715,13 +2715,13 @@
 <attlist name="template-nontype-parameter">
 <attdecl>
     name                     CDATA  #REQUIRED
-    variadic                 CDATA  #IMPLIED 
+    pack                     CDATA  #IMPLIED 
     %boost.common.attrib;</attdecl>
 <attribute name="last-revision"
            type="#IMPLIED"
            value="CDATA"
            default=""/>
-<attribute name="variadic"
+<attribute name="pack"
            type="#IMPLIED"
            value="CDATA"
            default=""/>

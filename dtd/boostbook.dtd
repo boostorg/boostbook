@@ -167,13 +167,13 @@
 <!ELEMENT template-type-parameter (default?, purpose?)>
 <!ATTLIST template-type-parameter
     name                     CDATA  #REQUIRED
-    variadic                 CDATA  #IMPLIED 
+    pack                     CDATA  #IMPLIED 
     %boost.common.attrib;>
 
 <!ELEMENT template-nontype-parameter (type, default?, purpose?)>
 <!ATTLIST template-nontype-parameter
     name                     CDATA  #REQUIRED
-    variadic                 CDATA  #IMPLIED 
+    pack                     CDATA  #IMPLIED 
     %boost.common.attrib;>
 
 <!ELEMENT template-varargs EMPTY>
