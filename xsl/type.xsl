@@ -63,15 +63,6 @@
     <xsl:value-of select="@name"/>
   </xsl:template>
 
-  <xsl:template match="function | overloaded-function" mode="generate.id">
-    <xsl:call-template name="fully-qualified-name">
-      <xsl:with-param name="node" select="."/>
-      <xsl:with-param name="separator" select="'.'"/>
-    </xsl:call-template>
-    <xsl:text>_</xsl:text>
-    <xsl:value-of select="generate-id(.)"/>
-  </xsl:template>
-
   <!-- Display the full name of the current node, e.g., "Class
        template function". -->
   <xsl:template name="type.display.name">
