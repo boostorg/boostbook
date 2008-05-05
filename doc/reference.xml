@@ -1807,6 +1807,7 @@
           <tbody>
 
 <row><entry>name</entry><entry>#IMPLIED</entry><entry>CDATA</entry><entry>The name of the element being declared to referenced</entry></row>
+<row><entry>pack</entry><entry>#IMPLIED</entry><entry>CDATA</entry><entry>Set to '1' if the parameter is a parameter pack.</entry></row>
 </tbody>
         </tgroup>
       </informaltable>

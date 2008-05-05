@@ -2165,8 +2165,13 @@
 
 <attlist name="parameter">
 <attdecl>
-     name CDATA #IMPLIED</attdecl>
+     name CDATA #IMPLIED
+     pack CDATA #IMPLIED</attdecl>
 <attribute name="name"
+           type="#IMPLIED"
+           value="CDATA"
+           default=""/>
+<attribute name="pack"
            type="#IMPLIED"
            value="CDATA"
            default=""/>
