@@ -52,7 +52,18 @@
         </xsl:when>
 
         <xsl:otherwise>
-            <xsl:variable name="href.to.uri" select="$target"/>
+            <xsl:variable name="href.to.uri">
+                <xsl:choose>
+                    <xsl:when test="starts-with($target, '/')">
+                        <xsl:value-of select="concat($boost.root,
+                            substring($target, 1))"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$target"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+
             <xsl:variable name="href.from.uri">
                 <xsl:call-template name="href.target.uri">
                     <xsl:with-param name="object" select="$context"/>
