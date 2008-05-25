@@ -44,6 +44,7 @@
             select = "concat($boost.root, '/doc/html/images/')"/>
   <xsl:param name = "navig.graphics.path"
             select = "concat($boost.root, '/doc/html/images/')"/>
+  <xsl:param name = "header.javascript" select="false()"/>
 
 
    <xsl:param name="admon.style">
@@ -193,6 +194,20 @@ set       toc,title
     </xsl:call-template>
     <xsl:call-template name="gentext.space"/>
     <xsl:apply-templates select="holder" mode="titlepage.mode"/>
+  </xsl:template>
+
+  <!-- Add javascript -->
+
+  <xsl:template name="user.head.content">
+    <xsl:if test="$header.javascript">
+      <script type="text/javascript">
+        <xsl:attribute name="src">
+          <xsl:call-template name="href.target.relative">
+            <xsl:with-param name="target" select="$header.javascript"/>
+          </xsl:call-template>
+        </xsl:attribute>
+      </script>
+    </xsl:if>
   </xsl:template>
 
   <!-- Footer License -->
