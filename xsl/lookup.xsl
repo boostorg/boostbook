@@ -15,12 +15,6 @@
   <xsl:template name="generate.id">
     <xsl:param name="node" select="."/>
     <xsl:apply-templates select="$node" mode="generate.id"/>
-    <xsl:if test="$node/ancestor-or-self::class-specialization|
-      $node/ancestor-or-self::struct-specialization|
-      $node/ancestor-or-self::union-specialization">
-      <xsl:text>_</xsl:text>
-      <xsl:value-of select="generate-id($node)"/>
-    </xsl:if>
   </xsl:template>
 
   <xsl:template match="*" mode="generate.id">
@@ -128,6 +122,23 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Build the fully-qualified id of the given node -->
+  <xsl:template name="fully-qualified-id">
+    <xsl:param name="node"/>
+    <xsl:variable name="name">
+      <xsl:apply-templates select="$node" mode="fully-qualified-name">
+        <xsl:with-param name="separator" select="'@'"/>
+      </xsl:apply-templates>
+    </xsl:variable>
+    <xsl:value-of select="translate(normalize-space(translate($name, '.', ' ')), ' @', '_.')"/>
+    <xsl:if test="$node/ancestor-or-self::class-specialization|
+      $node/ancestor-or-self::struct-specialization|
+      $node/ancestor-or-self::union-specialization">
+      <xsl:text>_</xsl:text>
+      <xsl:value-of select="generate-id($node)"/>
+    </xsl:if>
+  </xsl:template>
+
   <!-- Build the fully-qualified name of the given node -->
   <xsl:template name="fully-qualified-name">
     <xsl:param name="node"/>
@@ -183,27 +194,23 @@
     <xsl:value-of select="@name"/>
   </xsl:template>
 
-  <xsl:template name="print-specialization-name">
+  <xsl:template match="template-arg" mode="print-name">
+    <xsl:if test="position() &gt; 1">
+      <xsl:text>, </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="text()"/>
+    <xsl:if test="@pack=1">
+      <xsl:text>...</xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template
+      match="struct-specialization|class-specialization|union-specialization"
+      mode="print-name">
     <xsl:value-of select="@name"/>
     <xsl:text>&lt;</xsl:text>
-    <xsl:value-of select="specialization/template-arg[position() = 1]/text()"/>
-    <xsl:for-each select="specialization/template-arg[position() &gt; 1]">
-      <xsl:text>,</xsl:text>
-      <xsl:value-of select="text()"/>
-    </xsl:for-each>
+    <xsl:apply-templates select="specialization/template-arg" mode="print-name"/>
     <xsl:text>&gt;</xsl:text>
-  </xsl:template>
-
-  <xsl:template match="struct-specialization" mode="print-name">
-    <xsl:call-template name="print-specialization-name"/>
-  </xsl:template>
-
-  <xsl:template match="class-specialization" mode="print-name">
-    <xsl:call-template name="print-specialization-name"/>
-  </xsl:template>
-
-  <xsl:template match="union-specialization" mode="print-name">
-    <xsl:call-template name="print-specialization-name"/>
   </xsl:template>
 
   <xsl:template name="name-matches-node">
