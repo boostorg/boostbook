@@ -296,6 +296,7 @@ Error: XSL template 'link-or-anchor' called with invalid link-type '<xsl:value-o
       </refnamediv>
       <refsynopsisdiv>
         <synopsis>
+          <xsl:processing-instruction name="dbfo">keep-together="auto"</xsl:processing-instruction>
           <xsl:copy-of select="$synopsis"/>
         </synopsis>
       </refsynopsisdiv>
@@ -330,6 +331,7 @@ Error: XSL template 'link-or-anchor' called with invalid link-type '<xsl:value-o
     <xsl:param name="text"/>
 
     <synopsis>
+      <xsl:processing-instruction name="dbfo">keep-together="auto"</xsl:processing-instruction>
       <xsl:copy-of select="$text"/>
     </synopsis>
   </xsl:template>
