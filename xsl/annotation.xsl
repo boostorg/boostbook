@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
    Copyright (c) 2002 Douglas Gregor <doug.gregor -at- gmail.com>
-  
+
    Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
    http://www.boost.org/LICENSE_1_0.txt)
   -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="1.0">
-  <xsl:key name="classes" match="class|struct|union" use="@name"/>
+  <xsl:key name="classes" match="class|struct|union|typedef" use="@name"/>
   <xsl:key name="methods" match="method|overloaded-method" use="@name"/>
   <xsl:key name="functions" match="function|overloaded-function" use="@name"/>
   <xsl:key name="enums" match="enum" use="@name"/>
@@ -16,28 +16,13 @@
   <xsl:key name="libraries" match="library" use="@name"/>
   <xsl:key name="macros" match="macro" use="@name"/>
   <xsl:key name="headers" match="header" use="@name"/>
+  <xsl:key name="globals" match="namespace/data-member|header/data-member" use="@name"/>
   <xsl:key name="named-entities" match="class|struct|union|concept|function|overloaded-function|macro|library|namespace/data-member|header/data-member|*[attribute::id]" use="@name|@id"/>
 
   <xsl:template match="function|overloaded-function" mode="generate.id">
-    <xsl:variable name="name" select="normalize-space(@name)"/>
-    <xsl:variable name="translated-name"
-                  select="translate($name, 
-                                    '~!%^&amp;*()[].,&lt;&gt;|/ +-=', 
-                                    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')"/>
-                      
-    <xsl:choose>
-      <xsl:when test="count(key('named-entities', $name))=1
-                      and ($translated-name=$name)">
-        <xsl:call-template name="fully-qualified-name">
-          <xsl:with-param name="node" select="."/>
-          <xsl:with-param name="separator" select="'.'"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="generate-id(.)"/>
-        <xsl:text>-bb</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:call-template name="fully-qualified-id">
+      <xsl:with-param name="node" select="."/>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="classname" mode="annotation">
@@ -79,6 +64,36 @@
       <xsl:with-param name="display-name" select="string(.)"/>
       <xsl:with-param name="unqualified-name" select="$unqualified-name"/>
       <xsl:with-param name="nodes" select="key('classes', $unqualified-name)"/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="globalname" mode="annotation">
+    <!-- Determine the (possibly qualified) global name we are looking for -->
+    <xsl:variable name="name">
+      <xsl:choose>
+        <xsl:when test="@alt">
+          <xsl:value-of select="@alt"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="string(.)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <!-- Determine the unqualified name -->
+    <xsl:variable name="unqualified-name">
+      <xsl:call-template name="strip-qualifiers">
+        <xsl:with-param name="name" select="$name"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:call-template name="cxx-link-name">
+      <xsl:with-param name="lookup" select="."/>
+      <xsl:with-param name="type" select="'data-member'"/>
+      <xsl:with-param name="name" select="$name"/>
+      <xsl:with-param name="display-name" select="string(.)"/>
+      <xsl:with-param name="unqualified-name" select="$unqualified-name"/>
+      <xsl:with-param name="nodes" select="key('globals', $unqualified-name)"/>
     </xsl:call-template>
   </xsl:template>
 
@@ -163,7 +178,7 @@
       <xsl:with-param name="name" select="$name"/>
       <xsl:with-param name="display-name" select="string(.)"/>
       <xsl:with-param name="unqualified-name" select="$unqualified-name"/>
-      <xsl:with-param name="nodes" 
+      <xsl:with-param name="nodes"
         select="key('functions', $unqualified-name)"/>
     </xsl:call-template>
   </xsl:template>
@@ -207,7 +222,7 @@
       <xsl:with-param name="name" select="$name"/>
       <xsl:with-param name="display-name" select="string(.)"/>
       <xsl:with-param name="unqualified-name" select="$unqualified-name"/>
-      <xsl:with-param name="nodes" 
+      <xsl:with-param name="nodes"
         select="key('enums', $unqualified-name)"/>
     </xsl:call-template>
   </xsl:template>
@@ -225,7 +240,7 @@
     </xsl:variable>
 
     <xsl:variable name="node" select="key('libraries', $name)"/>
-    
+
     <xsl:choose>
       <xsl:when test="count($node)=0">
         <xsl:message>
@@ -254,7 +269,7 @@
 
   <xsl:template match="macroname" mode="annotation">
     <xsl:param name="name" select="text()"/>
-    
+
     <xsl:variable name="node" select="key('macros', $name)"/>
     <xsl:choose>
       <xsl:when test="count($node) = 0">
@@ -290,7 +305,7 @@
 
   <xsl:template match="headername" mode="annotation">
     <xsl:param name="name" select="text()"/>
-    
+
     <xsl:variable name="node" select="key('headers', $name)"/>
     <xsl:choose>
       <xsl:when test="count($node) = 0">
@@ -348,6 +363,10 @@
     <emphasis role="bold">
       <xsl:apply-templates mode="annotation"/>
     </emphasis>
+  </xsl:template>
+
+  <xsl:template match="description" mode="annotation">
+    <xsl:apply-templates mode="annotation"/>
   </xsl:template>
 
   <xsl:template match="comment()" mode="annotation">

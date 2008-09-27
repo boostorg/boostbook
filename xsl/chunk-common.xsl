@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
    Copyright (c) 2002 Douglas Gregor <doug.gregor -at- gmail.com>
-  
+
    Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
    http://www.boost.org/LICENSE_1_0.txt)
@@ -27,7 +27,8 @@
     <xsl:variable name="basename" select="substring-before( $their, $html.ext )"/>
     <xsl:choose>
         <xsl:when test="not($recursive)">
-            <xsl:value-of select="translate( $basename, '.', '/' )"/>
+            <!-- translate dots into directory separators, and replace illegal file path characters with underscores -->
+            <xsl:value-of select="translate($basename, '.&lt;&gt;\:*?&quot;|,()!+=&amp;', '/_______________' )"/>
             <xsl:value-of select="$html.ext"/>
         </xsl:when>
         <xsl:otherwise>
