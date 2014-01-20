@@ -28,6 +28,7 @@
    <xsl:param name = "nav.layout">
       <xsl:choose>
          <xsl:when test = "$boost.defaults='Boost'">horizontal</xsl:when>
+         <xsl:when test = "$boost.defaults='Boost2'">horizontal</xsl:when>
          <xsl:otherwise>none</xsl:otherwise>
       </xsl:choose>
    </xsl:param>
@@ -52,27 +53,27 @@
    <xsl:param name = "boost.website"   select = "'http://www.boost.org'"/>
    <!-- Logo image location, leave empty for no logo -->
    <xsl:param name = "boost.image.src">
-      <xsl:if test = "$boost.defaults = 'Boost'">
+      <xsl:if test = "starts-with($boost.defaults, 'Boost')">
          <xsl:value-of select = "concat($boost.root, '/boost.png')"/>
       </xsl:if>
    </xsl:param>
    <xsl:param name = "boost.image.alt">
-      <xsl:if test = "$boost.defaults = 'Boost'">
+      <xsl:if test = "starts-with($boost.defaults, 'Boost')">
          <xsl:value-of select = "'Boost C++ Libraries'"/>
       </xsl:if>
    </xsl:param>
    <xsl:param name = "boost.image.w">
-      <xsl:if test = "$boost.defaults = 'Boost'">
+      <xsl:if test = "starts-with($boost.defaults, 'Boost')">
          <xsl:value-of select = "277"/>
       </xsl:if>
    </xsl:param>
    <xsl:param name = "boost.image.h">
-      <xsl:if test = "$boost.defaults = 'Boost'">
+      <xsl:if test = "starts-with($boost.defaults, 'Boost')">
          <xsl:value-of select = "86"/>
       </xsl:if>
    </xsl:param>
    <xsl:param name = "boost.libraries">
-      <xsl:if test = "$boost.defaults = 'Boost'">
+      <xsl:if test = "starts-with($boost.defaults, 'Boost')">
          <xsl:value-of select = "concat($boost.root, '/libs/libraries.htm')"/>
       </xsl:if>
    </xsl:param>

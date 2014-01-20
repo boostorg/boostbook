@@ -10,10 +10,29 @@
                 xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision"
                 version="1.0">
   
+  <xsl:param name="chunker.output.doctype-public">
+    <xsl:choose>
+      <xsl:when test = "$boost.defaults = 'Boost2'">
+          <xsl:value-of select="'-//W3C//DTD HTML 4.01 Transitional//EN'"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:param>
+
+  <xsl:param name="chunker.output.doctype-system">
+    <xsl:choose>
+      <xsl:when test = "$boost.defaults = 'Boost2'">
+          <xsl:value-of select="'http://www.w3.org/TR/html4/loose.dtd'"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:param>
+
   <xsl:param name="html.stylesheet">
     <xsl:choose>
       <xsl:when test = "$boost.defaults = 'Boost'">
         <xsl:value-of select = "concat($boost.root, '/doc/src/boostbook.css')"/>
+      </xsl:when>
+      <xsl:when test = "$boost.defaults = 'Boost2'">
+        <xsl:value-of select = "concat($boost.root, '/tools/boostbook/css/boostbook2.css')"/>
       </xsl:when>
       <xsl:otherwise>
         boostbook.css
@@ -23,7 +42,7 @@
 
   <xsl:param name="boost.graphics.root">
     <xsl:choose>
-      <xsl:when test = "$boost.defaults = 'Boost'">
+      <xsl:when test = "starts-with($boost.defaults, 'Boost')">
         <xsl:value-of select = "concat($boost.root, '/doc/src/images/')"/>
       </xsl:when>
       <xsl:otherwise>
