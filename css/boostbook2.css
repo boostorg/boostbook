@@ -40,12 +40,6 @@ Paragraphs
 Program listings
 =============================================================================*/
 
-    /* Code on paragraphs */
-    p tt.computeroutput
-    {
-        font-size: 9pt;
-    }
-
     pre.synopsis
     {
         font-size: 9pt;
@@ -105,14 +99,6 @@ Headings
     {
         margin: 0em 0em 0.5em 0em;
     }
-
-    /* Code on titles */
-    h1 tt.computeroutput { font-size: 140% }
-    h2 tt.computeroutput { font-size: 140% }
-    h3 tt.computeroutput { font-size: 130% }
-    h4 tt.computeroutput { font-size: 130% }
-    h5 tt.computeroutput { font-size: 130% }
-    h6 tt.computeroutput { font-size: 130% }
 
 
 /*=============================================================================
