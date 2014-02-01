@@ -21,8 +21,15 @@ Body defaults
 
     body
     {
-        margin: 1em;
+        margin: 16px;
         font-family: sans-serif;
+        font-size: 13px;
+    }
+
+    /* TODO: Class for navbar? */
+    body > table:first-child
+    {
+        font-size: 16px;
     }
 
 /*=============================================================================
@@ -32,7 +39,6 @@ Paragraphs
     p
     {
         text-align: left;
-        font-size: 10pt;
         line-height: 1.15;
     }
 
@@ -59,7 +65,7 @@ Program listings
 
     pre.synopsis
     {
-        font-size: 9pt;
+        font-size: 0.9em;
         margin: 1pc 4% 0pc 4%;
         padding: 0.5pc 0.5pc 0.5pc 0.5pc;
     }
@@ -67,7 +73,7 @@ Program listings
     .programlisting,
     .screen
     {
-        font-size: 9pt;
+        font-size: 0.9em;
         display: block;
         margin: 1pc 4% 0pc 4%;
         padding: 0.5pc 0.5pc 0.5pc 0.5pc;
@@ -92,12 +98,12 @@ Headings
         font-weight: bold;
     }
 
-    h1 { font-size: 140%; }
-    h2 { font-size: 140%; }
-    h3 { font-size: 130%; }
-    h4 { font-size: 120%; }
-    h5 { font-weight: normal; font-style: italic; font-size: 110%; }
-    h6 { font-weight: normal; font-style: italic; font-size: 100%; }
+    h1 { font-size: 1.723em; } /* 16px * 140% / 13px */
+    h2 { font-size: 1.723em; } /* 16px * 140% / 13px */
+    h3 { font-size: 1.6em; } /* 16px * 130% / 13px */
+    h4 { font-size: 1.477em; } /* 16px * 120% / 13px */
+    h5 { font-weight: normal; font-style: italic; font-size: 1.354em; } /* 16px * 110% / 13px */
+    h6 { font-weight: normal; font-style: italic; font-size: 1.231em; } /* 16px / 13px */
 
     /* Top page titles */
     title,
@@ -124,7 +130,7 @@ Author
 
     h3.author
     {
-        font-size: 100%
+        font-size: 1.231em;
     }
 
 /*=============================================================================
@@ -133,7 +139,6 @@ Lists
 
     li
     {
-        font-size: 10pt;
         line-height: 1.3;
     }
 
@@ -189,13 +194,13 @@ Copyright footer
     .copyright-footer
     {
         text-align: right;
-        font-size: 70%;
+        font-size: 0.85em;
     }
 
     .copyright-footer p
     {
         text-align: right;
-        font-size: 80%;
+        font-size: 0.8em;
     }
 
 /*=============================================================================
@@ -206,7 +211,6 @@ Table of contents
     {
        margin: 1pc 4% 0pc 4%;
        padding: 0.1pc 1pc 0.1pc 1pc;
-       font-size: 80%;
        line-height: 1.15;
     }
 
@@ -217,7 +221,7 @@ Table of contents
     }
 
     /* Code on toc */
-    .toc .computeroutput { font-size: 120% }
+    .toc .computeroutput { font-size: 1.2em; }
 
     /* No margin on nested menus */
 
@@ -225,6 +229,8 @@ Table of contents
 
 /*=============================================================================
 Tables
+
+Note: Table font size should always be applied to the 'th' or 'td' element.
 =============================================================================*/
 
     .table-title,
@@ -250,12 +256,20 @@ Tables
     }
 
     /* Table Cells */
+    /* TODO: Font size for nested tables? */
     div.informaltable table tr td,
     div.table table tr td
     {
         padding: 0.5em;
         text-align: left;
-        font-size: 9pt;
+        font-size: 0.9em;
+    }
+
+    /* Awkard: paragraphs inside tables should appear normal sized */
+    div.informaltable table tr td p,
+    div.table table tr td p
+    {
+        font-size: 1.111em;
     }
 
     div.informaltable table tr th,
@@ -263,7 +277,6 @@ Tables
     {
         padding: 0.5em 0.5em 0.5em 0.5em;
         border: 1pt solid white;
-        font-size: 80%;
     }
 
     table.simplelist
@@ -273,13 +286,19 @@ Tables
         padding: 0em !important;
         border: none !important;
     }
+    /* TODO: Font size for nested tables? */
     table.simplelist td
     {
         margin: 0em !important;
         padding: 0em !important;
         text-align: left !important;
-        font-size: 9pt !important;
+        font-size: 0.9em !important;
         border: none !important;
+    }
+    /* Awkard: paragraphs inside tables should appear normal sized */
+    table.simplelist td p
+    {
+        font-size: 1.111em;
     }
 
 /*=============================================================================
@@ -293,7 +312,7 @@ Blurbs
     div.warning,
     p.blurb
     {
-        font-size: 9pt; /* A little bit smaller than the main text */
+        font-size: 0.9em; /* A little bit smaller than the main text */
         line-height: 1.2;
         display: block;
         margin: 1pc 4% 0pc 4%;
@@ -319,7 +338,6 @@ Variable Lists
     span.term
     {
         font-weight: bold;
-        font-size: 10pt;
     }
 
     div.variablelist table tbody tr td
@@ -327,7 +345,6 @@ Variable Lists
         text-align: left;
         vertical-align: top;
         padding: 0em 2em 0em 0em;
-        font-size: 10pt;
         margin: 0em 0em 0.5em 0em;
         line-height: 1;
     }
@@ -340,7 +357,6 @@ Variable Lists
     div.variablelist dl dd
     {
         margin: 0em 0em 0.5em 2em;
-        font-size: 10pt;
     }
 
     div.variablelist table tbody tr td p,
@@ -422,6 +438,8 @@ Colors
         }
 
     /* Copyright, Legal Notice */
+    /* TODO: Check where copyright appears, so that it can be
+     * converted into ems */
         .copyright
         {
             color: #666666;
@@ -612,7 +630,6 @@ Indexes: pretty much the same as the TOC.
 
     .index
     {
-       font-size: 80%;
        padding-top: 0px;
        padding-bottom: 0px;
        margin-top: 0px;
