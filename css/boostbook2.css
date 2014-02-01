@@ -305,6 +305,15 @@ Note: Table font size should always be applied to the 'th' or 'td' element.
 Blurbs
 =============================================================================*/
 
+    div.note th,
+    div.tip th,
+    div.important th,
+    div.caution th,
+    div.warning th
+    {
+        font-size: 1.231em;
+    }
+
     div.note,
     div.tip,
     div.important,
@@ -312,8 +321,6 @@ Blurbs
     div.warning,
     p.blurb
     {
-        font-size: 0.9em; /* A little bit smaller than the main text */
-        line-height: 1.2;
         display: block;
         margin: 1pc 4% 0pc 4%;
         padding: 0.5pc 0.5pc 0.5pc 0.5pc;
