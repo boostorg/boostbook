@@ -7,7 +7,6 @@
    http://www.boost.org/LICENSE_1_0.txt)
   -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision"
                 version="1.0">
   
   <xsl:param name="html.stylesheet">
@@ -304,6 +303,9 @@ set       toc,title
   </xsl:template>
   
   <xsl:template name="user.head.content">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
     <xsl:if test="$boost.mathjax = 1">
       <xsl:variable name="has-math">
         <xsl:apply-templates mode="detect-math" select="*"/>
