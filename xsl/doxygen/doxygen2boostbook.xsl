@@ -1521,6 +1521,10 @@
     <sbr/>
   </xsl:template>
 
+  <xsl:template match="ndash" mode="passthrough">
+    <xsl:text>&#8211;</xsl:text>
+  </xsl:template>
+  
   <xsl:template match="briefdescription" mode="passthrough">
     <xsl:if test="text()|*">
       <purpose>
