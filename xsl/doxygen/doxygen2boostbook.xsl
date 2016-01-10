@@ -1710,6 +1710,44 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Handle preformatted.
+       Doxygen generates markup such as:
+         <para><preformatted>void foo() {</preformatted></para>
+         <para><preformatted>}</preformatted></para>
+       This complicated mess tries to combine that into a single
+       programlisting element.
+    -->
+  <xsl:template match="para[preformatted][count(preformatted)=count(*)]" mode="passthrough">
+    <!-- Only do this for the first of a group of paras. -->
+    <xsl:if test="not(preceding-sibling::para[1][preformatted][count(preformatted)=count(*)])">
+      <programlisting>
+        <!-- This node's children. -->
+        <xsl:apply-templates mode="passthrough" select="./preformatted/node()"/>
+
+        <!-- Adjacent para nodes' children.
+             Based on code at: http://stackoverflow.com/a/2092144 -->
+        <xsl:variable name="program_paragraphs" select="following-sibling::para[preformatted][count(preformatted)=count(*)]" />
+        <xsl:for-each select="following-sibling::para[preformatted][count(preformatted)=count(*)]">
+          <xsl:variable name="index" select="position()"/>
+          <xsl:if test="generate-id(.)=generate-id($program_paragraphs[$index])">
+            <xsl:text>&#xa;</xsl:text>
+            <xsl:apply-templates mode="passthrough" select="./preformatted/node()"/>
+          </xsl:if>
+        </xsl:for-each>
+      </programlisting>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Remove empty preformatted elements. -->
+  <xsl:template match="preformatted[not(node())]" mode="passthrough"/>
+
+  <!-- Convert remaining to programlisting. -->
+  <xsl:template match="preformatted" mode="passthrough">
+    <programlisting>
+      <xsl:apply-templates mode="passthrough"/>
+    </programlisting>
+  </xsl:template>
+
   <!-- Handle program listings -->
   <xsl:template match="programlisting" mode="passthrough">
     <programlisting language="c++">
