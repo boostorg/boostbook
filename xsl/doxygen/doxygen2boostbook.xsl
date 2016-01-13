@@ -1726,11 +1726,11 @@
 
         <!-- Adjacent para nodes' children.
              Based on code at: http://stackoverflow.com/a/2092144 -->
-        <xsl:variable name="program_paragraphs" select="following-sibling::para[preformatted][count(preformatted)=count(*)]" />
+        <xsl:variable name="following-siblings" select="following-sibling::*" />
         <xsl:for-each select="following-sibling::para[preformatted][count(preformatted)=count(*)]">
           <xsl:variable name="index" select="position()"/>
-          <xsl:if test="generate-id(.)=generate-id($program_paragraphs[$index])">
-            <xsl:text>&#xa;</xsl:text>
+          <xsl:if test="generate-id(.)=generate-id($following-siblings[$index])">
+            <xsl:text>&#xa;&#xa;</xsl:text>
             <xsl:apply-templates mode="passthrough" select="./preformatted/node()"/>
           </xsl:if>
         </xsl:for-each>
