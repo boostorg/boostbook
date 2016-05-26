@@ -95,7 +95,7 @@ def normalize_boostbook_ids(doc):
         if(match):
             # Truncate id name, as it sometimes has different lengths...
             match2 = re.match("(.*?)([^.]*?)(_?id)", match.group(1))
-            base = match2.group(1) + match2.group(2)[:14] + match2.group(3)
+            base = match2.group(1) + match2.group(2)[:7] + match2.group(3)
             count = id_bases[base] + 1
             id_bases[base] = count
             ids[id] = base + str(count) + match.group(3)
