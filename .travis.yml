@@ -6,6 +6,8 @@ addons:
     apt:
         packages:
             - libboost-dev
+            - xsltproc
+            - python-lxml
 
 before_script:
     - touch Jamroot.jam
