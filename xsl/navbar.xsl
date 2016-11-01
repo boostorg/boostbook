@@ -33,8 +33,9 @@
    </xsl:param>
    <!--
       header border layout
-         Boost - place the old-Boost border around the header
-        *none  - do not place a border around the header
+         Boost     - place the old-Boost border around the header
+         Fullbleed - Simple CSS based full bleed header image
+        *none      - do not place a border around the header
    -->
    <xsl:param name = "nav.border" select = "'none'" />
 
@@ -88,6 +89,19 @@
       <xsl:variable name = "up"   select = "parent::*"/>
 
       <xsl:choose>
+         <xsl:when test = "$nav.border = 'Fullbleed'">
+            <xsl:if test = "boolean(normalize-space($boost.image.src))">
+               <div class="header-fullbleed">
+                  <img alt="{$boost.image.alt}" width="{$boost.image.w}" height="{$boost.image.h}">
+                     <xsl:attribute name="src">
+                        <xsl:call-template name="href.target.relative">
+                           <xsl:with-param name="target" select="$boost.image.src"/>
+                        </xsl:call-template>
+                     </xsl:attribute>
+                  </img>
+               </div>
+            </xsl:if>
+         </xsl:when>
          <xsl:when test = "boolean(normalize-space($boost.image.src)) or $nav.layout != 'none'">
             <table cellpadding = "2" width = "100%"><tr>
                <xsl:if test = "$nav.border = 'Boost'">
