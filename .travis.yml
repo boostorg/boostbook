@@ -8,6 +8,8 @@ addons:
             - libboost-dev
             - xsltproc
             - python-lxml
+            - docbook-xsl
+            - docbook-xml
 
 before_script:
     - touch Jamroot.jam
