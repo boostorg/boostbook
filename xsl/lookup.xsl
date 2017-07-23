@@ -251,8 +251,27 @@
   </xsl:template>
 
   <xsl:template match="function|overloaded-function" mode="unique.name">
-    <xsl:value-of select="number(count(key('named-entities',
-        translate(@name, $uppercase-letters, $lowercase-letters))) = 1)"/>
+    <xsl:variable name="func-name">
+      <xsl:call-template name="fully-qualified-name">
+        <xsl:with-param name="node" select="."/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <!-- Count the number of elements with the same qualified name -->
+    <xsl:variable name="count-elements">
+      <xsl:for-each select="key('named-entities', translate(@name, $uppercase-letters, $lowercase-letters))">
+        <xsl:variable name="other-name">
+          <xsl:call-template name="fully-qualified-name">
+            <xsl:with-param name="node" select="."/>
+          </xsl:call-template>
+        </xsl:variable>
+        <xsl:if test="$func-name = $other-name">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+      </xsl:for-each>
+    </xsl:variable>
+    
+    <xsl:value-of select="number(string-length($count-elements) = 1)"/>
   </xsl:template>
 
   <!-- Print the name of the current node -->
