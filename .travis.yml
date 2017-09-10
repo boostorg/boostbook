@@ -7,12 +7,12 @@ addons:
         packages:
             - libboost-tools-dev
             - xsltproc
-            - python-lxml
             - docbook-xsl
             - docbook-xml
 
 before_script:
     - touch Jamroot.jam
+    - pip install lxml
 
 script:
     - cd ${TRAVIS_BUILD_DIR}/test
