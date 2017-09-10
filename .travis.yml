@@ -5,7 +5,7 @@
 addons:
     apt:
         packages:
-            - libboost-dev
+            - libboost-tools-dev
             - xsltproc
             - python-lxml
             - docbook-xsl
