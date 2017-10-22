@@ -51,6 +51,7 @@ def main(argv):
         sys.exit(1)
     
     for root, dirs, files in os.walk(os.path.join(script_directory, 'tests')):
+        success = True
         for filename in files:
             (base, ext) = os.path.splitext(filename)
             if (ext == '.xml'):
@@ -61,6 +62,7 @@ def main(argv):
                 except:
                     # TODO: Need better error reporting here:
                     print "Error running boostbook for " + src_path
+                    success = False
                     continue
 
                 if (generate_gold):
@@ -74,7 +76,11 @@ def main(argv):
                         gold_text = file.read()
                     finally:
                         file.close()
-                    compare_xml(src_path, doc_text, gold_text)
+                    if not compare_xml(src_path, doc_text, gold_text):
+                        success = False
+    if not success:
+        sys.exit(1)
+
 
 def run_boostbook(parser, boostbook_xsl, file):
     doc = boostbook_xsl(etree.parse(file, parser))
@@ -121,6 +127,9 @@ def compare_xml(file, doc_text, gold_text):
         )
         print
         print
+        return False
+    else:
+        return True
 
 if __name__ == "__main__":
     main(sys.argv[1:])
