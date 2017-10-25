@@ -115,7 +115,7 @@
     <xsl:if test="count(key('named-entities',
         translate(@name, $uppercase-letters, $lowercase-letters)))!=1">
       <xsl:text>_</xsl:text>
-      <xsl:value-of select="generate-id(.)"/>
+      <xsl:call-template name="object.id"/>
     </xsl:if>
   </xsl:template>
 </xsl:stylesheet>
