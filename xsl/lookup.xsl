@@ -22,8 +22,21 @@
   </xsl:template>
 
   <xsl:template match="*" mode="generate.id">
-    <xsl:call-template name="object.id"/>
+    <xsl:variable name="raw.id"><xsl:call-template name="object.id"/></xsl:variable>
+    <xsl:value-of select="translate($raw.id, '.', '_')"/>
     <xsl:text>-bb</xsl:text>
+  </xsl:template>
+
+  <xsl:template name="postfix.id">
+    <xsl:variable name="raw.id"><xsl:call-template name="object.id"/></xsl:variable>
+    <xsl:choose>
+      <xsl:when test="starts-with($raw.id, 'id-')">
+        <xsl:value-of select="translate(substring-after($raw.id, 'id-'), '.', '_')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$raw.id"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="strip-qualifiers-non-template">
@@ -234,7 +247,7 @@
           translate($part, '.&lt;&gt;;\:*?&quot;| ', '') != $part
         )">
         <xsl:variable name="normalized" select="translate(normalize-space(translate($part, '.&lt;&gt;;\:*?&quot;|_', '            ')), ' ', '_')"/>
-        <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
+        <xsl:variable name="id"><xsl:call-template name="postfix.id"/></xsl:variable>
         <xsl:value-of select =
           "concat(
             substring($normalized, 1, $boost.max.id.part.length - string-length($id) - 1),
