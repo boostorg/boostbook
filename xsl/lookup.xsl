@@ -185,7 +185,7 @@
   <xsl:template match="*" mode="preprocess-ids">
     <element>
       <xsl:attribute name="id">
-        <xsl:call-template name="object.id"/>
+        <xsl:value-of select="generate-id()"/>
       </xsl:attribute>
       <xsl:attribute name="part-id">
         <xsl:call-template name="print-id-part"/>
