@@ -114,8 +114,9 @@
     <xsl:value-of select="@name"/>
     <xsl:if test="count(key('named-entities',
         translate(@name, $uppercase-letters, $lowercase-letters)))!=1">
+      <xsl:variable name="raw.id"><xsl:call-template name="object.id"/></xsl:variable>
       <xsl:text>_</xsl:text>
-      <xsl:call-template name="object.id"/>
+      <xsl:value-of select="translate($raw.id, '.', '_')"/>
     </xsl:if>
   </xsl:template>
 </xsl:stylesheet>
