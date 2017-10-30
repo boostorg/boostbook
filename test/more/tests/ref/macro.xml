@@ -19,4 +19,8 @@
     <description>
     </description>
   </macro>
+  <macro name="REALLY_LONG_MACRO_NAME_WHICH_SHOULD_GET_TRUNCATED">
+    <description>
+    </description>
+  </macro>
 </header>

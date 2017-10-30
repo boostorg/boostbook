@@ -3,7 +3,8 @@
 
 <link linkend="foo_id1">foo</link>
 <link linkend="FOO_id1">FOO</link>
-<link linkend="bar">bar</link></synopsis>
+<link linkend="bar">bar</link>
+<link linkend="REALLY__id1">REALLY_LONG_MACRO_NAME_WHICH_SHOULD_GET_TRUNCATED</link></synopsis>
   <refentry xmlns:xi="http://www.w3.org/2001/XInclude" id="foo_id1"><refmeta><refentrytitle>Macro foo</refentrytitle><manvolnum>3</manvolnum></refmeta><refnamediv><refname>foo</refname><refpurpose/></refnamediv><refsynopsisdiv><synopsis><phrase role="comment">// In header: &lt;<link linkend="header.example_hpp">example.hpp</link>&gt;
 
 </phrase>foo</synopsis></refsynopsisdiv><refsect1><title>Description</title>
@@ -15,5 +16,9 @@
   <refentry xmlns:xi="http://www.w3.org/2001/XInclude" id="bar"><refmeta><refentrytitle>Macro bar</refentrytitle><manvolnum>3</manvolnum></refmeta><refnamediv><refname>bar</refname><refpurpose/></refnamediv><refsynopsisdiv><synopsis><phrase role="comment">// In header: &lt;<link linkend="header.example_hpp">example.hpp</link>&gt;
 
 </phrase>bar</synopsis></refsynopsisdiv><refsect1><title>Description</title>
+    </refsect1></refentry>
+  <refentry xmlns:xi="http://www.w3.org/2001/XInclude" id="REALLY__id1"><refmeta><refentrytitle>Macro REALLY_LONG_MACRO_NAME_WHICH_SHOULD_GET_TRUNCATED</refentrytitle><manvolnum>3</manvolnum></refmeta><refnamediv><refname>REALLY_LONG_MACRO_NAME_WHICH_SHOULD_GET_TRUNCATED</refname><refpurpose/></refnamediv><refsynopsisdiv><synopsis><phrase role="comment">// In header: &lt;<link linkend="header.example_hpp">example.hpp</link>&gt;
+
+</phrase>REALLY_LONG_MACRO_NAME_WHICH_SHOULD_GET_TRUNCATED</synopsis></refsynopsisdiv><refsect1><title>Description</title>
     </refsect1></refentry>
 </section>
