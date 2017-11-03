@@ -40,7 +40,7 @@ def main(argv):
     # Walk the test directory
 
     parser = etree.XMLParser()
-    
+
     try:
         boostbook_xsl = etree.XSLT(
             etree.parse(os.path.join(boostbook_directory, "docbook.xsl"), parser)
@@ -49,35 +49,43 @@ def main(argv):
         print "Error parsing boostbook xsl:"
         print error
         sys.exit(1)
-    
+
     for root, dirs, files in os.walk(os.path.join(script_directory, 'tests')):
         success = True
         for filename in files:
             (base, ext) = os.path.splitext(filename)
             if (ext == '.xml'):
-                src_path = os.path.join(root, filename)
-                gold_path = os.path.join(root, base + '.gold')
-                try:
-                    doc_text = run_boostbook(parser, boostbook_xsl, src_path)
-                except:
-                    # TODO: Need better error reporting here:
-                    print "Error running boostbook for " + src_path
-                    success = False
-                    continue
-
-                if (generate_gold):
-                    file = open(gold_path, 'w')
+                for consistent_ids in [False, True]:
+                    if not consistent_ids:
+                        gold_ext = ".gold"
+                    else:
+                        gold_ext = ".gold2"
+                    src_path = os.path.join(root, filename)
+                    gold_path = os.path.join(root, base + gold_ext)
                     try:
-                        file.write(doc_text)
-                    finally: file.close()
-                else:
-                    file = open(gold_path, 'r')
-                    try:
-                        gold_text = file.read()
-                    finally:
-                        file.close()
-                    if not compare_xml(src_path, doc_text, gold_text):
+                        if consistent_ids:
+                            doc_text = run_boostbook_consistent_ids(parser, boostbook_xsl, src_path)
+                        else:
+                            doc_text = run_boostbook(parser, boostbook_xsl, src_path)
+                    except:
+                        # TODO: Need better error reporting here:
+                        print "Error running boostbook for " + src_path
                         success = False
+                        continue
+
+                    if (generate_gold):
+                        file = open(gold_path, 'w')
+                        try:
+                            file.write(doc_text)
+                        finally: file.close()
+                    else:
+                        file = open(gold_path, 'r')
+                        try:
+                            gold_text = file.read()
+                        finally:
+                            file.close()
+                        if not compare_xml(src_path, doc_text, gold_text):
+                            success = False
     if not success:
         sys.exit(1)
 
@@ -87,17 +95,23 @@ def run_boostbook(parser, boostbook_xsl, file):
     normalize_boostbook_ids(doc)
     return etree.tostring(doc)
 
+def run_boostbook_consistent_ids(parser, boostbook_xsl, file):
+    doc = boostbook_xsl(etree.parse(file, parser), **{
+        'generate.consistent.ids': '1'
+    })
+    return etree.tostring(doc)
+
 def normalize_boostbook_ids(doc):
     ids = {}
     id_bases = defaultdict(int)
 
     for node in doc.xpath("//*[starts-with(@id, 'id') or contains(@id, '_id')]"):
         id = node.get('id')
-        
+
         if(id in ids):
             print 'Duplicate id: ' + id
-        
-        match = re.match("(.+_id|id)([mp]?\d+)((?:-bb)?)", id)
+
+        match = re.match("(.+_id|id)([-mp]?[\d_]+)((?:-bb)?)", id)
         if(match):
             # Truncate id name, as it sometimes has different lengths...
             match2 = re.match("(.*?)([^.]*?)(_?id)", match.group(1))
@@ -115,7 +129,7 @@ def normalize_boostbook_ids(doc):
 def compare_xml(file, doc_text, gold_text):
     # Had hoped to use xmldiff but it turned out to be a pain to install.
     # So instead just do a text diff.
-    
+
     if (doc_text != gold_text):
         print "Error: " + file
         print

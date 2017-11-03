@@ -2,6 +2,9 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
+sudo: required
+dist: trusty
+
 addons:
     apt:
         packages:
@@ -9,13 +12,18 @@ addons:
             - xsltproc
             - docbook-xsl
             - docbook-xml
+            - doxygen
 
 before_script:
     - touch Jamroot.jam
-    - pip install lxml
+    - sudo pip install lxml
+    - "echo using boostbook : : : ${TRAVIS_BUILD_DIR} \\; > ~/user-config.jam"
+    - cat ~/user-config.jam
 
 script:
     - cd ${TRAVIS_BUILD_DIR}/test
-    - bjam -q ${BJAM_TOOLSET}
+    - bjam -q
+    - cd ${TRAVIS_BUILD_DIR}/test/doxygen
+    - bjam -q
     - cd ${TRAVIS_BUILD_DIR}/test/more
     - python run-tests.py
