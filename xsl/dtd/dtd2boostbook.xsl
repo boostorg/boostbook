@@ -18,7 +18,7 @@
   <xsl:key name="attribute-purposes" match="attpurpose" use="@name"/>
 
   <xsl:template match="dtd">
-    <section id="reference">
+    <chapter id="reference">
       <title>Reference</title>
       <para>
         <xsl:text>Elements:</xsl:text>
@@ -29,7 +29,7 @@
         </itemizedlist>
       </para>
       <xsl:apply-templates select="element"/>
-    </section>
+    </chapter>
   </xsl:template>
 
   <!-- Element synopsis -->
