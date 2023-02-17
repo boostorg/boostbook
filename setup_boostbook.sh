@@ -7,7 +7,7 @@
 
 # User configuration
 # (MAINTANERS: please, keep in synch with setup_boostbook.py)
-DOCBOOK_XSL_VERSION=1.75.2
+DOCBOOK_XSL_VERSION=1.79.1
 DOCBOOK_DTD_VERSION=4.2
 FOP_VERSION=0.94
 FOP_JDK_VERSION=1.4
@@ -19,9 +19,9 @@ HTTP_GET_CMD="curl -O -L"
 # No user configuration below this point-------------------------------------
 
 # Get the DocBook XSLT Stylesheets
-DOCBOOK_XSL_TARBALL=docbook-xsl-$DOCBOOK_XSL_VERSION.tar.gz
-DOCBOOK_XSL_URL=$SOURCEFORGE_DOWNLOAD/docbook-xsl/$DOCBOOK_XSL_VERSION/$DOCBOOK_XSL_TARBALL
-if test -f $DOCBOOK_XSL_TARBALL; then
+DOCBOOK_XSL_ZIP=docbook-xsl-$DOCBOOK_XSL_VERSION.zip
+DOCBOOK_XSL_URL=$SOURCEFORGE_DOWNLOAD/docbook-xsl/$DOCBOOK_XSL_VERSION/$DOCBOOK_XSL_ZIP
+if test -f $DOCBOOK_XSL_ZIP; then
   echo "Using existing DocBook XSLT Stylesheets (version $DOCBOOK_XSL_VERSION)."
 else
   echo "Downloading DocBook XSLT Stylesheets version $DOCBOOK_XSL_VERSION..."
@@ -31,7 +31,8 @@ fi
 DOCBOOK_XSL_DIR="$PWD/docbook-xsl-$DOCBOOK_XSL_VERSION"
 if test ! -d docbook-xsl-$DOCBOOK_XSL_VERSION; then
   echo -n "Expanding DocBook XSLT Stylesheets into $DOCBOOK_XSL_DIR..."
-  gunzip -cd $DOCBOOK_XSL_TARBALL | tar xf -
+  # gunzip -cd $DOCBOOK_XSL_TARBALL | tar xf -
+  unzip $DOCBOOK_XSL_ZIP
   echo "done."
 fi
 

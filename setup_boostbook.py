@@ -11,7 +11,7 @@
 
 # User configuration
 # (MAINTANERS: please, keep in synch with setup_boostbook.sh)
-DOCBOOK_XSL_VERSION = "1.75.2"
+DOCBOOK_XSL_VERSION = "1.79.1"
 DOCBOOK_DTD_VERSION = "4.2"
 FOP_VERSION = "0.94"
 FOP_JDK_VERSION="1.4"
@@ -27,8 +27,10 @@ import sys
 import optparse
 import shutil
 
+# sys.path.append( os.path.join( os.path.dirname( sys.modules[ __name__ ].__file__ )
+#                               , "../regression/xsl_reports/utils" ) )
 sys.path.append( os.path.join( os.path.dirname( sys.modules[ __name__ ].__file__ )
-                               , "../regression/xsl_reports/utils" ) )
+                               , "../regression/reports/src/utils" ) )
 
 import checked_system
 import urllib2
@@ -150,21 +152,21 @@ def adjust_user_config( config_file
 
 def setup_docbook_xsl( tools_directory ):
     print "DocBook XSLT Stylesheets ..."
-    DOCBOOK_XSL_TARBALL = os.path.join( tools_directory, "docbook-xsl-%s.tar.gz" % DOCBOOK_XSL_VERSION )
-    DOCBOOK_XSL_URL     = "%s/docbook-xsl/%s/%s/download" % (SOURCEFORGE_DOWNLOAD, DOCBOOK_XSL_VERSION, os.path.basename( DOCBOOK_XSL_TARBALL ) )
+    DOCBOOK_XSL_ZIP = os.path.join( tools_directory, "docbook-xsl-%s.zip" % DOCBOOK_XSL_VERSION )
+    DOCBOOK_XSL_URL     = "%s/docbook-xsl/%s/%s" % (SOURCEFORGE_DOWNLOAD, DOCBOOK_XSL_VERSION, os.path.basename( DOCBOOK_XSL_ZIP ) )
 
-    if os.path.exists( DOCBOOK_XSL_TARBALL ):
+    if os.path.exists( DOCBOOK_XSL_ZIP ):
         print "    Using existing DocBook XSLT Stylesheets (version %s)." % DOCBOOK_XSL_VERSION
     else:
         print "    Downloading DocBook XSLT Stylesheets version %s..." % DOCBOOK_XSL_VERSION
         print "        from %s" % DOCBOOK_XSL_URL
-        http_get( DOCBOOK_XSL_TARBALL, DOCBOOK_XSL_URL )
+        http_get( DOCBOOK_XSL_ZIP, DOCBOOK_XSL_URL )
 
     DOCBOOK_XSL_DIR = to_posix( os.path.join( tools_directory, "docbook-xsl-%s" % DOCBOOK_XSL_VERSION ) )
 
     if not os.path.exists( DOCBOOK_XSL_DIR ):
         print "    Expanding DocBook XSLT Stylesheets into %s..." % DOCBOOK_XSL_DIR
-        gunzip( DOCBOOK_XSL_TARBALL, tools_directory )
+        unzip( DOCBOOK_XSL_ZIP, tools_directory )
         print "    done."
 
     return DOCBOOK_XSL_DIR
