@@ -1,0 +1,29 @@
+# Copyright René Ferdinand Rivera Morell 2024
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE_1_0.txt or copy at
+# http://www.boost.org/LICENSE_1_0.txt)
+
+import option ;
+import path ;
+
+local DIST_DIR = [ option.get distdir ] ;
+DIST_DIR ?= [ option.get build-dir ] ;
+DIST_DIR ?= [ path.join $(BOOST_ROOT) dist ] ;
+DIST_DIR ?= dist ;
+DIST_DIR = [ path.root [ path.make $(DIST_DIR) ] [ path.pwd ] ] ;
+
+project /boost/boostbook
+    ;
+
+local patterns = *.dtd *.xml *.xsl LICENSE ;
+local dirs = dtd xsl ;
+
+explicit
+    [ install dist-share
+        : [ glob $(dirs)/$(patterns) $(dirs)/*/$(patterns)
+            $(dirs)/*/*/$(patterns) ]
+        : <location>$(DIST_DIR)/share <install-source-root>. ]
+    [ alias dist : dist-share ]
+    [ alias boostbook ]
+    [ alias all : boostbook dist ]
+    ;
