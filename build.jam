@@ -12,8 +12,7 @@ DIST_DIR ?= [ path.join $(BOOST_ROOT) dist ] ;
 DIST_DIR ?= dist ;
 DIST_DIR = [ path.root [ path.make $(DIST_DIR) ] [ path.pwd ] ] ;
 
-project /boost/boostbook
-    ;
+project /boost/boostbook ;
 
 local patterns = *.dtd *.xml *.xsl LICENSE ;
 local dirs = dtd xsl ;
@@ -23,7 +22,9 @@ explicit
         : [ glob $(dirs)/$(patterns) $(dirs)/*/$(patterns)
             $(dirs)/*/*/$(patterns) ]
         : <location>$(DIST_DIR)/share <install-source-root>. ]
-    [ alias dist : dist-share ]
     [ alias boostbook ]
-    [ alias all : boostbook dist ]
+    [ alias all : boostbook dist-share ]
     ;
+
+# Install distribution files/execs by default.
+alias dist : dist-share ;
