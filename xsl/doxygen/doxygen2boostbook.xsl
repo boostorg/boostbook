@@ -788,7 +788,6 @@
             </xsl:apply-templates>
           </method-group>
           <xsl:text>&#10;</xsl:text><!-- Newline -->
-          <xsl:apply-templates/>
         </xsl:if>
       </xsl:when>
       <xsl:when test="@kind='protected-func'">
@@ -800,7 +799,6 @@
           </xsl:apply-templates>
         </method-group>
         <xsl:text>&#10;</xsl:text><!-- Newline -->
-        <xsl:apply-templates/>
       </xsl:when>
       <xsl:when test="@kind='private-func'">
         <xsl:variable name="members" select="./memberdef"/>
@@ -819,7 +817,6 @@
           </method-group>
           <xsl:text>&#10;</xsl:text><!-- Newline -->
         </xsl:if>
-        <xsl:apply-templates/>
       </xsl:when>
       <xsl:when test="@kind='friend'">
         <xsl:if test="./memberdef/detaileddescription/para or ./memberdef/briefdescription/para">
@@ -870,9 +867,37 @@
         </xsl:apply-templates>
       </xsl:when>
       <xsl:when test="@kind='user-defined'">
-        <xsl:apply-templates>
-          <xsl:with-param name="in-file" select="$in-file"/>
-        </xsl:apply-templates>
+        <xsl:choose>
+          <xsl:when test="not(string(./header/text()) = '')">
+            <xsl:variable name="group-type">
+              <xsl:choose>
+                <xsl:when test="ancestor::compounddef/attribute::kind='namespace'">
+                  <xsl:value-of select="'free-function-group'"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="'method-group'"/>
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:variable>
+            <xsl:element name="{$group-type}">
+              <xsl:attribute name="name">
+                <xsl:value-of select="string(./header/text())"/>
+              </xsl:attribute>
+              <xsl:text>&#10;</xsl:text><!-- Newline -->
+              <xsl:apply-templates>
+                <xsl:with-param name="in-section" select="true()"/>
+                <xsl:with-param name="in-file" select="$in-file"/>
+              </xsl:apply-templates>
+            </xsl:element>
+            <xsl:text>&#10;</xsl:text><!-- Newline -->
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates>
+              <xsl:with-param name="in-section" select="true()"/>
+              <xsl:with-param name="in-file" select="$in-file"/>
+            </xsl:apply-templates>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:when test="@kind=''">
         <xsl:apply-templates select="memberdef[generate-id() =
@@ -937,19 +962,13 @@
             
             <xsl:choose>
               <xsl:when test="string(name/text())=$in-class">
-                <xsl:if test="not ($in-section)">
-                  <xsl:call-template name="constructor"/>
-                </xsl:if>
+                <xsl:call-template name="constructor"/>
               </xsl:when>
               <xsl:when test="string(name/text())=concat('~',$in-class)">
-                <xsl:if test="not ($in-section)">
-                  <xsl:call-template name="destructor"/>
-                </xsl:if>
+                <xsl:call-template name="destructor"/>
               </xsl:when>
               <xsl:when test="string(name/text())='operator='">
-                <xsl:if test="not ($in-section)">
-                  <xsl:call-template name="copy-assignment"/>
-                </xsl:if>
+                <xsl:call-template name="copy-assignment"/>
               </xsl:when>
               <xsl:when test="normalize-space(string(type))=''
                               and contains(name/text(), 'operator ')">

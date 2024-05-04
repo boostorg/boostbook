@@ -1133,7 +1133,7 @@
           </xsl:call-template>
         </xsl:with-param>
       </xsl:call-template>
-      <xsl:apply-templates select="method|overloaded-method"
+      <xsl:apply-templates select="constructor|copy-assignment|destructor|method|overloaded-method"
         mode="synopsis">
         <xsl:with-param name="indentation" select="$indentation"/>
       </xsl:apply-templates>
@@ -1161,7 +1161,7 @@
         </xsl:with-param>
         <xsl:with-param name="text">
           <orderedlist>
-            <xsl:apply-templates select="method|overloaded-method"
+            <xsl:apply-templates select="constructor|copy-assignment|destructor|method|overloaded-method"
               mode="reference"/>
           </orderedlist>
         </xsl:with-param>
