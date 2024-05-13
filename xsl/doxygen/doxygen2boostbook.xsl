@@ -324,7 +324,8 @@
 
           <xsl:if test="initializer">
             <default>
-              <xsl:apply-templates select="initializer/*|initializer/text()" mode="passthrough"/>
+              <xsl:apply-templates select="initializer/*|initializer/text()"
+                mode="enumvalue.initializer"/>
             </default>
           </xsl:if>
 
@@ -334,6 +335,24 @@
         </enumvalue>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="text()" mode="enumvalue.initializer">
+    <!-- Remove the leading '=' sign from enum value initializers, the '='
+         character will be added later, by the templates processing <default>
+         tags. -->
+    <xsl:choose>
+      <xsl:when test="starts-with(normalize-space(string(.)), '=')">
+        <xsl:value-of select="normalize-space(substring-after(string(.), '='))"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="*" mode="enumvalue.initializer">
+    <xsl:apply-templates mode="passthrough"/>
   </xsl:template>
 
   <xsl:template name="doxygen.include.header.rec">
