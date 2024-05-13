@@ -24,6 +24,10 @@
        unless everything fits on a single line. -->
   <xsl:param name="boost.short.result.type">12</xsl:param>
 
+  <!-- When true, the stylesheet will sort parameters of functions and
+       templates alphabetically in detailed description. -->
+  <xsl:param name="boost.sort.params">1</xsl:param>
+
   <!-- Display a function declaration -->
   <xsl:template name="function">
     <xsl:param name="indentation"/>
@@ -822,7 +826,7 @@
                   list-presentation="table"
                 </xsl:processing-instruction>
                 <xsl:for-each select="parameter|signature/parameter">
-		              <xsl:sort select="attribute::name"/>
+                  <xsl:sort select="attribute::name[$boost.sort.params!=0]"/>
                   <xsl:if test="description">
                     <varlistentry>
                       <term>
@@ -853,7 +857,7 @@
                 </xsl:processing-instruction>
                 <xsl:for-each select="template/template-type-parameter|
                       template/template-nontype-parameter">
-                  <xsl:sort select="attribute::name"/>
+                  <xsl:sort select="attribute::name[$boost.sort.params!=0]"/>
                   <xsl:if test="purpose">
                     <varlistentry>
                       <term>
