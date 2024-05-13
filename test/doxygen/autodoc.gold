@@ -15,6 +15,8 @@
 <data-member name="static_integer" specifiers="static"><type>int</type></data-member>
 <data-member name="static_const_integer" specifiers="static"><type>const int</type></data-member>
 <method-group name="public member functions">
+<constructor cv="= default"><parameter name=""><paramtype><classname>example</classname> const &amp;</paramtype></parameter></constructor>
+<copy-assignment cv="= delete"><type><classname>example</classname> &amp;</type><parameter name=""><paramtype><classname>example</classname> const &amp;</paramtype></parameter></copy-assignment>
 <method name="virtual_method" specifiers="virtual"><type>int</type></method>
 <method name="virtual_abstract_method" cv="= 0" specifiers="virtual"><type>int</type></method>
 <method name="virtual_const_method" cv="const" specifiers="virtual"><type>int</type></method>
@@ -41,8 +43,6 @@
 <method name="constexpr_noexcept" cv="constexpr noexcept"><type>void</type></method>
 <method name="conversion-operator" specifiers="explicit"><type>int</type></method>
 </method-group>
-<constructor cv="= default"><parameter name=""><paramtype><classname>example</classname> const &amp;</paramtype></parameter></constructor>
-<copy-assignment cv="= delete"><type><classname>example</classname> &amp;</type><parameter name=""><paramtype><classname>example</classname> const &amp;</paramtype></parameter></copy-assignment>
 <method-group name="public static functions">
 <method name="static_method" specifiers="static"><type>int</type></method>
 <method name="static_constexpr" cv="constexpr" specifiers="static"><type>int</type></method>
@@ -51,16 +51,21 @@
       <template-type-parameter name="TypeParameter"><purpose><para>A template parameter </para></purpose></template-type-parameter>
       <template-nontype-parameter name="NonTypeParameter"><type>int</type><purpose><para>This is a non-type template parameter </para></purpose></template-nontype-parameter>
       <template-type-parameter name="TypeParameterWithDefault"><default>int</default><purpose><para>This is a template parameter with a default argument </para></purpose></template-type-parameter>
-    </template><description><para>Test some doxygen markup</para><para><warning><para>This is just an example.</para></warning>
+    </template><description><para>Test some doxygen markup</para><para><warning><para>This is just an example.</para>
+</warning>
 Embedded docbook list:</para><para> 
 <orderedlist><listitem><simpara>1</simpara></listitem><listitem><simpara>2</simpara></listitem></orderedlist>
 </para><para><emphasis>Special</emphasis> <emphasis role="bold">Bold</emphasis> <computeroutput>Typewriter</computeroutput> <emphasis>Italics</emphasis> <emphasis>emphasis</emphasis> <computeroutput>parameter</computeroutput> </para><para><itemizedlist>
-<listitem><para>Arg1 first argument. </para></listitem>
-<listitem><para>Arg2 second argument.</para></listitem>
+<listitem><para>Arg1 first argument. </para>
+</listitem>
+<listitem><para>Arg2 second argument.</para>
+</listitem>
 </itemizedlist>
 <itemizedlist>
-<listitem><para>First list item. </para></listitem>
-<listitem><para>Second list item</para></listitem>
+<listitem><para>First list item. </para>
+</listitem>
+<listitem><para>Second list item</para>
+</listitem>
 </itemizedlist>
 Line 1<sbr/>
 Line 2</para><para><programlisting language="c++">void foo() {}
@@ -84,10 +89,10 @@ int foo2();
     </template></struct><struct-specialization name="specialization_test"><template>
       <template-type-parameter name="T"/>
     </template><specialization><template-arg>T *</template-arg></specialization><method-group name="public member functions">
-</method-group>
 <constructor><description><para>A constructor. </para></description></constructor>
 <destructor><description><para>A destructor. </para></description></destructor>
 <copy-assignment><type><emphasis>unspecified</emphasis></type><parameter name=""><paramtype>const <classname>specialization_test</classname> &amp;</paramtype></parameter><description><para>An assignment operator. </para></description></copy-assignment>
+</method-group>
 </struct-specialization><enum name="namespace_enum"><enumvalue name="enumerator"/></enum>
 <data-member name="namespace_integer"><type>int</type></data-member>
 <data-member name="namespace_static_integer" specifiers="static"><type>int</type></data-member>
@@ -99,9 +104,13 @@ int foo2();
 <function name="namespace_func"><type>int</type><parameter name="i"><paramtype>int</paramtype><description><para>A function parameter </para></description></parameter><parameter name="j"><paramtype>int</paramtype><description><para>Another </para></description></parameter><description><para>
 
 
-This is a test function. <classname alt="example::example">Link to class</classname> <classname alt="example::example_template">Link to class template</classname> <note><para>This is a note.</para></note>
-<para><emphasis role="bold">See Also:</emphasis><para><classname alt="example::example">example::example</classname> and <classname alt="example::example_template">example_template</classname> </para></para>
-</para></description><requires><para>i &gt; j</para></requires><returns><para>The answer </para></returns></function>
+This is a test function. <classname alt="example::example">Link to class</classname> <classname alt="example::example_template">Link to class template</classname> <note><para>This is a note.</para>
+</note>
+<para><emphasis role="bold">See Also:</emphasis><para><classname alt="example::example">example::example</classname> and <classname alt="example::example_template">example_template</classname> </para>
+</para>
+</para></description><requires><para>i &gt; j</para>
+</requires><returns><para>The answer </para>
+</returns></function>
 <function name="namespace_func_template"><type>void</type><template>
           <template-type-parameter name="TypeParameter"><purpose><para>A template parameter </para></purpose></template-type-parameter>
           <template-nontype-parameter name="NonTypeParameter"><type>int</type><purpose><para>This is a non-type template parameter </para></purpose></template-nontype-parameter>
