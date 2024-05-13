@@ -1815,12 +1815,18 @@
          content-type="element">
 <content-model-expanded>
   <or-group occurrence="*">
+    <element-name name="constructor"/>
+    <element-name name="copy-assignment"/>
+    <element-name name="destructor"/>
     <element-name name="method"/>
     <element-name name="overloaded-method"/>
   </or-group>
 </content-model-expanded>
 <content-model>
   <or-group occurrence="*">
+    <element-name name="constructor"/>
+    <element-name name="copy-assignment"/>
+    <element-name name="destructor"/>
     <element-name name="method"/>
     <element-name name="overloaded-method"/>
   </or-group>
