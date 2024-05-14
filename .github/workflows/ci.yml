@@ -33,6 +33,7 @@ jobs:
         include:
           - os: ubuntu-latest
             install:
+              - curl
               - xsltproc
               - docbook-xsl
               - docbook-xml
@@ -96,11 +97,11 @@ jobs:
             rm -rf "../snapshot"
             git submodule update --init --recursive --jobs $GIT_FETCH_JOBS libs/config libs/headers tools/boost_install tools/build
             ./bootstrap.sh
+            echo "B2=\"$PWD/b2\"" >> $GITHUB_ENV
 
       - name: Run tests
         run: |
             cd boost-root
-            ./b2 "tools/$GIT_MODULE/test"
-            ./b2 "tools/$GIT_MODULE/test/doxygen"
-            cd "tools/$GIT_MODULE/test/more"
-            python run-tests.py
+            cd "tools/$GIT_MODULE/test" && "$B2" -j $BUILD_JOBS
+            cd "tools/$GIT_MODULE/test/doxygen" && "$B2" -j $BUILD_JOBS
+            cd "tools/$GIT_MODULE/test/more" && python run-tests.py
