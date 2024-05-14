@@ -97,11 +97,19 @@ jobs:
             rm -rf "../snapshot"
             git submodule update --init --recursive --jobs $GIT_FETCH_JOBS libs/config libs/headers tools/boost_install tools/build
             ./bootstrap.sh
-            echo "B2=\"$PWD/b2\"" >> $GITHUB_ENV
+            echo "B2=$PWD/b2" >> $GITHUB_ENV
 
-      - name: Run tests
+      - name: Run base tests
         run: |
-            cd boost-root
-            cd "tools/$GIT_MODULE/test" && "$B2" -j $BUILD_JOBS
-            cd "tools/$GIT_MODULE/test/doxygen" && "$B2" -j $BUILD_JOBS
-            cd "tools/$GIT_MODULE/test/more" && python run-tests.py
+            cd "boost-root/tools/$GIT_MODULE/test"
+            "$B2" -j $BUILD_JOBS
+
+      - name: Run Doxygen tests
+        run: |
+            cd "boost-root/tools/$GIT_MODULE/test/doxygen"
+            "$B2" -j $BUILD_JOBS
+
+      - name: Run more tests
+        run: |
+            cd "boost-root/tools/$GIT_MODULE/test/more"
+            python run-tests.py
