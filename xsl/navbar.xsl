@@ -195,7 +195,7 @@
             <td align = "center" class = "boost-headtd"><a href = "{$faq_link}" class = "boost-headelem">FAQ</a></td>
             <td align = "center" class = "boost-headtd"><a href = "{$more_link}" class = "boost-headelem">More</a></td>
          </xsl:when><xsl:otherwise>
-            <td align = "center"><a href = "{$home_link}">Home</a></td>
+            <td align = "center"><a href = "{$home_link}">Home-</a></td>
             <td align = "center"><a href = "{$libraries_link}">Libraries</a></td>
             <td align = "center"><a href = "{$people_link}">People</a></td>
             <td align = "center"><a href = "{$faq_link}">FAQ</a></td>

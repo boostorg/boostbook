@@ -1,0 +1,102 @@
+name: Generate Diff
+
+on:
+  pull_request:
+  push:
+    branches:
+      - bugfix/**
+      - feature/**
+      - fix/**
+      - pr/**
+
+concurrency:
+  group: ${{format('{0}:{1}:generate-diff', github.repository, github.ref)}}
+  cancel-in-progress: true
+
+jobs:
+  generate-diff:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Install packages
+        run: |
+          sudo apt-get -q -y install xsltproc docbook-xsl docbook-xml
+          npm install -g diff2html-cli
+
+      - name: Setup Boost
+        run: |
+          echo GITHUB_BASE_REF: $GITHUB_BASE_REF
+          echo GITHUB_REF: $GITHUB_REF
+          REF=${GITHUB_BASE_REF:-$GITHUB_REF}
+          REF=${REF#refs/heads/}
+          echo REF: $REF
+          BOOST_BRANCH=develop && [ "$REF" == "master" ] && BOOST_BRANCH=master || true
+          echo BOOST_BRANCH: $BOOST_BRANCH
+          git clone -b $BOOST_BRANCH --depth 1 https://github.com/boostorg/boost.git boost-root
+          cd boost-root
+          git submodule update --init tools/build
+          git submodule update --init tools/boostdep
+          python tools/boostdep/depinst/depinst.py tools/boostdep
+          ./bootstrap.sh
+          echo "B2=$PWD/b2" >> $GITHUB_ENV
+
+      - name: Create user-config.jam
+        run: |
+          echo "using boostbook ;" > ~/user-config.jam
+
+      - name: Generate Diff
+        run: |
+          set -x
+          echo GITHUB_REPOSITORY: $GITHUB_REPOSITORY
+          GIT_MODULE=${GITHUB_REPOSITORY#*/}
+          echo GIT_MODULE: $GIT_MODULE
+          echo "GIT_MODULE=$GIT_MODULE" >> $GITHUB_ENV
+          echo GITHUB_BASE_REF: $GITHUB_BASE_REF
+          echo GITHUB_REF: $GITHUB_REF
+          REF=${GITHUB_BASE_REF:-$GITHUB_REF}
+          REF=${REF#refs/heads/}
+          echo REF: $REF
+          TARGET_BRANCH=develop && [ "$REF" = "master" ] && TARGET_BRANCH=master || true
+          mkdir -p snapshot
+
+          # Build boostbook/doc using new changes
+          cd snapshot
+          curl -L --retry 5 -o "${GIT_MODULE}-${GITHUB_SHA}.tar.gz" "https://github.com/${GITHUB_REPOSITORY}/archive/${GITHUB_SHA}.tar.gz"
+          tar -xf "${GIT_MODULE}-${GITHUB_SHA}.tar.gz"
+          rm -f "${GIT_MODULE}-${GITHUB_SHA}.tar.gz"
+          cd ../boost-root
+          rm -rf tools/boostbook
+          mv -f "../snapshot/${GIT_MODULE}-${GITHUB_SHA}" tools/boostbook
+          cd tools/boostbook/doc
+          $B2
+          mv ./html ~/new-html
+
+          # Build boostbook/doc using target branch
+          cd ../../../../snapshot
+          curl -L --retry 5 -o "${GIT_MODULE}-${TARGET_BRANCH}.tar.gz" "https://github.com/${GITHUB_REPOSITORY}/archive/${TARGET_BRANCH}.tar.gz"
+          tar -xf "${GIT_MODULE}-${TARGET_BRANCH}.tar.gz"
+          rm -f "${GIT_MODULE}-${TARGET_BRANCH}.tar.gz"
+          cd ../boost-root
+          rm -rf tools/boostbook
+          mv -f "../snapshot/${GIT_MODULE}-${TARGET_BRANCH}" tools/boostbook
+          cd tools/boostbook/doc
+          $B2
+
+          # Generate diff.html for boostbook/doc/html
+          git init
+          git config user.name "Your Name"
+          git config user.email "you@example.com"
+          git add -f ./html
+          git commit -m "before"
+          rm -r ./html
+          mv ~/new-html ./html
+          git add -f ./html
+          git commit -m "after"
+          diff2html -t "diff with ${TARGET_BRANCH}" --cs light -s side -F ~/diff.html -- -M HEAD~1
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: diff
+          path: ~/diff.html
