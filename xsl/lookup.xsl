@@ -18,7 +18,14 @@
   <!-- Generate an ID for the entity referenced -->
   <xsl:template name="generate.id">
     <xsl:param name="node" select="."/>
-    <xsl:apply-templates select="$node" mode="generate.id"/>
+    <xsl:choose>
+      <xsl:when test="not(string($node/@id)='')">
+        <xsl:value-of select="$node/@id"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="$node" mode="generate.id"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="*" mode="generate.id">
