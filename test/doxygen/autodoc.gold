@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="yes"?>
-<library-reference id="example_reference"><title>Example Reference</title><header name="boost/example.hpp">
+<library-reference id="example_reference"><title>Example Reference</title><header id="doxygen.example_reference.example_8hpp" name="boost/example.hpp">
 <namespace name="example">
 <class id="doxygen.example_reference.classexample_1_1example" name="example"><purpose>Documentation for class example. </purpose><description><para>Detailed documentation</para><para><programlisting language="c++">void class_code_sample();
 </programlisting> </para></description><class id="doxygen.example_reference.classexample_1_1example_1_1inner__class" name="inner_class"><data-member id="doxygen.example_reference.classexample_1_1example_1_1inner__class_1ac614c06aa452469dc84b7bdd12170aa0" name="x"><type>int</type></data-member>
