@@ -1582,9 +1582,21 @@
     <xsl:value-of select="."/>
   </xsl:template>
   <xsl:template match="para" mode="passthrough">
-    <para>
-      <xsl:apply-templates mode="passthrough"/>
-    </para>
+    <xsl:choose>
+      <xsl:when test="parblock">
+        <!-- parblock is expected to contain a number of paragraphs,
+             so just forward them directly in the current context. -->
+        <xsl:apply-templates mode="passthrough"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <para>
+          <xsl:apply-templates mode="passthrough"/>
+        </para>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template match="parblock" mode="passthrough">
+    <xsl:apply-templates mode="passthrough"/>
   </xsl:template>
   <xsl:template match="copydoc" mode="passthrough">
     <xsl:apply-templates mode="passthrough"/>
