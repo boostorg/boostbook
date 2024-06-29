@@ -1605,10 +1605,16 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="para/simplesect[@kind='note' or @kind='attention']" mode="passthrough">
+  <xsl:template match="para/simplesect[@kind='note' or @kind='remark']" mode="passthrough">
     <note>
       <xsl:apply-templates mode="passthrough"/>
     </note>
+  </xsl:template>
+
+  <xsl:template match="para/simplesect[@kind='attention' or @kind='important']" mode="passthrough">
+    <important>
+      <xsl:apply-templates mode="passthrough"/>
+    </important>
   </xsl:template>
 
   <xsl:template match="para/simplesect[@kind='warning']" mode="passthrough">
