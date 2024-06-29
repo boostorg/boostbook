@@ -436,6 +436,12 @@
     </xsl:variable>
     <xsl:if test="$include-header='yes'">
       <header>
+        <xsl:if test="not(string(@id)='')">
+          <xsl:attribute name="id">
+            <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
+          </xsl:attribute>
+        </xsl:if>
+
         <xsl:attribute name="name">
           <xsl:call-template name="shorten.header.name">
             <xsl:with-param name="header" select="location/attribute::file"/>
