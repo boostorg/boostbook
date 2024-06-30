@@ -304,6 +304,7 @@
 
   <xsl:template name="enum">
     <xsl:param name="in-file"/>
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
 
     <xsl:if test="string(location/attribute::file)=$in-file">
       <xsl:variable name="name">
@@ -313,7 +314,7 @@
       </xsl:variable>
       
       <enum>
-        <xsl:if test="not(string(@id)='')">
+        <xsl:if test="$with-id">
           <xsl:attribute name="id">
             <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
           </xsl:attribute>
@@ -323,7 +324,9 @@
           <xsl:value-of select="$name"/>
         </xsl:attribute>
         
-        <xsl:apply-templates select="enumvalue"/>
+        <xsl:apply-templates select="enumvalue">
+          <xsl:with-param name="with-id" select="$with-id"/>
+        </xsl:apply-templates>
         
         <xsl:apply-templates select="briefdescription" mode="passthrough"/>
         <xsl:apply-templates select="detaileddescription" mode="passthrough"/>
@@ -334,6 +337,8 @@
   </xsl:template>
 
   <xsl:template match="enumvalue">
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
+
     <xsl:choose>
       <!-- If the string INTERNAL ONLY is in the description, don't
            emit this entity. This hack is necessary because Doxygen doesn't
@@ -344,7 +349,7 @@
       <xsl:otherwise>
   
         <enumvalue>
-          <xsl:if test="not(string(@id)='')">
+          <xsl:if test="$with-id">
             <xsl:attribute name="id">
               <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
             </xsl:attribute>
@@ -602,11 +607,11 @@
       </xsl:when>
 
       <xsl:when test="@kind='variable'">
-        <xsl:call-template name="variable" />
+        <xsl:call-template name="variable"/>
       </xsl:when>
 
       <xsl:when test="@kind='enum'">
-        <xsl:call-template name="enum" />
+        <xsl:call-template name="enum"/>
       </xsl:when>
 
       <xsl:otherwise>
@@ -963,6 +968,25 @@
     <xsl:param name="in-section" select="false()"/>
     <xsl:param name="in-file" select="''"/>
 
+    <!-- Workaround for INLINE_INHERITED_MEMB=YES Doxygen parameter. In this mode, Doxygen
+         duplicates base class members in the derived classes, with the same ids. This results
+         in duplicate ids in the resulting BoostBook tags.
+         To avoid this, check if the member id starts with the id of the enclosing class, and
+         only generate an id in the output if it does. Otherwise, assume this is an inherited
+         member, and an id for it is generated in the definition of the base class. Doxygen refs
+         will point to the member definition in the base class, while for the definition in the
+         derived class BoostBook stylesheets will generate a unique id that will be used to
+         link synopsis to the reference of the member. -->
+    <xsl:variable name="parent-compounddef" select="ancestor::compounddef[last()]"/>
+    <xsl:variable name="parent-class-id">
+      <xsl:if test="$parent-compounddef/attribute::kind='class' or
+                    $parent-compounddef/attribute::kind='struct' or
+                    $parent-compounddef/attribute::kind='union'">
+        <xsl:value-of select="$parent-compounddef/attribute::id"/>
+      </xsl:if>
+    </xsl:variable>
+    <xsl:variable name="with-id" select="not(string(@id)='') and ($parent-class-id='' or starts-with(string(@id), $parent-class-id))"/>
+
     <xsl:choose>
       <!-- If the string INTERNAL ONLY is in the description, don't
            emit this entity. This hack is necessary because Doxygen doesn't
@@ -974,6 +998,7 @@
       <xsl:when test="@kind='typedef'">
         <xsl:call-template name="typedef">
           <xsl:with-param name="in-file" select="$in-file"/>
+          <xsl:with-param name="with-id" select="$with-id"/>
         </xsl:call-template>
       </xsl:when>
       <xsl:when test="@kind='function'">
@@ -1006,23 +1031,33 @@
 
             <xsl:choose>
               <xsl:when test="string(name/text())=$in-class">
-                <xsl:call-template name="constructor"/>
+                <xsl:call-template name="constructor">
+                  <xsl:with-param name="with-id" select="$with-id"/>
+                </xsl:call-template>
               </xsl:when>
               <xsl:when test="string(name/text())=concat('~',$in-class)">
-                <xsl:call-template name="destructor"/>
+                <xsl:call-template name="destructor">
+                  <xsl:with-param name="with-id" select="$with-id"/>
+                </xsl:call-template>
               </xsl:when>
               <xsl:when test="string(name/text())='operator='">
-                <xsl:call-template name="copy-assignment"/>
+                <xsl:call-template name="copy-assignment">
+                  <xsl:with-param name="with-id" select="$with-id"/>
+                </xsl:call-template>
               </xsl:when>
               <xsl:when test="normalize-space(string(type))=''
                               and contains(name/text(), 'operator ')">
                 <xsl:if test="$in-section">
-                  <xsl:call-template name="conversion-operator"/>
+                  <xsl:call-template name="conversion-operator">
+                    <xsl:with-param name="with-id" select="$with-id"/>
+                  </xsl:call-template>
                 </xsl:if>
               </xsl:when>
               <xsl:otherwise>
                 <xsl:if test="$in-section">
-                  <xsl:call-template name="method"/>
+                  <xsl:call-template name="method">
+                    <xsl:with-param name="with-id" select="$with-id"/>
+                  </xsl:call-template>
                 </xsl:if>
               </xsl:otherwise>
             </xsl:choose>
@@ -1031,17 +1066,21 @@
       </xsl:when>
       <xsl:when test="@kind='friend'">
         <xsl:if test="./detaileddescription/para or ./briefdescription/para">
-          <xsl:call-template name="method"/>
+          <xsl:call-template name="method">
+            <xsl:with-param name="with-id" select="$with-id"/>
+          </xsl:call-template>
         </xsl:if>
       </xsl:when>
       <xsl:when test="@kind='enum'">
         <xsl:call-template name="enum">
           <xsl:with-param name="in-file" select="$in-file"/>
+          <xsl:with-param name="with-id" select="$with-id"/>
         </xsl:call-template>
       </xsl:when>
       <xsl:when test="@kind='variable'">
         <xsl:call-template name="variable">
           <xsl:with-param name="in-file" select="$in-file"/>
+          <xsl:with-param name="with-id" select="$with-id"/>
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
@@ -1055,11 +1094,12 @@
   <!-- Display typedefs -->
   <xsl:template name="typedef">
     <xsl:param name="in-file" select="''"/>
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
 
     <xsl:if test="string(location/attribute::file)=$in-file">
       <!-- TBD: Handle public/protected/private -->
       <typedef>
-        <xsl:if test="not(string(@id)='')">
+        <xsl:if test="$with-id">
           <xsl:attribute name="id">
             <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
           </xsl:attribute>
@@ -1341,6 +1381,7 @@
   <!-- Handle free functions -->
   <xsl:template name="function">
     <xsl:param name="in-file" select="''"/>
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
 
     <xsl:variable name="firstpara" 
       select="normalize-space(detaileddescription/para[1])"/>
@@ -1366,7 +1407,7 @@
       <xsl:choose>
         <xsl:when test="not(contains($has-overload, 'false'))">
           <overloaded-function>
-            <xsl:if test="not(string(@id)='')">
+            <xsl:if test="$with-id">
               <xsl:attribute name="id">
                 <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
               </xsl:attribute>
@@ -1384,7 +1425,7 @@
         </xsl:when>
         <xsl:otherwise>
           <function>
-            <xsl:if test="not(string(@id)='')">
+            <xsl:if test="$with-id">
               <xsl:attribute name="id">
                 <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
               </xsl:attribute>
@@ -1438,8 +1479,10 @@
 
   <!-- Handle constructors -->
   <xsl:template name="constructor">
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
+
     <constructor>
-      <xsl:if test="not(string(@id)='')">
+      <xsl:if test="$with-id">
         <xsl:attribute name="id">
           <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
         </xsl:attribute>
@@ -1455,8 +1498,10 @@
 
   <!-- Handle Destructors -->
   <xsl:template name="destructor">
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
+
     <destructor>
-      <xsl:if test="not(string(@id)='')">
+      <xsl:if test="$with-id">
         <xsl:attribute name="id">
           <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
         </xsl:attribute>
@@ -1469,8 +1514,10 @@
 
   <!-- Handle Copy Assignment -->
   <xsl:template name="copy-assignment">
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
+
     <copy-assignment>
-      <xsl:if test="not(string(@id)='')">
+      <xsl:if test="$with-id">
         <xsl:attribute name="id">
           <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
         </xsl:attribute>
@@ -1488,8 +1535,10 @@
 
   <!-- Handle conversion operator -->
   <xsl:template name="conversion-operator">
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
+
     <method>
-      <xsl:if test="not(string(@id)='')">
+      <xsl:if test="$with-id">
         <xsl:attribute name="id">
           <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
         </xsl:attribute>
@@ -1512,8 +1561,10 @@
 
   <!-- Handle methods -->
   <xsl:template name="method">
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
+
     <method>
-      <xsl:if test="not(string(@id)='')">
+      <xsl:if test="$with-id">
         <xsl:attribute name="id">
           <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
         </xsl:attribute>
@@ -1537,9 +1588,11 @@
   <!-- Handle member variables -->
   <xsl:template name="variable">
     <xsl:param name="in-file"/>
+    <xsl:param name="with-id" select="not(string(@id)='')"/>
+
     <xsl:if test="string(location/attribute::file)=$in-file">
     <data-member>
-      <xsl:if test="not(string(@id)='')">
+      <xsl:if test="$with-id">
         <xsl:attribute name="id">
           <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
         </xsl:attribute>
