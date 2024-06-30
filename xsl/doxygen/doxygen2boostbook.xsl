@@ -670,8 +670,15 @@
           </xsl:attribute>
           <xsl:if test="defval">
             <default>
-              <xsl:apply-templates select="defval/*|defval/text()" 
-                mode="passthrough"/>
+              <xsl:choose>
+                <xsl:when test="contains(string(defval), $boost.doxygen.detail)">
+                  <emphasis>unspecified</emphasis>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:apply-templates select="defval/*|defval/text()"
+                    mode="passthrough"/>
+                </xsl:otherwise>
+              </xsl:choose>
             </default>
           </xsl:if>
           <xsl:for-each select="../../detaileddescription//parameterlist[@kind='templateparam']/parameteritem">
@@ -696,8 +703,15 @@
           </xsl:attribute>
           <xsl:if test="defval">
             <default>
-              <xsl:apply-templates select="defval/*|defval/text()" 
-                mode="passthrough"/>
+              <xsl:choose>
+                <xsl:when test="contains(string(defval), $boost.doxygen.detail)">
+                  <emphasis>unspecified</emphasis>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:apply-templates select="defval/*|defval/text()"
+                    mode="passthrough"/>
+                </xsl:otherwise>
+              </xsl:choose>
             </default>
           </xsl:if>
           <xsl:for-each select="../../detaileddescription//parameterlist[@kind='templateparam']/parameteritem">
@@ -722,8 +736,15 @@
           </type>
           <xsl:if test="defval">
             <default>
-              <xsl:apply-templates select="defval/*|defval/text()" 
-                mode="passthrough"/>
+              <xsl:choose>
+                <xsl:when test="contains(string(defval), $boost.doxygen.detail)">
+                  <emphasis>unspecified</emphasis>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:apply-templates select="defval/*|defval/text()"
+                    mode="passthrough"/>
+                </xsl:otherwise>
+              </xsl:choose>
             </default>
           </xsl:if>
           <xsl:for-each select="../../detaileddescription//parameterlist[@kind='templateparam']/parameteritem">
@@ -1143,7 +1164,6 @@
                 mode="passthrough"/>
             </xsl:otherwise>
           </xsl:choose>
-
         </default>
       </xsl:if>
 
