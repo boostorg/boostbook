@@ -653,6 +653,31 @@
     </xsl:apply-templates>
   </xsl:template>
 
+  <!-- Normalizes spaces in text, but preserves one leading and trailing spaces
+       to keep the text distinct from the surrounding content. -->
+  <xsl:template name="normalize-text">
+    <xsl:param name="text"/>
+
+    <xsl:if test="starts-with(string($text), ' ')">
+      <xsl:text> </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="normalize-space($text)"/>
+    <xsl:if test="substring(string($text), string-length(string($text))) = ' '">
+      <xsl:text> </xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="text()" mode="default-value">
+    <!-- Doxygen generates extra spaces in default values for template parameters -->
+    <xsl:call-template name="normalize-text">
+      <xsl:with-param name="text" select="."/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="*" mode="default-value">
+    <xsl:apply-templates mode="passthrough"/>
+  </xsl:template>
+
   <!-- Classes -->
   <xsl:template match="templateparamlist" mode="template">
     <template>
@@ -675,8 +700,7 @@
                   <emphasis>unspecified</emphasis>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:apply-templates select="defval/*|defval/text()"
-                    mode="passthrough"/>
+                  <xsl:apply-templates select="defval/*|defval/text()" mode="default-value"/>
                 </xsl:otherwise>
               </xsl:choose>
             </default>
@@ -708,8 +732,7 @@
                   <emphasis>unspecified</emphasis>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:apply-templates select="defval/*|defval/text()"
-                    mode="passthrough"/>
+                  <xsl:apply-templates select="defval/*|defval/text()" mode="default-value"/>
                 </xsl:otherwise>
               </xsl:choose>
             </default>
@@ -741,8 +764,7 @@
                   <emphasis>unspecified</emphasis>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:apply-templates select="defval/*|defval/text()"
-                    mode="passthrough"/>
+                  <xsl:apply-templates select="defval/*|defval/text()" mode="default-value"/>
                 </xsl:otherwise>
               </xsl:choose>
             </default>
@@ -1160,8 +1182,7 @@
               <emphasis>unspecified</emphasis>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:apply-templates select="defval/*|defval/text()" 
-                mode="passthrough"/>
+              <xsl:apply-templates select="defval/*|defval/text()" mode="default-value"/>
             </xsl:otherwise>
           </xsl:choose>
         </default>
@@ -1852,6 +1873,13 @@
         <xsl:value-of select="text()"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="text()" mode="type">
+    <!-- Doxygen sometimes puts redundant spaces in complex type descriptions -->
+    <xsl:call-template name="normalize-text">
+      <xsl:with-param name="text" select="string(.)"/>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="*" mode="type">
