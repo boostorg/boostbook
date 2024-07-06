@@ -1715,12 +1715,10 @@
   </xsl:template>
 
   <xsl:template match="para/simplesect[@kind='see']" mode="passthrough">
-    <para>
-      <emphasis role="bold">
-        <xsl:text>See Also:</xsl:text>
-      </emphasis>
+    <formalpara>
+      <title>See Also:</title>
       <xsl:apply-templates mode="passthrough"/>
-    </para>
+    </formalpara>
   </xsl:template>
 
   <xsl:template match="simplesectsep" mode="passthrough">

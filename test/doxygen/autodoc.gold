@@ -106,8 +106,8 @@ int foo2();
 
 This is a test function. <link linkend="doxygen.example_reference.classexample_1_1example">Link to class</link> <link linkend="doxygen.example_reference.structexample_1_1example__template">Link to class template</link> <note><para>This is a note.</para>
 </note>
-<para><emphasis role="bold">See Also:</emphasis><para><link linkend="doxygen.example_reference.classexample_1_1example">example::example</link> and <link linkend="doxygen.example_reference.structexample_1_1example__template">example_template</link> </para>
-</para>
+<formalpara><title>See Also:</title><para><link linkend="doxygen.example_reference.classexample_1_1example">example::example</link> and <link linkend="doxygen.example_reference.structexample_1_1example__template">example_template</link> </para>
+</formalpara>
 </para></description><requires><para>i &gt; j</para>
 </requires><returns><para>The answer </para>
 </returns></function>
