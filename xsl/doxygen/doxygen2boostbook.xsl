@@ -1804,24 +1804,30 @@
 
   <xsl:template match="parameterlist" mode="function-clauses">
     <xsl:if test="@kind='exception'">
-      <simpara>
-        <xsl:choose>
-          <xsl:when test="normalize-space(.//parametername//text())='nothrow'">
-            <xsl:text>Will not throw.</xsl:text>
-          </xsl:when>
-          <xsl:otherwise>
+      <xsl:apply-templates mode="exception.description"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="parameteritem" mode="exception.description">
+    <simpara>
+      <xsl:choose>
+        <xsl:when test="normalize-space(./parameternamelist/parametername//text())='nothrow'">
+          <xsl:text>Will not throw.</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:if test="normalize-space(./parameternamelist/parametername//text())!='~'">
             <classname>
-              <xsl:value-of select=".//parametername//text()"/>
+              <xsl:value-of select="./parameternamelist/parametername//text()"/>
             </classname>
             <xsl:text> </xsl:text>
-            <xsl:apply-templates 
-              select=".//parameterdescription/para/text()
-                      |.//parameterdescription/para/*"
-              mode="passthrough"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </simpara>
-    </xsl:if>
+          </xsl:if>
+          <xsl:apply-templates
+            select="./parameterdescription/para/text()
+                    |./parameterdescription/para/*"
+            mode="passthrough"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </simpara>
   </xsl:template>
 
   <xsl:template match="type">

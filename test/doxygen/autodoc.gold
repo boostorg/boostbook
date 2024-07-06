@@ -104,13 +104,17 @@ int foo2();
 <function id="doxygen.example_reference.example_8hpp_1addcdeb7a8901ec383539fabdc69b1ae1" name="namespace_func"><type>int</type><parameter name="i"><paramtype>int</paramtype><description><para>A function parameter </para></description></parameter><parameter name="j"><paramtype>int</paramtype><description><para>Another </para></description></parameter><description><para>
 
 
+
 This is a test function. <link linkend="doxygen.example_reference.classexample_1_1example">Link to class</link> <link linkend="doxygen.example_reference.structexample_1_1example__template">Link to class template</link> <note><para>This is a note.</para>
 </note>
 <formalpara><title>See Also:</title><para><link linkend="doxygen.example_reference.classexample_1_1example">example::example</link> and <link linkend="doxygen.example_reference.structexample_1_1example__template">example_template</link> </para>
 </formalpara>
 </para></description><requires><para>i &gt; j</para>
 </requires><returns><para>The answer </para>
-</returns></function>
+</returns><throws><simpara><classname>std::runtime_error</classname> Some error description </simpara>
+<simpara><classname>std::bad_alloc</classname> Memory allocation error </simpara>
+<simpara>Free form description of exception throwing </simpara>
+</throws></function>
 <function id="doxygen.example_reference.example_8hpp_1ae06fcc1d7c044252611b2ebb2b665e53" name="namespace_func_template"><type>void</type><template>
           <template-type-parameter name="TypeParameter"><purpose><para>A template parameter </para></purpose></template-type-parameter>
           <template-nontype-parameter name="NonTypeParameter"><type>int</type><purpose><para>This is a non-type template parameter </para></purpose></template-nontype-parameter>
