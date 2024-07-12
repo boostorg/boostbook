@@ -26,7 +26,7 @@
 
   <!-- When true, the stylesheet will sort parameters of functions and
        templates alphabetically in detailed description. -->
-  <xsl:param name="boost.sort.params">1</xsl:param>
+  <xsl:param name="boost.sort.params">0</xsl:param>
 
   <!-- Display a function declaration -->
   <xsl:template name="function">
