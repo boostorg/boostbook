@@ -16,13 +16,9 @@ DIST_DIR = [ path.root [ path.make $(DIST_DIR) ] [ path.pwd ] ] ;
 
 project /boost/boostbook ;
 
-local patterns = *.dtd *.xml *.xsl LICENSE ;
-local dirs = dtd xsl ;
-
 explicit
     [ install dist-share
-        : [ glob $(dirs)/$(patterns) $(dirs)/*/$(patterns)
-            $(dirs)/*/*/$(patterns) ]
+        : [ glob-tree-ex dtd xsl : *.dtd *.xml *.xsl LICENSE ]
         : <location>$(DIST_DIR)/share <install-source-root>. ]
     [ alias boostbook ]
     [ alias all : boostbook dist-share ]
