@@ -1003,13 +1003,25 @@
     <xsl:if test="not ($compact)">
       <xsl:call-template name="reference-documentation">
         <xsl:with-param name="name">
-          <xsl:text>Function </xsl:text>
-          <xsl:if test="template">
-            <xsl:text>template </xsl:text>
-          </xsl:if>
-          <xsl:call-template name="monospaced">
-            <xsl:with-param name="text" select="@name"/>
-          </xsl:call-template>
+          <xsl:choose>
+            <!-- Deduction guides use trailing return types and are not ordinary
+                 free functions; title them accordingly. -->
+            <xsl:when test="@trailing = '1' or @trailing = 'yes' or @trailing = 'true'">
+              <xsl:text>Deduction guide for </xsl:text>
+              <xsl:call-template name="monospaced">
+                <xsl:with-param name="text" select="@name"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>Function </xsl:text>
+              <xsl:if test="template">
+                <xsl:text>template </xsl:text>
+              </xsl:if>
+              <xsl:call-template name="monospaced">
+                <xsl:with-param name="text" select="@name"/>
+              </xsl:call-template>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:with-param>
         <xsl:with-param name="refname">
           <xsl:call-template name="fully-qualified-name">
