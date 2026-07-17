@@ -260,12 +260,14 @@
     name         CDATA  #REQUIRED
     cv           CDATA  #IMPLIED
     specifiers   CDATA  #IMPLIED
+    trailing     CDATA  #IMPLIED
     %boost.common.attrib;>
 
 <!ELEMENT function (template?, type, parameter*, %boost.function.semantics;)>
 <!ATTLIST function
     name         CDATA  #REQUIRED
     specifiers   CDATA  #IMPLIED
+    trailing     CDATA  #IMPLIED
     %boost.common.attrib;>
 
 <!ELEMENT overloaded-method (signature*, %boost.function.semantics;)>
@@ -282,6 +284,7 @@
 <!ATTLIST signature
     cv           CDATA  #IMPLIED
     specifiers   CDATA  #IMPLIED
+    trailing     CDATA  #IMPLIED
     %boost.common.attrib;>
 
 <!ELEMENT requires ANY>
