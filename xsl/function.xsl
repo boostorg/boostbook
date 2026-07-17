@@ -82,6 +82,13 @@
       </xsl:if>
     </xsl:variable>
 
+    <!-- True if the return type is written as a trailing return type, i.e.
+         "[specifiers] name(params) -> type" instead of "type name(params)".
+         Used for functions declared with a trailing return type and for class
+         template argument deduction guides. -->
+    <xsl:variable name="is-trailing"
+      select="@trailing = '1' or @trailing = 'yes' or @trailing = 'true'"/>
+
     <!-- Calculate the type -->
     <xsl:variable name="type">
       <xsl:value-of select="$specifiers"/>
@@ -93,6 +100,9 @@
 
         <!-- Constructors and destructors have no return type -->
         <xsl:when test="$constructor-for or $destructor-for"/>
+
+        <!-- Trailing return types are printed after the parameter list -->
+        <xsl:when test="$is-trailing"/>
 
         <!-- Copy assignment operators return a reference to the class
              they are in, unless another type has been explicitly
@@ -106,6 +116,16 @@
           <xsl:text> </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
+    </xsl:variable>
+
+    <!-- The trailing return type suffix (" -> type"), if any. Kept as plain
+         text so it contributes to width calculations; the actual (possibly
+         linked/highlighted) type is emitted separately below. -->
+    <xsl:variable name="trailing-return">
+      <xsl:if test="$is-trailing">
+        <xsl:text> -&gt; </xsl:text>
+        <xsl:value-of select="normalize-space(string(type))"/>
+      </xsl:if>
     </xsl:variable>
 
     <!-- Build the function name with return type -->
@@ -173,7 +193,7 @@
 
     <!-- Build the full declaration text -->
     <xsl:variable name="decl-string"
-      select="concat($type, $function-name, $param-string, $postdeclarator)"/>
+      select="concat($type, $function-name, $param-string, $postdeclarator, $trailing-return)"/>
     <xsl:variable name="end-column"
       select="$template-length + string-length($decl-string) + $indentation"/>
 
@@ -230,6 +250,9 @@
           <!-- Constructors and destructors have no return type -->
           <xsl:when test="$constructor-for or $destructor-for"/>
 
+          <!-- Trailing return types are printed after the parameter list -->
+          <xsl:when test="$is-trailing"/>
+
           <!-- Copy assignment operators return a reference to the class
                they are in, unless another type has been explicitly
                provided in the element. -->
@@ -267,6 +290,12 @@
         <xsl:call-template name="source-highlight">
           <xsl:with-param name="text" select="$postdeclarator"/>
         </xsl:call-template>
+        <xsl:if test="$is-trailing">
+          <xsl:call-template name="highlight-text">
+            <xsl:with-param name="text" select="' -&gt; '"/>
+          </xsl:call-template>
+          <xsl:apply-templates select="type" mode="highlight"/>
+        </xsl:if>
         <xsl:call-template name="highlight-text">
           <xsl:with-param name="text" select="';'"/>
         </xsl:call-template>
@@ -287,6 +316,9 @@
 
           <!-- Constructors and destructors have no return type -->
           <xsl:when test="$constructor-for or $destructor-for"/>
+
+          <!-- Trailing return types are printed after the parameter list -->
+          <xsl:when test="$is-trailing"/>
 
           <!-- Copy assignment operators return a reference to the class
                they are in, unless another type has been explicitly
@@ -343,6 +375,12 @@
         <xsl:call-template name="source-highlight">
           <xsl:with-param name="text" select="$postdeclarator"/>
         </xsl:call-template>
+        <xsl:if test="$is-trailing">
+          <xsl:call-template name="highlight-text">
+            <xsl:with-param name="text" select="' -&gt; '"/>
+          </xsl:call-template>
+          <xsl:apply-templates select="type" mode="highlight"/>
+        </xsl:if>
         <xsl:call-template name="highlight-text">
           <xsl:with-param name="text" select="';'"/>
         </xsl:call-template>
@@ -965,13 +1003,25 @@
     <xsl:if test="not ($compact)">
       <xsl:call-template name="reference-documentation">
         <xsl:with-param name="name">
-          <xsl:text>Function </xsl:text>
-          <xsl:if test="template">
-            <xsl:text>template </xsl:text>
-          </xsl:if>
-          <xsl:call-template name="monospaced">
-            <xsl:with-param name="text" select="@name"/>
-          </xsl:call-template>
+          <xsl:choose>
+            <!-- Deduction guides use trailing return types and are not ordinary
+                 free functions; title them accordingly. -->
+            <xsl:when test="@trailing = '1' or @trailing = 'yes' or @trailing = 'true'">
+              <xsl:text>Deduction guide for </xsl:text>
+              <xsl:call-template name="monospaced">
+                <xsl:with-param name="text" select="@name"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>Function </xsl:text>
+              <xsl:if test="template">
+                <xsl:text>template </xsl:text>
+              </xsl:if>
+              <xsl:call-template name="monospaced">
+                <xsl:with-param name="text" select="@name"/>
+              </xsl:call-template>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:with-param>
         <xsl:with-param name="refname">
           <xsl:call-template name="fully-qualified-name">
