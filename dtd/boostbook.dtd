@@ -46,7 +46,7 @@
         "class|class-specialization|struct|struct-specialization|
          union|union-specialization|typedef|enum|
          free-function-group|function|overloaded-function|
-         namespace">
+         deduction-guide|namespace">
 
 <!ENTITY % boost.template.mix
         "template-type-parameter|template-nontype-parameter|template-varargs">
@@ -58,7 +58,8 @@
          struct-specialization|union|union-specialization">
 
 <!ENTITY % boost.class.mix
-        "%boost.class.members;|free-function-group|function|overloaded-function">
+        "%boost.class.members;|free-function-group|function|overloaded-function|
+         deduction-guide">
 
 <!ENTITY % boost.class.content
              "template?, inherit*, purpose?, description?,
@@ -284,6 +285,14 @@
     specifiers   CDATA  #IMPLIED
     %boost.common.attrib;>
 
+<!-- Class template argument deduction guide: rendered as
+     "template<...> name(params) -> type;". Distinct from function so that
+     functionname cannot resolve to a deduction guide. -->
+<!ELEMENT deduction-guide (template?, type, parameter*, %boost.function.semantics;)>
+<!ATTLIST deduction-guide
+    name         CDATA  #REQUIRED
+    %boost.common.attrib;>
+
 <!ELEMENT requires ANY>
 <!ATTLIST requires %boost.common.attrib;>
 
@@ -334,7 +343,7 @@
     specifiers   CDATA  #IMPLIED
     %boost.common.attrib;>
 
-<!ELEMENT free-function-group (function|overloaded-function)*>
+<!ELEMENT free-function-group (function|overloaded-function|deduction-guide)*>
 <!ATTLIST free-function-group
     name  CDATA  #REQUIRED
     %boost.common.attrib;>

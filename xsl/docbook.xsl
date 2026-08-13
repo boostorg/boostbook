@@ -155,14 +155,15 @@
 
         <xsl:if test="descendant::class|descendant::struct|descendant::union
                      |descendant::function|descendant::free-function-group
-                     |descendant::overloaded-function|descendant::enum
+                     |descendant::overloaded-function|descendant::deduction-guide
+                     |descendant::enum
                      |descendant::typedef">
           <xsl:call-template name="synopsis">
             <xsl:with-param name="text">
               <xsl:apply-templates mode="synopsis"
                 select="namespace|class|struct|union
                        |function|free-function-group
-                       |overloaded-function|enum
+                       |overloaded-function|deduction-guide|enum
                        |typedef">
                 <xsl:with-param name="indentation" select="0"/>
               </xsl:apply-templates>

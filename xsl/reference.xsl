@@ -42,7 +42,7 @@
 
     <!-- Emit namespace functions -->
     <xsl:apply-templates
-      select="free-function-group|function|overloaded-function"
+      select="free-function-group|function|overloaded-function|deduction-guide"
       mode="synopsis">
       <xsl:with-param name="indentation" select="$indentation + 2"/>
     </xsl:apply-templates>
@@ -90,7 +90,8 @@
     <xsl:apply-templates select="class|class-specialization|
                                  struct|struct-specialization|
                                  union|union-specialization|enum|function|
-                                 overloaded-function|data-member|typedef"
+                                 overloaded-function|deduction-guide|
+                                 data-member|typedef"
       mode="namespace-reference"/>
   </xsl:template>
 

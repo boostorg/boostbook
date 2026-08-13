@@ -231,6 +231,24 @@ namespace example
         /** An assignment operator. */
         detail::unspecified& operator=(const specialization_test&);
     };
+
+    /**
+     * A class template used to exercise class template argument deduction.
+     */
+    template <typename T>
+    struct widget
+    {
+        explicit widget(T);
+    };
+
+    /**
+     * Deduction guide for \ref widget.
+     *
+     * Allows \c widget to be constructed from a value of type \c T,
+     * deducing the template argument from the constructor argument.
+     */
+    template <typename T>
+    widget(T) -> widget<T>;
 }
 
 #define EXAMPLE(m) The macro

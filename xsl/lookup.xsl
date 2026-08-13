@@ -282,7 +282,7 @@
     <xsl:value-of select="1"/>
   </xsl:template>
 
-  <xsl:template match="function|overloaded-function" mode="unique.name">
+  <xsl:template match="function|overloaded-function|deduction-guide" mode="unique.name">
     <xsl:variable name="func-name">
       <xsl:call-template name="fully-qualified-name">
         <xsl:with-param name="node" select="."/>

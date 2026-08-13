@@ -24,7 +24,7 @@
     match="class|struct|union|concept|function|overloaded-function|macro|library|namespace/data-member|header/data-member|*[attribute::id]"
     use="translate(@name|@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
 
-  <xsl:template match="function|overloaded-function" mode="generate.id">
+  <xsl:template match="function|overloaded-function|deduction-guide" mode="generate.id">
     <xsl:call-template name="fully-qualified-id">
       <xsl:with-param name="node" select="."/>
     </xsl:call-template>

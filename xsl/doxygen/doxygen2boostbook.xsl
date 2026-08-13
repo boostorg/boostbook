@@ -1471,22 +1471,54 @@
           </overloaded-function>
         </xsl:when>
         <xsl:otherwise>
-          <function>
-            <xsl:if test="$with-id">
-              <xsl:attribute name="id">
-                <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
-              </xsl:attribute>
-            </xsl:if>
+          <!-- Class template argument deduction guides are emitted by Doxygen
+               as functions with an empty return type whose deduced type only
+               survives inside the argsstring (e.g.
+               "(It, It) -> vector< ... >"). Recover the deduced type and emit
+               a dedicated deduction-guide element. -->
+          <xsl:variable name="is-deduction-guide"
+            select="normalize-space(type)='' and contains(string(argsstring), '-&gt;')"/>
 
-            <xsl:attribute name="name">
-              <xsl:call-template name="normalize-name"/>
-            </xsl:attribute>
-            
-            <!-- Return type -->
-            <type><xsl:apply-templates select="type"/></type>
-            
-            <xsl:call-template name="function.children"/>
-          </function>          
+          <xsl:choose>
+            <xsl:when test="$is-deduction-guide">
+              <deduction-guide>
+                <xsl:if test="$with-id">
+                  <xsl:attribute name="id">
+                    <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
+                  </xsl:attribute>
+                </xsl:if>
+
+                <xsl:attribute name="name">
+                  <xsl:call-template name="normalize-name"/>
+                </xsl:attribute>
+
+                <type>
+                  <xsl:value-of
+                    select="normalize-space(substring-after(string(argsstring), '-&gt;'))"/>
+                </type>
+
+                <xsl:call-template name="function.children"/>
+              </deduction-guide>
+            </xsl:when>
+            <xsl:otherwise>
+              <function>
+                <xsl:if test="$with-id">
+                  <xsl:attribute name="id">
+                    <xsl:value-of select="concat($doxygen-id-prefix, @id)"/>
+                  </xsl:attribute>
+                </xsl:if>
+
+                <xsl:attribute name="name">
+                  <xsl:call-template name="normalize-name"/>
+                </xsl:attribute>
+
+                <!-- Return type -->
+                <type><xsl:apply-templates select="type"/></type>
+
+                <xsl:call-template name="function.children"/>
+              </function>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>

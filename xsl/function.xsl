@@ -82,6 +82,11 @@
       </xsl:if>
     </xsl:variable>
 
+    <!-- True if this is a class template argument deduction guide, rendered
+         as "name(params) -> type" instead of "type name(params)". -->
+    <xsl:variable name="is-deduction-guide"
+      select="local-name(.) = 'deduction-guide'"/>
+
     <!-- Calculate the type -->
     <xsl:variable name="type">
       <xsl:value-of select="$specifiers"/>
@@ -93,6 +98,9 @@
 
         <!-- Constructors and destructors have no return type -->
         <xsl:when test="$constructor-for or $destructor-for"/>
+
+        <!-- Deduction guides print the deduced type after the parameter list -->
+        <xsl:when test="$is-deduction-guide"/>
 
         <!-- Copy assignment operators return a reference to the class
              they are in, unless another type has been explicitly
@@ -106,6 +114,16 @@
           <xsl:text> </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
+    </xsl:variable>
+
+    <!-- The trailing " -> type" suffix for deduction guides. Kept as plain
+         text so it contributes to width calculations; the actual (possibly
+         linked/highlighted) type is emitted separately below. -->
+    <xsl:variable name="trailing-return">
+      <xsl:if test="$is-deduction-guide">
+        <xsl:text> -&gt; </xsl:text>
+        <xsl:value-of select="normalize-space(string(type))"/>
+      </xsl:if>
     </xsl:variable>
 
     <!-- Build the function name with return type -->
@@ -173,7 +191,7 @@
 
     <!-- Build the full declaration text -->
     <xsl:variable name="decl-string"
-      select="concat($type, $function-name, $param-string, $postdeclarator)"/>
+      select="concat($type, $function-name, $param-string, $postdeclarator, $trailing-return)"/>
     <xsl:variable name="end-column"
       select="$template-length + string-length($decl-string) + $indentation"/>
 
@@ -230,6 +248,9 @@
           <!-- Constructors and destructors have no return type -->
           <xsl:when test="$constructor-for or $destructor-for"/>
 
+          <!-- Deduction guides print the deduced type after the parameter list -->
+          <xsl:when test="$is-deduction-guide"/>
+
           <!-- Copy assignment operators return a reference to the class
                they are in, unless another type has been explicitly
                provided in the element. -->
@@ -267,6 +288,12 @@
         <xsl:call-template name="source-highlight">
           <xsl:with-param name="text" select="$postdeclarator"/>
         </xsl:call-template>
+        <xsl:if test="$is-deduction-guide">
+          <xsl:call-template name="highlight-text">
+            <xsl:with-param name="text" select="' -&gt; '"/>
+          </xsl:call-template>
+          <xsl:apply-templates select="type" mode="highlight"/>
+        </xsl:if>
         <xsl:call-template name="highlight-text">
           <xsl:with-param name="text" select="';'"/>
         </xsl:call-template>
@@ -287,6 +314,9 @@
 
           <!-- Constructors and destructors have no return type -->
           <xsl:when test="$constructor-for or $destructor-for"/>
+
+          <!-- Deduction guides print the deduced type after the parameter list -->
+          <xsl:when test="$is-deduction-guide"/>
 
           <!-- Copy assignment operators return a reference to the class
                they are in, unless another type has been explicitly
@@ -343,6 +373,12 @@
         <xsl:call-template name="source-highlight">
           <xsl:with-param name="text" select="$postdeclarator"/>
         </xsl:call-template>
+        <xsl:if test="$is-deduction-guide">
+          <xsl:call-template name="highlight-text">
+            <xsl:with-param name="text" select="' -&gt; '"/>
+          </xsl:call-template>
+          <xsl:apply-templates select="type" mode="highlight"/>
+        </xsl:if>
         <xsl:call-template name="highlight-text">
           <xsl:with-param name="text" select="';'"/>
         </xsl:call-template>
@@ -531,7 +567,7 @@
   </xsl:template>
 
   <!-- Function synopsis -->
-  <xsl:template match="function|method" mode="synopsis">
+  <xsl:template match="function|method|deduction-guide" mode="synopsis">
     <xsl:param name="indentation"/>
 
     <!-- True if we should compact this function -->
@@ -642,7 +678,7 @@
   <xsl:template match="free-function-group" mode="header-synopsis">
     <xsl:param name="class"/>
     <xsl:param name="indentation"/>
-    <xsl:apply-templates select="function|overloaded-function" mode="synopsis">
+    <xsl:apply-templates select="function|overloaded-function|deduction-guide" mode="synopsis">
       <xsl:with-param name="indentation" select="$indentation"/>
     </xsl:apply-templates>
   </xsl:template>
@@ -925,13 +961,14 @@
   </xsl:template>
 
   <!-- Function reference -->
-  <xsl:template match="function|method" mode="reference">
+  <xsl:template match="function|method|deduction-guide" mode="reference">
     <!-- True if we should compact this function -->
     <xsl:variable name="compact"
       select="not (para|description|requires|effects|postconditions|returns|
                    throws|complexity|notes|rationale) and
               ($boost.compact.function='1') and
-              not (local-name(.)='method')"/>
+              not (local-name(.)='method') and
+              not (local-name(.)='deduction-guide')"/>
 
     <xsl:if test="not ($compact)">
       <xsl:call-template name="function.documentation">
@@ -997,6 +1034,40 @@
         </xsl:with-param>
       </xsl:call-template>
     </xsl:if>
+  </xsl:template>
+
+  <!-- Reference for class template argument deduction guides -->
+  <xsl:template match="deduction-guide" mode="namespace-reference">
+    <xsl:call-template name="reference-documentation">
+      <xsl:with-param name="name">
+        <xsl:text>Deduction guide for </xsl:text>
+        <xsl:call-template name="monospaced">
+          <xsl:with-param name="text" select="@name"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="refname">
+        <xsl:call-template name="fully-qualified-name">
+          <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="purpose" select="purpose/*|purpose/text()"/>
+      <xsl:with-param name="anchor">
+        <xsl:call-template name="generate.id"/>
+      </xsl:with-param>
+      <xsl:with-param name="synopsis">
+        <xsl:call-template name="header-link"/>
+        <xsl:call-template name="function">
+          <xsl:with-param name="indentation" select="0"/>
+          <xsl:with-param name="is-reference" select="true()"/>
+          <xsl:with-param name="link-type" select="'none'"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="text">
+        <xsl:call-template name="function-requirements">
+          <xsl:with-param name="namespace-reference" select="true()"/>
+        </xsl:call-template>
+      </xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="overloaded-function" mode="reference">
@@ -1189,7 +1260,7 @@
         </xsl:call-template>
       </xsl:with-param>
     </xsl:call-template>
-    <xsl:apply-templates select="function|overloaded-function" mode="synopsis">
+    <xsl:apply-templates select="function|overloaded-function|deduction-guide" mode="synopsis">
       <xsl:with-param name="indentation" select="$indentation"/>
     </xsl:apply-templates>
   </xsl:template>
@@ -1212,7 +1283,7 @@
       </xsl:with-param>
       <xsl:with-param name="text">
         <orderedlist>
-          <xsl:apply-templates select="function|overloaded-function"
+          <xsl:apply-templates select="function|overloaded-function|deduction-guide"
             mode="reference"/>
         </orderedlist>
       </xsl:with-param>

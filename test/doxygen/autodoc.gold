@@ -93,7 +93,12 @@ int foo2();
 <destructor id="doxygen.example_reference.structexample_1_1specialization__test_3_01T_01_5_01_4_1a7a18694691d4201521e17196f96c4c91"><description><para>A destructor. </para></description></destructor>
 <copy-assignment id="doxygen.example_reference.structexample_1_1specialization__test_3_01T_01_5_01_4_1a60ba3a94bcb3fd24959565f844509e2a"><type><emphasis>unspecified</emphasis></type><parameter name=""><paramtype>const <classname>specialization_test</classname> &amp;</paramtype></parameter><description><para>An assignment operator. </para></description></copy-assignment>
 </method-group>
-</struct-specialization><enum id="doxygen.example_reference.example_8hpp_1a0a8881f7d06080025be5a0f336ceca0d" name="namespace_enum"><enumvalue id="doxygen.example_reference.example_8hpp_1a0a8881f7d06080025be5a0f336ceca0da385e078f4946b3beaafca21a140e53d1" name="enumerator"/></enum>
+</struct-specialization><struct id="doxygen.example_reference.structexample_1_1widget" name="widget"><template>
+      <template-type-parameter name="T"/>
+    </template><description><para>A class template used to exercise class template argument deduction. </para></description><method-group name="public member functions">
+<constructor id="doxygen.example_reference.structexample_1_1widget_1af34174abc76e3f4273d363b58ac5bbc4" specifiers="explicit"><parameter name=""><paramtype>T</paramtype></parameter></constructor>
+</method-group>
+</struct><enum id="doxygen.example_reference.example_8hpp_1a0a8881f7d06080025be5a0f336ceca0d" name="namespace_enum"><enumvalue id="doxygen.example_reference.example_8hpp_1a0a8881f7d06080025be5a0f336ceca0da385e078f4946b3beaafca21a140e53d1" name="enumerator"/></enum>
 <data-member id="doxygen.example_reference.example_8hpp_1a009e76bb0702b779cbc37aae1bee5884" name="namespace_integer"><type>int</type></data-member>
 <data-member id="doxygen.example_reference.example_8hpp_1af51ac3ecea36f0610717f9e49b492e62" name="namespace_static_integer" specifiers="static"><type>int</type></data-member>
 <data-member id="doxygen.example_reference.example_8hpp_1a072a0f39ed85f7ac668d3c32d3cfb336" name="namespace_const_integer"><type>const int</type></data-member>
@@ -120,6 +125,9 @@ This is a test function. <link linkend="doxygen.example_reference.classexample_1
           <template-nontype-parameter name="NonTypeParameter"><type>int</type><purpose><para>This is a non-type template parameter </para></purpose></template-nontype-parameter>
         </template><description><para>Testing a function template. 
 </para></description></function>
+<deduction-guide id="doxygen.example_reference.example_8hpp_1a4800b953c786398bc33de2f173c5aff3" name="widget"><type>widget&lt; T &gt;</type><template>
+          <template-type-parameter name="T"/>
+        </template><parameter name=""><paramtype>T</paramtype></parameter><description><para>Deduction guide for <link linkend="doxygen.example_reference.structexample_1_1widget">widget</link>.</para><para>Allows <computeroutput>widget</computeroutput> to be constructed from a value of type <computeroutput>T</computeroutput>, deducing the template argument from the constructor argument. </para></description></deduction-guide>
 </namespace>
 <macro id="doxygen.example_reference.example_8hpp_1a27aeb9b516a16c5ab8016104b8f613d1" name="EXAMPLE" kind="functionlike"><macro-parameter name="m"/><purpose>Documentation for macro example. </purpose></macro>
 </header>
